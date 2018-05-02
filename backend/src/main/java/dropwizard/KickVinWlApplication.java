@@ -1,7 +1,6 @@
 package dropwizard;
 
 import io.dropwizard.Application;
-import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
