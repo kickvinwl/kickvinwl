@@ -3,10 +3,12 @@
 		<meta charset="utf-8"/>
         <title>KickVinWL</title>
         <link rel="stylesheet" href="lib/bootstrap.min.css">
+		<link rel="stylesheet" href="lib/fontawesome-all.min.css">
 		<script src="lib/jquery.min.js"></script>
 		<script src="lib/popper.min.js"></script>
 		<script src="lib/bootstrap.min.js"></script>
 		<script src="include.js"></script>
+		
     </head>
 
     <body>
@@ -25,7 +27,7 @@
 		
 		if(page != 'login'){
 			includeFile($('#header'), 'views/header.html');
-			includeFile($('#footer'), 'views/footer.html');
+			//includeFile($('#footer'), 'views/footer.html');
 		}
 		includeFile($('#content'), file);
 	</script>
