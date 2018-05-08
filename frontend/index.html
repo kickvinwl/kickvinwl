@@ -10,18 +10,23 @@
     </head>
 
     <body>
-        <div id="header" data-include="header"></div>
-        <div id="content">
-			<script>
-				var page = getUrlParameter('page');
-				if (page != null) {
-					var file = 'views/' + page + '.html';
-				} else {
-					var file = 'views/landing.html';
-				}
-				includeFile($('#content'), file);
-			</script>
-		</div>
-        <div id="footer" data-include="footer"></div>
+        <div id="header"></div>
+        <div id="content"></div>
+        <div id="footer"></div>
     </body>
+	
+	<script>
+		var page = getUrlParameter('page');
+		if (page != null) {
+			var file = 'views/' + page + '.html';
+		} else {
+			var file = 'views/landing.html';
+		}
+		
+		if(page != 'login'){
+			includeFile($('#header'), 'views/header.html');
+			includeFile($('#footer'), 'views/footer.html');
+		}
+		includeFile($('#content'), file);
+	</script>
 </html>
