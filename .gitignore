@@ -2,3 +2,5 @@
 backend/.idea/
 *.yml
 backend/build/
+.project
+.settings
