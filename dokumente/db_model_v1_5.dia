@@ -95,7 +95,7 @@
         <dia:real val="0.10000000000000001"/>
       </dia:attribute>
       <dia:attribute name="name">
-        <dia:string>#Table#</dia:string>
+        <dia:string>#BundesligaTable#</dia:string>
       </dia:attribute>
       <dia:attribute name="comment">
         <dia:string>##</dia:string>
@@ -133,7 +133,7 @@
       <dia:attribute name="attributes">
         <dia:composite type="table_attribute">
           <dia:attribute name="name">
-            <dia:string>#TableId#</dia:string>
+            <dia:string>#LeagueId#</dia:string>
           </dia:attribute>
           <dia:attribute name="type">
             <dia:string>##</dia:string>
@@ -338,7 +338,7 @@
         <dia:point val="-10.7836,29.0284"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="-10.7836,29.0284;-5.66113,33.0284"/>
+        <dia:rectangle val="-10.7836,29.0284;-5.6611,33.0284"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -2913,17 +2913,17 @@
     </dia:object>
     <dia:object type="Database - Reference" version="0" id="O22">
       <dia:attribute name="obj_pos">
-        <dia:point val="-6.94176,33.0284"/>
+        <dia:point val="-6.94172,33.0284"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="-6.94176,33.0284;5.54308,38.5804"/>
+        <dia:rectangle val="-6.94172,33.0284;5.54308,38.5804"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="-6.94176,33.0284"/>
-        <dia:point val="-6.94176,35.8044"/>
+        <dia:point val="-6.94172,33.0284"/>
+        <dia:point val="-6.94172,35.8044"/>
         <dia:point val="4.90308,35.8044"/>
         <dia:point val="4.90308,38.5804"/>
       </dia:attribute>
@@ -3096,7 +3096,7 @@
         <dia:point val="34.3775,19.7276"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="26.431,19.7276;35.03,24.5796"/>
+        <dia:rectangle val="26.431,19.7276;35.0299,24.5796"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -3151,17 +3151,17 @@
     </dia:object>
     <dia:object type="Database - Reference" version="0" id="O26">
       <dia:attribute name="obj_pos">
-        <dia:point val="34.2633,13.7189"/>
+        <dia:point val="34.2634,13.7189"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="34.2633,13.7189;35.2275,16.6276"/>
+        <dia:rectangle val="34.2634,13.7189;35.2275,16.6276"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="34.2633,13.7189"/>
-        <dia:point val="34.2633,15.1732"/>
+        <dia:point val="34.2634,13.7189"/>
+        <dia:point val="34.2634,15.1732"/>
         <dia:point val="34.3775,15.1732"/>
         <dia:point val="34.3775,16.6276"/>
       </dia:attribute>
@@ -3211,17 +3211,17 @@
     </dia:object>
     <dia:object type="Database - Reference" version="0" id="O27">
       <dia:attribute name="obj_pos">
-        <dia:point val="22.7922,27.8296"/>
+        <dia:point val="22.7923,27.8296"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="22.7922,27.8296;25.2608,32.55"/>
+        <dia:rectangle val="22.7923,27.8296;25.2608,32.55"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="22.7922,27.8296"/>
-        <dia:point val="22.7922,30.1898"/>
+        <dia:point val="22.7923,27.8296"/>
+        <dia:point val="22.7923,30.1898"/>
         <dia:point val="24.4108,30.1898"/>
         <dia:point val="24.4108,32.55"/>
       </dia:attribute>
