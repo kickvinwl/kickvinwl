@@ -17,7 +17,8 @@ repositories {
 }
 
 project.ext {
-    dropwizardVersion = '0.8.2'
+    dropwizardVersion = '1.2.3'
+    configPath = "$rootProject.projectDir/config/"
 }
 
 dependencies {
@@ -28,6 +29,5 @@ dependencies {
 
 
 run {
-   // args 'server', './src/config/kickvinwlConfig.yml'
-    mainClassName + 'server' + './src/config/kickvinwlConfig.yml'
+    args 'server', configPath + 'kickvinwlConfig.yml'
 }
