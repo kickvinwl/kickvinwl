@@ -1,0 +1,65 @@
+- ausgefüllten Tippzettel ausdrucken/als PDF extrahieren
+
+- Auswertung des Tippzettels anzeigen
+	- Tippzettel anzeigen
+	- dazu wirkliche Ergebnisse
+	- wie viele Punkte pro Spiel bekommen wurden
+
+-------------------------------------------------------------------
+
+=> auf startseite bestenliste für spieltag anzeigen 
+	(je nach ausgewähltem Spieltag auf rechter Seite)
+		(=> Produkt Owner Favorit)
+
+		oder
+
+=> auswahl welche Liste auf Startseite angezeigt wird
+	(unnötig da Bestenlisten reiter)
+
+--------------------------------------------------------------------
+
+- Tippen muss im Vorraus (für die Zukunft) möglich sein
+
+- kein abgegebener Tipp ist 0 Punkte
+
+- Momentanes System
+	- korr. Ergeb. 3 P.
+	- Tordiff. 2P
+	- Tend. 1P
+	- rest 0P
+
+- Admin Funktion: ändern der Menge an Punkten pro Situation
+- Admin Funktion: Tipps und Tricks verwaltbar machen
+
+--------------------------------------------------------------------
+
+Spielregeln erweitern mit Tipps und Tricks
+	- immer so weit wie möglich vorraustippen
+	- etc
+
+----------------------------------------------------------------------
+
+- Herbstmeister vor erstem Spieltag tippen 
+	(mit abgabe erster Stimmzettel)
+- Meister sehr früh tippen (nach 5 ST)
+	- die ersten 3 tippen (menge) (5P)
+	- bei richtiger Reihenfolge extra Punkte (+5P)
+- Absteiger tippen (letzte 3) (5P)
+
+------------------------------------------------------------------------
+
+alle Daten behalten der aktuellen und vorherigen Season
+- alle vorherigen Saisons werden nur die besten in einer Liste angezeigt
+
+------------------------------------------------------------------------
+
+auf profil anzeigen:
+	- Liste aller Gruppen
+
+-------------------------------------------------------------------------
+
+vergleichen von durchschnittlichen Gruppenpunkten und eine 
+Liste daraus generieren
+
+-------------------------------------------------------------------------
+

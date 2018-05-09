@@ -1,0 +1,26 @@
+User-Stories weiter in Tasks aufteilen
+- Tasks Personen zuordnen
+- nachmal aufwand pro Task schätzen
+
+Tasks in Jira Board einpflegen
+
+Vorgehen festhalten und erklären in Dokument
+- review, push-merge, etc
+
+1000x notieren, dass der Proxy alles blockiert
+was man braucht
+	- git
+	- maven
+	- discord
+
+sprintabschlussbericht am sprintende zu projekt hinzufügen
+
+Jira Zeug exportieren / Report-Funktion
+-> an KM senden und Feedback bekommen
+
+darauf eingehen, dass Leute sich in Technologien einarbeiten mussten
+-> Teil des Sprintabschlussberichtes
+
+nächstes Treffen mit KM von uns aus (am besten Dienstag / Mittwoch)
+
+
