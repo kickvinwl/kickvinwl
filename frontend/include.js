@@ -7,9 +7,9 @@ $(document).ready(function() {
 });
 
 function includeFile(element, file) {
-	element.load(file, function(response, status, xhr){
+	element.load(file, function(response, status, xhr) {
 		if (status != "success") {
-			window.location.href = '/';
+			window.location.href = urlPath;
 		}
 	});
 }
