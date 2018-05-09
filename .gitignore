@@ -2,5 +2,8 @@
 backend/.idea/
 *.yml
 backend/build/
+.project
+.settings
+
 gradle.properties
 backend/.gradle/
