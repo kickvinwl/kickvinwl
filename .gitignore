@@ -5,5 +5,5 @@ backend/build/
 .project
 .settings
 
-gradle.properties
+backend/gradle.properties
 backend/.gradle/
