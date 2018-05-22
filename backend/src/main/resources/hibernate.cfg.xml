@@ -13,7 +13,7 @@
         </property>
         
         <property name = "hibernate.connection.url">
-            jdbc:mysql://do-rh-studizub2.doms.kvwl.de/kickvinwl
+            jdbc:mysql://do-rh-studizub2.doms.kvwl.de/kickvinwl:3306
         </property>
 
         <property name = "hibernate.connection.username">
