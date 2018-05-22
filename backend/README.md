@@ -1,6 +1,7 @@
 # kickvinwl
 ## Backend
 
+*gradle.properties* im *Backend*-Verzeichnis hinterlegen und die Parameter *username* und *password* anpassen.
 ```
 systemProp.http.proxyHost=172.28.2.4
 systemProp.http.proxyPort=9090
