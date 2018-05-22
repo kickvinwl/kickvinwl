@@ -1,0 +1,66 @@
+<style>
+	.tab-content {
+		border-left: 1px solid #ddd;
+		border-right: 1px solid #ddd;
+		padding: 10px;
+	}
+
+	.nav-tabs {
+		margin-bottom: 0;
+	}
+</style>
+
+<div class="container">
+	<div class="row mt-3">
+		<div class="col-md-6">
+			<nav>
+			  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+			    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Saison</a>
+			    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">akt. Spieltag</a>
+			    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">ewige Tabelle</a>
+			  </div>
+			</nav>
+			<div class="tab-content" id="nav-tabContent">
+			  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Inhalt1</div>
+			  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Inhalt2</div>
+			  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">Inhalt3</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="btn-group">
+			  <button type="button" class="btn " id="Current_Selected">Action</button>
+			  <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			    <span class="sr-only">Toggle Dropdown</span>
+			  </button>
+			  <div class="dropdown-menu">
+			    <a class="dropdown-item dropdown-item-bestenliste" href="#">Action</a>
+			    <a class="dropdown-item dropdown-item-bestenliste" href="#">Action2</a>
+			    <a class="dropdown-item dropdown-item-bestenliste" href="#">Action3</a>
+			  </div>
+			</div>
+			<nav class="mt-3">
+			  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+			    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Saison</a>
+			    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">akt. Spieltag</a>
+			    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">ewige Tabelle</a>
+			  </div>
+			</nav>
+			<div class="tab-content" id="nav-tabContent">
+			  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Inhalt1</div>
+			  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Inhalt2</div>
+			  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">Inhalt3</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$('.dropdown-item-bestenliste').click(function(){
+			$('#Current_Selected').text(this.text);
+		});
+	});
+</script>
+
+<!--tab + card-->
+<!-- Click eine Anfrage-->
