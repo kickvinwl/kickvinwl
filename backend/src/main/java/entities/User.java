@@ -4,19 +4,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 public class User extends EntityGeneratedKey {
-	@Column(updatable = true, nullable = false)
+	@Column(updatable = false, nullable = false, unique = true)
 	private String userName;
 	@Column(updatable = true, nullable = false)
 	private String userPicture;
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
 	
-	//FK zu Achievement
+	@JoinColumn(name = "id")
 	@Column(updatable = true, nullable = false)
-	private String displayedTitle;
+	private Achievement displayedTitle;
 	
 	@Column(updatable = true, nullable = false)
 	private String sessionKey;
@@ -46,11 +47,11 @@ public class User extends EntityGeneratedKey {
 	}
 
 	public String getDisplayedTitle() {
-		return displayedTitle;
+		return displayedTitle.getTitle();
 	}
 
-	public void setDisplayedTitle(String displayedTitle) {
-		this.displayedTitle = displayedTitle;
+	public void setDisplayedTitle(Achievement achievement) {
+		this.displayedTitle = achievement;
 	}
 
 	public String getSessionKey() {
