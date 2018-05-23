@@ -26,7 +26,7 @@ public class Login {
         if(isAllow)
         {
             //User finden/erstellen
-            User user = null ;// = UserPersistenceService.getInstance().get(name);
+            User user = null ;//TODO Wirft Fehler! noch nicht fertig? -->// = UserPersistenceService.getInstance().get(name);
             if( user == null)
             {
                 //TODO User anlegen und befüllen
@@ -38,7 +38,8 @@ public class Login {
             //token setzten
             //TODO User token mit geben
             //User speichern
-            UserPersistenceService.getInstance().save(user);
+
+            //TODO Wirft Fehler! noch nicht fertig? -->//UserPersistenceService.getInstance().save(user);
             Response.status(200);
             return token;
         }
