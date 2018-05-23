@@ -19,7 +19,7 @@ repositories {
 project.ext {
     dropwizardVersion = '1.2.3'
     hibernateVersion = '5.3.0.Final'
-    configPath = "$rootProject.projectDir/config/"
+    configPath = "$rootProject.projectDir/src/main/resources/"
 }
 
 dependencies {
