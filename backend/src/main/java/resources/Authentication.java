@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/{a:pfad|Pfad}")
 @Produces(MediaType.APPLICATION_JSON)
-public class Resource {
+public class Authentication {
 
 
     @GET
