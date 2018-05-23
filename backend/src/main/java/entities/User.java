@@ -60,7 +60,9 @@ public class User extends EntityGeneratedKey {
 	public void setSessionKey(String sessionKey) {
 		this.sessionKey = sessionKey;
 	}
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "userG")
 	private Set<GroupUser> groups = new HashSet<GroupUser>();
+	@OneToMany(mappedBy = "userA")
+	private Set<UserAchievement> achievements = new HashSet<UserAchievement>();
 	
 }

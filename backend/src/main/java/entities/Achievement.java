@@ -1,6 +1,10 @@
 package entities;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Achievement extends EntityGeneratedKey{
@@ -39,5 +43,8 @@ public class Achievement extends EntityGeneratedKey{
 	public void setTitle(String title) {
 		Title = title;
 	}
+	
+	@OneToMany(mappedBy = "achievement")
+	private Set<UserAchievement> user = new HashSet<UserAchievement>();
 	
 }
