@@ -1,1 +1,7 @@
-/.gradle/
+gradle.properties
+.gradle/
+.idea/
+gradle.properties
+.gradle/
+build/
+out/

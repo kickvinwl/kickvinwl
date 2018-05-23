@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'idea'
+    id 'application'
 }
 
 group 'SOPRA'
@@ -7,10 +9,27 @@ version '1.0-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
+
+mainClassName = 'dropwizard.KickVinWlApplication'
+
 repositories {
     mavenCentral()
 }
 
+project.ext {
+    dropwizardVersion = '1.2.3'
+    hibernateVersion = '5.3.0.Final'
+    configPath = "$rootProject.projectDir/src/main/resources/"
+}
+
 dependencies {
+    compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+    compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+
+
+run {
+    args 'server', configPath + 'kickvinwlConfig.yml'
 }
