@@ -1,6 +1,10 @@
 package entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
+import javax.persistence.OneToMany;
 
 public class User extends EntityGeneratedKey {
 	@Column(updatable = true, nullable = false)
@@ -56,6 +60,7 @@ public class User extends EntityGeneratedKey {
 	public void setSessionKey(String sessionKey) {
 		this.sessionKey = sessionKey;
 	}
-	
+	@OneToMany(mappedBy = "user")
+	private Set<GroupUser> groups = new HashSet<GroupUser>();
 	
 }
