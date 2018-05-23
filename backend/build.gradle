@@ -13,7 +13,8 @@ sourceCompatibility = 1.8
 mainClassName = 'dropwizard.KickVinWlApplication'
 
 repositories {
-    mavenCentral()
+    
+	maven { url "http://nexus.doms.kvwl.de:8080/nexus/content/groups/public/" }
 }
 
 project.ext {
@@ -26,9 +27,8 @@ dependencies {
     compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
     compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
     testCompile group: 'junit', name: 'junit', version: '4.12'
+	compile group: 'de.kvwl', name: 'commons.authentication', version: '2.0.0'
 }
-
-
 
 run {
     args 'server', configPath + 'kickvinwlConfig.yml'
