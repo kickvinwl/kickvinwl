@@ -14,6 +14,7 @@ public class Resource {
     @GET
     @Path("/name/{string}")
     public String getName(@PathParam("string") String string) {
+
         return "Hallo " + string;
     }
 }
