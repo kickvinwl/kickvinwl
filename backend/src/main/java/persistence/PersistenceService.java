@@ -10,7 +10,7 @@ public class PersistenceService<E extends EntityGeneratedKey> {
     private final EntityManagerFactory emf;
 
     public PersistenceService() {
-        emf = Persistence.createEntityManagerFactory("voting");
+        emf = Persistence.createEntityManagerFactory("kickvinwl");
     }
 
     EntityManagerFactory entityManagerFactory() {
