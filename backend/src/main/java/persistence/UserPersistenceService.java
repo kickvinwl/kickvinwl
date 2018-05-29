@@ -36,6 +36,18 @@ public class UserPersistenceService extends PersistenceService<User> {
 		});
 	}
 
+	public User getBySessionKey(final String sessionKey) throws NoResultException {
+		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+			Query query = entityManager.createQuery("SELECT us FROM User us WHERE us.sessionKey = :sKey");
+			query.setParameter("sKey", sessionKey);
+			List<User> user = query.getResultList();
+			if(user.isEmpty())
+				throw new NoResultException();
+			else
+				return user.get(0);
+		});
+	}
+
 	public void delete(final User user) throws EntityNotFoundException{
 		JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			Query query = entityManager.createQuery("DELETE FROM User WHERE userName = :userName");
