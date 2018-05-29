@@ -16,11 +16,10 @@ import java.util.UUID;
 @Produces(MediaType.APPLICATION_JSON)
 public class Login {
 
-    final static String group = "GG_APP_Ermaechtigung_GOP_Kataloge_RW"; //TODO in die Properties
 
     @GET
     @Path("/login")
-    public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw) {
+    public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw, @DefaultValue("GG_APP_Ermaechtigung_GOP_Kataloge_RW") @QueryParam("group") String group) {
 
         Response.ResponseBuilder rb = Response.accepted();
 
