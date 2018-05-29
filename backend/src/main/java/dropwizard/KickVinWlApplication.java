@@ -4,6 +4,8 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Environment;
 import resources.Login;
 import resources.Resource;
+import resources.UserResource;
+import resources.UserResourceImpl;
 
 public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
@@ -19,5 +21,8 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
         final Login login = new Login();
         environment.jersey().register(login);
+
+        final UserResource userResource = new UserResourceImpl();
+        environment.jersey().register(userResource);
     }
 }
