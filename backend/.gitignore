@@ -1,8 +1,8 @@
 gradle.properties
 .gradle/
 .idea/
-gradle.properties
-.gradle/
 build/
 out/
 *.iml
+.classpath
+bin/
