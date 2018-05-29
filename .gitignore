@@ -4,7 +4,7 @@ backend/.idea/
 backend/build/
 .project
 .settings
-backend/.classpath
-backend/bin/
+*.iml
+
 backend/gradle.properties
 backend/.gradle/

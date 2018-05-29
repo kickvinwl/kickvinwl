@@ -1,0 +1,124 @@
+<!-- achievement, titel, bild, name, aktuelle Gruppen, akt. Punkte, historie, -->
+
+<div class="container">
+	<div class="row m-2">
+		<div class="col-md-4">
+			<img src="https://www.w3schools.com/howto/img_lights.jpg" style="height: 10rem; width: 10rem; border-radius: 50rem;" class="img-thumbnail img-fluid" id="profilBild" />
+		</div>
+		<div class="col-md-8">
+			<div>
+				<input type="text" name="nname" disabled value="Max Mustermann"></input>
+				<i class="far fa-edit"></i>	
+			</div>
+			<div>
+				<label>-Bankwärmer-</label>
+				<i class="far fa-edit"></i>	
+				<ul class="list-inline">
+					<li class="list-inline-item">
+						<i class="fab fa-angellist"></i>
+					</li>
+					<li class="list-inline-item">
+						<i class="fab fa-angellist"></i>
+					</li>
+					<li class="list-inline-item">
+						<i class="fab fa-angellist"></i>
+					</li>
+					<li class="list-inline-item">
+						<i class="fab fa-angellist"></i>
+					</li>
+					<li class="list-inline-item">
+						<i class="fab fa-angellist"></i>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<label>aktuelle Punktzahl: 33</label> 
+				<br />
+				<label>aktuelle Platzierung: 1.</label>
+				<br />
+				<label>Punkte bester Spieltag: 9</label>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="dropdown">
+				<button class="btn btn-primary dropdown-toggle" type="button" id="about-us" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Gruppe 1
+				</button>
+				<div class="dropdown-menu" aria-labelledby="about-us">
+					<a class="dropdown-item" href="#">Gruppe 2</a>
+					<a class="dropdown-item" href="#">Gruppe 3</a>
+					<a class="dropdown-item" href="#">Gruppe 4</a>
+				</div>
+			</div>
+			<div class="text-center">
+				<label>Gruppenname</label>
+					<table id="gruppenTable">
+						<thead>
+							<tr>
+								<td>Platz</td>
+								<td>Name</td>
+								<td>Punkte</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>Max Mmustermann 1</td>
+								<td>99</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Max Mmustermann 2</td>
+								<td>92</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>Max Mmustermann 3</td>
+								<td>79</td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>Max Mmustermann 4</td>
+								<td>49</td>
+							</tr>
+							<tr>
+								<td>5</td>
+								<td>Max Mmustermann 5</td>
+								<td>19</td>
+							</tr>
+						</tbody>
+					</table>	
+			</div>
+			
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#gruppenTable').DataTable();
+		});
+	</script>
+
+		<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Achievments</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		        <span aria-hidden="true">&times;</span>
+		        </button>
+	      </div>
+	      <div class="modal-body">
+		        Liste von Achivements
+		        Icon, Titel, Beschreibung
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary">Übernehmen</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>
