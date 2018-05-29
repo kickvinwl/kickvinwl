@@ -49,7 +49,7 @@ public class Login {
         }
 
         //Fehlermeldung User nicht vorhanden
-        Response.status(Response.Status.UNAUTHORIZED);
+        Response.status(Response.Status.UNAUTHORIZED).build();
         return null;
     }
 
