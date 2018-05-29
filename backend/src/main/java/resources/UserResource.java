@@ -2,6 +2,7 @@ package resources;
 
 
 import entities.User;
+import persistence.UserPersistenceService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -10,8 +11,11 @@ import javax.ws.rs.core.Response;
 @Path("/{a:user|User}")
 public abstract class UserResource {
 
+    UserPersistenceService userPersistenceService;
+
     public UserResource() {
         //TODO: User Persistence Service Instanziieren;
+        userPersistenceService = new UserPersistenceService();
     }
 
     @GET

@@ -7,8 +7,13 @@ import javax.ws.rs.core.Response;
 public class UserResourceImpl extends UserResource {
 
     @Override
-    public User getUser(String userID) {
-        return null;
+    public User getUser(String userName) {
+        // return userPersistenceService.get(userName);
+
+        User user = new User();
+        user.setUserName("Fritz");
+        user.setUserIsAdmin(true);
+        return user;
     }
 
     @Override
