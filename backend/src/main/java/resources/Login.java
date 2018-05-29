@@ -34,7 +34,7 @@ public class Login {
             }
 
             //token generieren
-            token = UUID.randomUUID().toString();
+            token = generateToken();
             //token setzten
             //TODO User token mit geben
             //User speichern
@@ -47,5 +47,10 @@ public class Login {
         //Fehlermeldung User nicht vorhanden
         Response.status(Response.Status.NOT_ACCEPTABLE); //TODO Fehler code noch nicht abgesprochen
         return "";
+    }
+
+    private String generateToken()
+    {
+        return UUID.randomUUID().toString();
     }
 }
