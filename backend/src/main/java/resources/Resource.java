@@ -6,7 +6,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("/pfad")
+@Path("/{a:pfad|Pfad}")
 @Produces(MediaType.APPLICATION_JSON)
 public class Resource {
 
@@ -14,6 +14,7 @@ public class Resource {
     @GET
     @Path("/name/{string}")
     public String getName(@PathParam("string") String string) {
+
         return "Hallo " + string;
     }
 }

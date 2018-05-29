@@ -17,11 +17,9 @@
         </property>
         <property name = "hibernate.connection.password">
             kickvinwl2018
-        </property>
         <property name="hibernate.hbm2ddl.auto">
         	update
         </property>
-
         <mapping class="entities.User"/>
         
     </session-factory>
