@@ -18,6 +18,7 @@ public class UserResourceImpl extends UserResource {
 
     @Override
     public Response setUser(User user) {
-        return null;
+        userPersistenceService.update(user);
+        return Response.accepted().build();
     }
 }
