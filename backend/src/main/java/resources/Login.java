@@ -18,9 +18,11 @@ public class Login {
     final static String group = "GG_APP_Ermaechtigung_GOP_Kataloge_RW";
 
     @GET
-    public HashMap createToken(@QueryParam("name") String name, @QueryParam("pw") String pw) {
+    public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw) {
 
         //TODO eingabe prüfen
+
+        Response.ResponseBuilder rb = Response.accepted();
 
         boolean isAllow = AuthenticationServiceFactory.getInstance().isUserInGroup(name, pw, group);
         String token;
@@ -42,15 +44,14 @@ public class Login {
             //User speichern
 
             //TODO Wirft Fehler! noch nicht fertig? -->//UserPersistenceService.getInstance().save(user);
-            Response.status(200);
             HashMap hmap = new HashMap<String, String>();
             hmap.put("token",token);
-            return hmap;
+            rb.entity(hmap);
+        } else {
+            rb.status(Response.Status.UNAUTHORIZED);
         }
 
-        //Fehlermeldung User nicht vorhanden
-        Response.status(Response.Status.UNAUTHORIZED).build();
-        return null;
+        return rb.build();
     }
 
     private String generateToken()
