@@ -69,7 +69,7 @@ public class UserPersistenceService extends PersistenceService<User> {
 		});
 	}
 	@SuppressWarnings("unchecked")
-	public List<Group> getGroupsNames(final User user) throws EntityNotFoundException{
+	public List<Group> getGroups(final User user) throws EntityNotFoundException{
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			Query query = entityManager.createQuery("SELECT g FROM Group g INNER JOIN GroupUser gu ON g.id=gu.fk_group WHERE gu.fk_user = :userId");
 			query.setParameter("userId", user.getId());
