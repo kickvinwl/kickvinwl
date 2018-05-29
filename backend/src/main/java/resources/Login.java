@@ -12,13 +12,14 @@ import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.UUID;
 
-@Path("/login")
+
 @Produces(MediaType.APPLICATION_JSON)
 public class Login {
 
     final static String group = "GG_APP_Ermaechtigung_GOP_Kataloge_RW"; //TODO in die Properties
 
     @GET
+    @Path("/login")
     public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw) {
 
         Response.ResponseBuilder rb = Response.accepted();
@@ -49,6 +50,27 @@ public class Login {
                 rb.entity(hmap);
             }
         } else {
+            rb.status(Response.Status.UNAUTHORIZED);
+        }
+
+        return rb.build();
+    }
+
+    @GET
+    @Path("/logout/{sessionKey}")
+    public Response getUserBySessionKey(@PathParam("sessionKey") String sessionKey) {
+
+        Response.ResponseBuilder rb = Response.accepted();
+
+        //User zu sessionKey finden
+        User user = UserPersistenceService.getInstance().getBySessionKey(sessionKey);
+
+        if(user != null) {
+            user.setSessionKey("");
+            UserPersistenceService.getInstance().update(user);
+        }
+        else
+        {
             rb.status(Response.Status.UNAUTHORIZED);
         }
 
