@@ -5,5 +5,6 @@ backend/build/
 .project
 .settings
 *.iml
+
 backend/gradle.properties
 backend/.gradle/
