@@ -45,6 +45,15 @@ public class UserPersistenceService extends PersistenceService<User> {
 				throw new EntityNotFoundException();			
 		});
 	}
+	public void deleteByUserName(final String userName) throws EntityNotFoundException{
+		JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+			Query query = entityManager.createQuery("DELETE FROM User WHERE userName = :userName");
+			query.setParameter("userName", userName);
+			int deleted = query.executeUpdate();
+			if (deleted == 0)
+				throw new EntityNotFoundException();			
+		});
+	}
 	
 	public void update(final User user) throws EntityNotFoundException{
 		JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
