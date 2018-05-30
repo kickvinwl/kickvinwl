@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 @Path("/{a:user|User}")
 public abstract class UserResource {
 
+    final static String group = "GG_APP_Ermaechtigung_GOP_Kataloge_RW";
     UserPersistenceService userPersistenceService;
 
     public UserResource() {
@@ -30,5 +31,7 @@ public abstract class UserResource {
     public abstract Response setUser(User user);
 
 
-
+    @GET
+    @Path("/{sessionKey}")
+    public abstract Response getUserBySessionKey(@PathParam("sessionKey") String sessionKey);
 }
