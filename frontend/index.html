@@ -32,5 +32,21 @@
 			//includeFile($('#footer'), 'views/footer.html');
 		}
 		includeFile($('#content'), file);
+
+		$(document).ready(function(){
+			$($('.active')[0]).removeClass("active");
+			if(page === "landing" || page == null){
+				$($('.nav-link')[0]).parent().addClass("active");
+			}
+			else{
+				var links = $('a.nav-link');
+				$.each(links, function(i,v) {
+					if ($(v).text().toLowerCase() ===  page) {
+						$(v).parent().addClass("active");
+						return false;
+					}
+				});	
+			}
+		});
 	</script>
 </html>

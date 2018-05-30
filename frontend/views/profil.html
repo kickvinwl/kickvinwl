@@ -3,11 +3,11 @@
 <div class="container">
 	<div class="row m-2">
 		<div class="col-md-4 image-upload">
-			<form action="pathnochnichtvorhanden">
+			<form action="pathnochnichtvorhanden" id="form-image">
 				<label for="file-input">
 				<img src="https://www.w3schools.com/howto/img_lights.jpg" style="height: 10rem; width: 10rem; border-radius: 50rem; cursor: pointer;" class="img-thumbnail img-fluid" id="profilBild" />	
 				</label>
-				<input type="file" id="file-input" style="display: none;">
+				<input type="file" id="file-input" style="display: none;" name="newImage">
 			</form>
 		</div>
 		<div class="col-md-8">
@@ -186,9 +186,8 @@
 		});
 
 		$('#file-input').change(function(){
-			//On Change von input image
-			//submit
-			//change image in header
-		});
+			$('#form-image').submit();
+			location.reload()
+;		});
 	});
 </script>
