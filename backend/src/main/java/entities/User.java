@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,6 +27,10 @@ public class User extends EntityGeneratedKey {
 	@Column(updatable = true, nullable = false)
 	private String sessionKey;
 
+	@Column(updatable = true, nullable = false)
+	private Date lastAction;
+	
+
 	//TODO:Mapping-Parameter sorgen noch für Fehler. Zunächst auskommentiert
 	/*
 	@OneToMany(mappedBy = "userG")
@@ -37,6 +42,14 @@ public class User extends EntityGeneratedKey {
 
 	public String getUserName() {
 		return userName;
+	}
+
+	public Date getLastAction() {
+		return lastAction;
+	}
+
+	public void setLastAction(Date lastAction) {
+		this.lastAction = lastAction;
 	}
 
 	public void setUserName(String userName) {
