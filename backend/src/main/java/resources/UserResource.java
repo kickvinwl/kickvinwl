@@ -20,9 +20,9 @@ public abstract class UserResource {
     }
 
     @GET
-    @Path("/{a:get|Get}/{userName}")
+    @Path("/{a:get|Get}/{token}")
     @Produces(MediaType.APPLICATION_JSON)
-    public abstract User getUser(@PathParam("userName") String userName);
+    public abstract Response getUser(@PathParam("token") String token);
 
 
     @POST

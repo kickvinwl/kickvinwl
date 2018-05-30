@@ -9,13 +9,19 @@ import javax.ws.rs.core.Response;
 public class UserResourceImpl extends UserResource {
 
     @Override
-    public User getUser(String userName) {
-        // return userPersistenceService.get(userName);
+    public Response getUser(String token) {
+        Response.ResponseBuilder rb = Response.accepted();
 
+        // return userPersistenceService.get(token);
+        //if token valid
         User user = new User();
         user.setUserName("Fritz");
         user.setUserIsAdmin(true);
-        return user;
+        rb.entity(user);
+
+        //else
+        // rb.status(Response.Status.UNAUTHORIZED);
+        return rb.build();
     }
 
     @Override
