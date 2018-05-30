@@ -89,8 +89,10 @@ public class UserPersistenceService extends PersistenceService<User> {
 	
 	public void update(final User user) throws EntityNotFoundException{
 		JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-			Query query = entityManager.createQuery("UPDATE User SET (userPicture, isUserAdmin, displayedTitle, sessionKey) VALUES (:pic, :admin, :title, :session) WHERE userName= :userName");
-		//	query.setParameter("pic", user.getDisplayedTitle());
+
+			Query query = entityManager.createQuery("UPDATE User SET userPicture = :pic, userIsAdmin = :admin, displayedTitle = :title, sessionKey = :session WHERE userName= :userName");
+			query.setParameter("pic", user.getDisplayedTitle());
+
 			query.setParameter("admin", user.isUserIsAdmin());
 		//	query.setParameter("title", user.getDisplayedTitle());
 			query.setParameter("session", user.getSessionKey());
