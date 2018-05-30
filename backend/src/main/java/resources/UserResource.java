@@ -1,46 +1,37 @@
 package resources;
 
 
-import de.kvwl.commons.authentication.AuthenticationServiceFactory;
 import entities.User;
 import persistence.UserPersistenceService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.UUID;
 
-@Path("/user")
-@Produces(MediaType.APPLICATION_JSON)
-public class UserResource {
+@Path("/{a:user|User}")
+public abstract class UserResource {
 
-    final static String group = "GG_APP_Ermaechtigung_GOP_Kataloge_RW"; //TODO in die Properties
+    final static String group = "GG_APP_Ermaechtigung_GOP_Kataloge_RW";
+    UserPersistenceService userPersistenceService;
+
+    public UserResource() {
+        //TODO: User Persistence Service Instanziieren;
+        userPersistenceService = new UserPersistenceService();
+    }
+
+    @GET
+    @Path("/{a:get|Get}/{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public abstract Response getUser(@PathParam("token") String token);
+
+
+    @POST
+    @Path("a:set|Set")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public abstract Response setUser(User user);
+
 
     @GET
     @Path("/{sessionKey}")
-    public Response getUserBySessionKey(@PathParam("sessionKey") String sessionKey) {
-
-        Response.ResponseBuilder rb = Response.accepted();
-
-        //User zu sessionKey finden
-        User user = UserPersistenceService.getInstance().getBySessionKey(sessionKey);
-
-        if(user != null) {
-            //Token prüfen
-            //TODO prüfen ob sessionKey noch Gültig
-            //TODO User.Lastlogin < AktuelleZeit + 30 min
-            if (true /*Token ist Gültig*/) {
-                rb.entity(user);
-            } else {
-                rb.status(Response.Status.UNAUTHORIZED);
-            }
-        }
-        else
-        {
-            rb.status(Response.Status.BAD_REQUEST);
-        }
-
-        return rb.build();
-    }
+    public abstract Response getUserBySessionKey(@PathParam("sessionKey") String sessionKey);
 }
