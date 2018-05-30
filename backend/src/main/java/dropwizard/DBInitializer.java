@@ -1,5 +1,9 @@
 package dropwizard;
 
+import persistence.AchievementTestData;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,6 +24,13 @@ public class DBInitializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        //durch den Aufruf der Factory wird hibernate angesprochen - je nach
+        //hibernate.hbm2ddl.auto -Value werden die DB-Tabellen erzeugt oder upgedated
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("kickvinwl");
+        emf.createEntityManager();
+
+        //AchievementTestData.generateTestData();
     }
 
 }
