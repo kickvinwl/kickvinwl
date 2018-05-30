@@ -1,8 +1,13 @@
+<script src="script/login.js"></script>
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12 justify-content-center">
 			<img src="./images/KVWL.png" class="img-fluid mx-auto d-block" />
-			<form>
+			<form id="loginForm">
+				<div id="loginError" class="alert alert-danger d-none">
+				  <strong>Fehler!</strong> <span></span>
+				</div>
 				<div class="form-group">
 					<label for="loginName">Login</label>
 					<input type="text" class="form-control" id="loginName" aria-describedby="loginHelp" placeholder="Enter Windows-Login" />
@@ -10,9 +15,9 @@
 				</div>
 				<div class="form-group">
 					<label for="passwort">Passwort</label>
-					<input type="password" class="form-control" id="passwort" />
+					<input type="password" class="form-control" id="loginPassword" />
 				</div>
-				<button type="submit" class="btn btn-primary">Anmelden</button>
+				<button id="loginSubmit" type="button" class="btn btn-primary">Anmelden</button>
 			</form>
 		</div>
 	</div>
