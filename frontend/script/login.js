@@ -2,7 +2,7 @@ $(document).ready(function() {
 	var token = Cookies.get('token');
 	if (typeof token != 'undefined') {
 		$.ajax({
-			url: 'backend/user/get/' + token,
+			url: urlPath + 'backend/user/get/' + token,
 			type: 'GET',
 			success: function(data, textStatus, jqXHR) {
 				// Session valide, Weiterleitung auf Home-Seite
@@ -26,7 +26,7 @@ $(document).keypress(function(e) {
 
 function login(user, pw) {
 	$.ajax({
-		url: 'backend/login?name=' + user + '&pw=' + pw,
+		url: urlPath + 'backend/login?name=' + user + '&pw=' + pw,
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
 			$('#loginError').addClass('d-none');
