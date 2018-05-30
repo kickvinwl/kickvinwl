@@ -10,6 +10,7 @@
 		<script src="lib/js.cookie.js"></script>
 		<script src="config.js"></script>
 		<script src="include.js"></script>
+		<script src="script/index.js"></script>
 		<link rel="stylesheet" href="lib/jquery.dataTables.min.css">
 		<script type="text/javascript" src="lib/jquery.dataTables.min.js"></script>
     </head>
@@ -19,35 +20,4 @@
         <div id="content"></div>
         <div id="footer"></div>
     </body>
-	
-	<script>
-		var page = getUrlParameter('page');
-		if (page != null) {
-			var file = 'views/' + page + '.html';
-		} else {
-			var file = 'views/landing.html';
-		}
-		
-		if(page != 'login'){
-			includeFile($('#header'), 'views/header.html');
-			//includeFile($('#footer'), 'views/footer.html');
-		}
-		includeFile($('#content'), file);
-
-		$(document).ready(function(){
-			$($('.active')[0]).removeClass("active");
-			if(page === "landing" || page == null){
-				$($('.nav-link')[0]).parent().addClass("active");
-			}
-			else{
-				var links = $('a.nav-link');
-				$.each(links, function(i,v) {
-					if ($(v).text().toLowerCase() ===  page) {
-						$(v).parent().addClass("active");
-						return false;
-					}
-				});	
-			}
-		});
-	</script>
 </html>
