@@ -53,6 +53,6 @@ public class AchievementPersistenceService extends PersistenceService{
      * @return
      */
     public static AchievementPersistenceService getInstance() {
-        return instance = instance != null ? new AchievementPersistenceService() : instance;
+        return instance = instance != null ? instance : new AchievementPersistenceService();
     }
 }
