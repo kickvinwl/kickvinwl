@@ -84,6 +84,6 @@ public class Login {
 
     private String generateToken()
     {
-        return "TOKEN_GEN";//UUID.randomUUID().toString();
+        return UUID.randomUUID().toString();
     }
 }
