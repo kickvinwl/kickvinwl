@@ -7,6 +7,8 @@ import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+
+import java.util.Date;
 import java.util.List;
 
 public class UserPersistenceService extends PersistenceService<User> {
@@ -36,6 +38,24 @@ public class UserPersistenceService extends PersistenceService<User> {
 		});
 	}
 
+	public void updateLastAction(final User user) throws EntityNotFoundException {
+		JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+			User usertmp = user;
+			usertmp.setLastAction(new Date());
+			this.update(usertmp);
+		});
+	}
+	
+	
+	public boolean exists(final String userName){
+		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+			Query query = entityManager.createQuery("SELECT us FROM User us WHERE userName = :name");
+			query.setParameter("name", userName);
+			List<User> user = query.getResultList();
+			return !user.isEmpty(); 
+		});
+	}
+	
 	public User getBySessionKey(final String sessionKey) throws NoResultException {
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			Query query = entityManager.createQuery("SELECT us FROM User us WHERE us.sessionKey = :sKey");
