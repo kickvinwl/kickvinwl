@@ -44,7 +44,7 @@ public class Achievement extends EntityGeneratedKey{
 		Title = title;
 	}
 	
-	@OneToMany(mappedBy = "achievement")
-	private Set<UserAchievement> user = new HashSet<UserAchievement>();
+	//@OneToMany(mappedBy = "achievement")
+	//private Set<UserAchievement> user = new HashSet<UserAchievement>();
 	
 }

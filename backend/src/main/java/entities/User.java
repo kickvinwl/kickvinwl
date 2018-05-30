@@ -7,8 +7,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class User extends EntityGeneratedKey {
 	@Column(updatable = false, nullable = false, unique = true)
 	private String userName;
@@ -17,9 +19,9 @@ public class User extends EntityGeneratedKey {
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
 	
-	@JoinColumn(name = "id")
-	@Column(updatable = true, nullable = false)
-	private Achievement displayedTitle;
+	//@JoinColumn(name = "id")
+	//@Column(updatable = true, nullable = false)
+	//private Achievement displayedTitle;
 	
 	@Column(updatable = true, nullable = false)
 	private String sessionKey;
@@ -57,13 +59,13 @@ public class User extends EntityGeneratedKey {
 		this.userIsAdmin = userIsAdmin;
 	}
 
-	public String getDisplayedTitle() {
-		return displayedTitle.getTitle();
-	}
+	//public String getDisplayedTitle() {
+	//	return displayedTitle.getTitle();
+	//}
 
-	public void setDisplayedTitle(Achievement achievement) {
-		this.displayedTitle = achievement;
-	}
+	//public void setDisplayedTitle(Achievement achievement) {
+	//	this.displayedTitle = achievement;
+	//}
 
 	public String getSessionKey() {
 		return sessionKey;
