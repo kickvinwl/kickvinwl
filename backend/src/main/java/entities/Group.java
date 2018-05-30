@@ -1,40 +1,49 @@
 package entities;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
+@Table(name ="squad")
 public class Group extends EntityGeneratedKey {
+
 	@Column(updatable = true, nullable = false)
 	private String groupName;
+
 	@Column(updatable = true, nullable = false)
 	private String password;
-	//FK zu User
-	@Column(updatable = true, nullable = false)
-	private boolean adminUserId;
-	
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="admin_ID")
+	private User adminUser;
+
+	@ManyToMany(mappedBy = "groups")
+	private List<User> users = new LinkedList<>();
+
 	public String getGroupName() {
 		return groupName;
 	}
+
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public boolean isAdminUserId() {
-		return adminUserId;
+
+	public User isAdminUserId() {
+		return adminUser;
 	}
-	public void setAdminUserId(boolean adminUserId) {
-		this.adminUserId = adminUserId;
+	public void setAdminUserId(User adminUser) {
+		this.adminUser = adminUser;
 	}
-	@OneToMany(mappedBy = "group")
-	private Set<GroupUser> users = new HashSet<GroupUser>();
-	
+
+
+
 }
