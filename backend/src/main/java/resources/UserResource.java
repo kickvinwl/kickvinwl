@@ -34,4 +34,9 @@ public abstract class UserResource {
     @GET
     @Path("/{sessionKey}")
     public abstract Response getUserBySessionKey(@PathParam("sessionKey") String sessionKey);
+
+    @POST
+    @Path("/{a:logout|Logout")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public abstract Response removeSessionKey(String token);
 }

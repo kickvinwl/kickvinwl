@@ -55,4 +55,18 @@ public class UserResourceImpl extends UserResource {
 
         return rb.build();
     }
+
+    @Override
+    public Response removeSessionKey(String token) {
+        Response.ResponseBuilder response = Response.accepted();
+        try {
+            User user = UserPersistenceService.getInstance().getBySessionKey(token);
+            user.setSessionKey("");
+            UserPersistenceService.getInstance().update(user);
+        }
+        catch (Exception exception) {
+            response.status(Response.Status.BAD_REQUEST);
+        }
+        return response.build();
+    }
 }
