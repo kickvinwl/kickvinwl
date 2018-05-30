@@ -47,7 +47,7 @@ public class UserPersistenceService extends PersistenceService<User> {
 	}
 	
 	
-	public boolean doesUserExist(final String userName){
+	public boolean exists(final String userName){
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			Query query = entityManager.createQuery("SELECT us FROM User us WHERE userName = :name");
 			query.setParameter("name", userName);
