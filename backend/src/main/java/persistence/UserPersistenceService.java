@@ -91,7 +91,7 @@ public class UserPersistenceService extends PersistenceService<User> {
 		JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 
 			Query query = entityManager.createQuery("UPDATE User SET userPicture = :pic, userIsAdmin = :admin, displayedTitle = :title, sessionKey = :session WHERE userName= :userName");
-			query.setParameter("pic", user.getDisplayedTitle());
+//			query.setParameter("pic", user.getDisplayedTitle());
 
 			query.setParameter("admin", user.isUserIsAdmin());
 		//	query.setParameter("title", user.getDisplayedTitle());

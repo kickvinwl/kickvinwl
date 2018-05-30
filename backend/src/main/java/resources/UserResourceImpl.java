@@ -8,21 +8,7 @@ import javax.ws.rs.core.Response;
 
 public class UserResourceImpl extends UserResource {
 
-    @Override
-    public Response getUser(String token) {
-        Response.ResponseBuilder rb = Response.accepted();
 
-        // return userPersistenceService.get(token);
-        //if token valid
-        User user = new User();
-        user.setUserName("Fritz");
-        user.setUserIsAdmin(true);
-        rb.entity(user);
-
-        //else
-        // rb.status(Response.Status.UNAUTHORIZED);
-        return rb.build();
-    }
 
     @Override
     public Response setUser(User user) {
@@ -31,13 +17,10 @@ public class UserResourceImpl extends UserResource {
     }
 
     @Override
-    public Response getUserBySessionKey(@PathParam("sessionKey") String sessionKey) {
-
+    public Response getUserByToken(String token) {
         Response.ResponseBuilder rb = Response.accepted();
-
         //User zu sessionKey finden
-        User user = UserPersistenceService.getInstance().getBySessionKey(sessionKey);
-
+        User user = UserPersistenceService.getInstance().getBySessionKey(token);
         if(user != null) {
             //Token prüfen
             //TODO prüfen ob sessionKey noch Gültig
@@ -54,5 +37,19 @@ public class UserResourceImpl extends UserResource {
         }
 
         return rb.build();
+    }
+
+    @Override
+    public Response removeSessionKey(String token) {
+        Response.ResponseBuilder response = Response.accepted();
+        try {
+            User user = UserPersistenceService.getInstance().getBySessionKey(token);
+            user.setSessionKey("");
+            UserPersistenceService.getInstance().update(user);
+        }
+        catch (Exception exception) {
+            response.status(Response.Status.BAD_REQUEST);
+        }
+        return response.build();
     }
 }

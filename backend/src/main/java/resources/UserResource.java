@@ -19,19 +19,18 @@ public abstract class UserResource {
         userPersistenceService = new UserPersistenceService();
     }
 
-    @GET
-    @Path("/{a:get|Get}/{token}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public abstract Response getUser(@PathParam("token") String token);
-
-
     @POST
     @Path("a:set|Set")
     @Consumes(MediaType.APPLICATION_JSON)
     public abstract Response setUser(User user);
 
+    @GET
+    @Path("/{a:get|Get}/{token}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public abstract Response getUserByToken(@PathParam("token") String token);
 
     @GET
-    @Path("/{sessionKey}")
-    public abstract Response getUserBySessionKey(@PathParam("sessionKey") String sessionKey);
+    @Path("/{a:logout|Logout}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public abstract Response removeSessionKey(String token);
 }
