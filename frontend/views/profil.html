@@ -12,7 +12,7 @@
 		</div>
 		<div class="col-md-8">
 			<div>
-				<input type="text" name="nname" disabled value="Max Mustermann"></input>
+				<input type="text" name="nname" disabled value="Max Mustermann" id="name"></input>
 			</div>
 			<div>
 				<label id="cur_Titel">-Bankwärmer-</label>
@@ -181,13 +181,37 @@
 					$('#cur_Titel').text($(v).prop("name"));
 				}
 			});
-			
 			$('#TitelModal').modal('hide');
+			lieferNeueDaten($('#cur_Titel').text())
 		});
 
 		$('#file-input').change(function(){
-			$('#form-image').submit();
-			location.reload()
-;		});
+			lieferNeueDaten($('#file-input').val())
+			location.reload();		
+		});
+
+		var token = Cookies.get('token');
+		if (typeof token != 'undefined') {
+			$.getJSON("backend/user/get/" + token, function(result){
+				$('#name').val(result[0].userName);
+				var pic = result[0].userPicture;
+				if(pic != null){
+					$'#profilBild').attr('src', pic);
+				}
+			});
+		}
+		else{
+			window.location.href = urlPath + '?page=login';
+		}
+		
+		function lieferNeueDaten(daten){
+			var token = Cookies.get('token');
+			if (typeof token != 'undefined') {
+				$.post("backend/user/set/" + token, daten, function(response), 'json');
+			}
+			else{
+				window.location.href = urlPath + '?page=login';
+			}
+		}
 	});
 </script>
