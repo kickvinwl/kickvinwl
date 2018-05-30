@@ -1,12 +1,14 @@
 package resources;
 
+
 import de.kvwl.commons.authentication.AuthenticationServiceFactory;
 import entities.User;
-import persistence.UserPersistenceService;
+
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashMap;
 import java.util.UUID;
 
 @Path("/login")
@@ -16,9 +18,11 @@ public class Login {
     final static String group = "GG_APP_Ermaechtigung_GOP_Kataloge_RW";
 
     @GET
-    public String createToken(@QueryParam("name") String name, @QueryParam("pw") String pw) {
+    public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw) {
 
         //TODO eingabe prüfen
+
+        Response.ResponseBuilder rb = Response.accepted();
 
         boolean isAllow = AuthenticationServiceFactory.getInstance().isUserInGroup(name, pw, group);
         String token;
@@ -40,13 +44,14 @@ public class Login {
             //User speichern
 
             //TODO Wirft Fehler! noch nicht fertig? -->//UserPersistenceService.getInstance().save(user);
-            Response.status(200);
-            return token;
+            HashMap hmap = new HashMap<String, String>();
+            hmap.put("token",token);
+            rb.entity(hmap);
+        } else {
+            rb.status(Response.Status.UNAUTHORIZED);
         }
 
-        //Fehlermeldung User nicht vorhanden
-        Response.status(Response.Status.NOT_ACCEPTABLE); //TODO Fehler code noch nicht abgesprochen
-        return "";
+        return rb.build();
     }
 
     private String generateToken()
