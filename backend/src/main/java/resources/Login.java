@@ -14,11 +14,11 @@ import java.util.UUID;
 
 
 @Produces(MediaType.APPLICATION_JSON)
+@Path("/login")
 public class Login {
 
 
     @GET
-    @Path("/login")
     public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw, @DefaultValue("GG_APP_Ermaechtigung_GOP_Kataloge_RW") @QueryParam("group") String group) {
 
         Response.ResponseBuilder rb = Response.accepted();
@@ -28,25 +28,31 @@ public class Login {
 
         if(isAllow)
         {
-            //User finden/erstellen
-            User user = UserPersistenceService.getInstance().getByName(name);
-            if( user == null)
-            {
-                rb.status(Response.Status.NO_CONTENT);
-            }
-            else {
-                //token generieren
-                token = generateToken();
-                //token setzten
-                user.setSessionKey(token);
-                //TODO Last login setzten für User
-                //User speichern
-                UserPersistenceService.getInstance().update(user);
+            try {
 
-                UserPersistenceService.getInstance().update(user);
-                HashMap hmap = new HashMap<String, String>();
-                hmap.put("token", token);
-                rb.entity(hmap);
+                //User finden/erstellen
+                User user = UserPersistenceService.getInstance().getByName(name);
+                if( user == null)
+                {
+                    rb.status(Response.Status.NO_CONTENT);
+                }
+                else {
+                    //token generieren
+                    token = generateToken();
+
+                    //token setzten
+                    HashMap hmap = new HashMap<String, String>();
+                    hmap.put("token", token);
+                    rb.entity(hmap);
+                    user.setSessionKey(token);
+                    //TODO Last login setzten für User
+
+                    //User speichern
+                    UserPersistenceService.getInstance().update(user);
+                }
+            } catch (Exception e)
+            {
+                e.printStackTrace();
             }
         } else {
             rb.status(Response.Status.UNAUTHORIZED);
@@ -78,6 +84,6 @@ public class Login {
 
     private String generateToken()
     {
-        return UUID.randomUUID().toString();
+        return "TOKEN_GEN";//UUID.randomUUID().toString();
     }
 }
