@@ -4,9 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+@Entity
 public class User extends EntityGeneratedKey {
 	@Column(updatable = false, nullable = false, unique = true)
 	private String userName;
@@ -21,6 +23,15 @@ public class User extends EntityGeneratedKey {
 	
 	@Column(updatable = true, nullable = false)
 	private String sessionKey;
+
+	//TODO:Mapping-Parameter sorgen noch für Fehler. Zunächst auskommentiert
+	/*
+	@OneToMany(mappedBy = "userG")
+	private Set<GroupUser> groups = new HashSet<GroupUser>();
+	@OneToMany(mappedBy = "userA")
+	private Set<UserAchievement> achievements = new HashSet<UserAchievement>();
+	*/
+
 
 	public String getUserName() {
 		return userName;
@@ -61,9 +72,4 @@ public class User extends EntityGeneratedKey {
 	public void setSessionKey(String sessionKey) {
 		this.sessionKey = sessionKey;
 	}
-	@OneToMany(mappedBy = "userG")
-	private Set<GroupUser> groups = new HashSet<GroupUser>();
-	@OneToMany(mappedBy = "userA")
-	private Set<UserAchievement> achievements = new HashSet<UserAchievement>();
-	
 }
