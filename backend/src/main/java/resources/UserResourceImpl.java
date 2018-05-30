@@ -31,7 +31,7 @@ public class UserResourceImpl extends UserResource {
     }
 
     @Override
-    public Response getUserBySessionKey(@PathParam("sessionKey") String sessionKey) {
+    public Response getUserBySessionKey(String sessionKey) {
 
         Response.ResponseBuilder rb = Response.accepted();
 
