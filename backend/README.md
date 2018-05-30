@@ -21,10 +21,10 @@ systemProp.https.nonProxyHosts=localhost|127.0.0.1|10.10.1.*
 Um beim Applikationsstart eine Datenbank anzulegen sind folgende Schritte notwendig:
 ```
 1. Starte einen lokalen MySQL-Server
-2. Füge in der ersten Zeile von *KickVinWlApplication.run()* den Aufruf *DBInitilizer.init()* ein.
+2. Füge in der ersten Zeile von *KickVinWlApplication.run()* den Aufruf *DBInitializer.init()* ein.
    Standard-Attribute
       User="root"
       Passwort=""
-3. Beim nächsten Start der Anwendung sollte die Datenbank mit der Usertabelle angeleft werden
+3. Beim nächsten Start der Anwendung sollte die Datenbank mit der Usertabelle angelegt werden
 4. Für weitere Tabellen müssen diese in der persistence.xml ergänzt werden
 ```
