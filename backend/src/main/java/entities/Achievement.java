@@ -2,24 +2,29 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 
 @Entity
 public class Achievement extends EntityGeneratedKey{
 
 	@Column(updatable = true, nullable = false)
 	private String achievementName;
+
 	@Column(updatable = true, nullable = false)
 	private String achievementDescription;
-	@Column(updatable = true, nullable = true)
-	private int iconId;
+
 	@Column(updatable = true, nullable = false)
-	private String Title;
+	private String title;
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="fk_icon")
+	private AchievementIcon icon;
 
 	@ManyToMany(mappedBy = "achievements")
 	private List<User> users = new ArrayList<>();
+
+	@OneToMany(mappedBy = "displayedTitle")
+	private List<User> presenter = new ArrayList<>();
 
 	public String getAchievementName() {
 		return achievementName;
@@ -33,17 +38,19 @@ public class Achievement extends EntityGeneratedKey{
 	public void setAchievementDescription(String achievementDescription) {
 		this.achievementDescription = achievementDescription;
 	}
-	public int getIconId() {
-		return iconId;
+	/*
+	public AchievementIcon getIconId() {
+		return icon;
 	}
-	public void setIconId(int iconId) {
-		this.iconId = iconId;
+	public void setIconId(AchievementIcon icon) {
+		this.icon = icon;
 	}
+	*/
 	public String getTitle() {
-		return Title;
+		return title;
 	}
 	public void setTitle(String title) {
-		Title = title;
+		this.title = title;
 	}
 
 }

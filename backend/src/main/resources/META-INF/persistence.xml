@@ -9,6 +9,7 @@
         <class>entities.User</class>
         <class>entities.Achievement</class>
         <class>entities.Group</class>
+        <class>entities.AchievementIcon</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/kickvinwl"/>

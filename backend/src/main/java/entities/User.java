@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 public class User extends EntityGeneratedKey {
+
 	@Column(updatable = false, nullable = false, unique = true)
 	private String userName;
 	@Column(updatable = true, nullable = false)
@@ -15,10 +16,9 @@ public class User extends EntityGeneratedKey {
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
 
-	//TODO: später ergänzen, Mapping
-	//@JoinColumn(name = "id")
-	//@Column(updatable = true, nullable = false)
-	//private Achievement displayedTitle;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_displayedTitle")
+	private Achievement displayedTitle;
 
 	@Column(updatable = true, nullable = false)
 	private String sessionKey;
@@ -26,15 +26,20 @@ public class User extends EntityGeneratedKey {
 	@Column(updatable = true, nullable = false)
 	private Date lastAction;
 
+	@Column(updatable = true, nullable = false)
+	@OneToMany(mappedBy = "id")
+	private List<Group> adminGroups = new ArrayList<>();
 
 	@ManyToMany
-	@JoinTable(name = "user_squad",
+	@JoinTable(
+			name = "user_squad",
 			joinColumns = { @JoinColumn(name = "fk_user") },
 			inverseJoinColumns = { @JoinColumn(name = "fk_squad")})
 	private List<Group> groups = new ArrayList<>();
 
 	@ManyToMany
-	@JoinTable(name = "user_achievement",
+	@JoinTable(
+			name = "user_achievement",
 			joinColumns = { @JoinColumn(name = "fk_user") },
 			inverseJoinColumns = { @JoinColumn(name = "fk_achievement")})
 	private List<Achievement> achievements = new ArrayList<>();

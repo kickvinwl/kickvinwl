@@ -7,40 +7,42 @@ import javax.persistence.*;
 @Entity
 @Table(name ="squad")
 public class Group extends EntityGeneratedKey {
+
 	@Column(updatable = true, nullable = false)
 	private String groupName;
+
 	@Column(updatable = true, nullable = false)
 	private String password;
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="admin_ID")
+	private User adminUser;
 
 	@ManyToMany(mappedBy = "groups")
 	private List<User> users = new LinkedList<>();
 
-	/* TODO: Mapping OneToMany
-	//FK zu User
-	@Column(updatable = true, nullable = false)
-	private boolean adminUserId;
-	*/
-
 	public String getGroupName() {
 		return groupName;
 	}
+
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	/* TODO:siehe oben
-	public boolean isAdminUserId() {
-		return adminUserId;
+
+	public User isAdminUserId() {
+		return adminUser;
 	}
-	public void setAdminUserId(boolean adminUserId) {
-		this.adminUserId = adminUserId;
+	public void setAdminUserId(User adminUser) {
+		this.adminUser = adminUser;
 	}
-	*/
 
 
 
