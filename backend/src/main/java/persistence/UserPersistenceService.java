@@ -38,7 +38,7 @@ public class UserPersistenceService extends PersistenceService<User> {
 		});
 	}
 
-	public void updateLastAction(final User user) throws NoResultException {
+	public void updateLastAction(final User user) throws EntityNotFoundException {
 		JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			User usertmp = user;
 			usertmp.setLastAction(new Date());
@@ -47,7 +47,7 @@ public class UserPersistenceService extends PersistenceService<User> {
 	}
 	
 	
-	public boolean doesUserExist(final String userName) throws NoResultException {
+	public boolean doesUserExist(final String userName){
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			Query query = entityManager.createQuery("SELECT us FROM User us WHERE userName = :name");
 			query.setParameter("name", userName);
