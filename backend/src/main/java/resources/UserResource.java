@@ -21,7 +21,7 @@ public abstract class UserResource {
     @GET
     @Path("/{a:get|Get}/{userName}")
     @Produces(MediaType.APPLICATION_JSON)
-    public  abstract User getUser(@PathParam("userName") String userName);
+    public abstract User getUser(@PathParam("userName") String userName);
 
 
     @POST
