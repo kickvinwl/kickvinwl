@@ -68,38 +68,6 @@ public class UserPersistenceService extends PersistenceService<User> {
 		});
 	}
 
-	public void delete(final User user) throws EntityNotFoundException{
-		JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-			Query query = entityManager.createQuery("DELETE FROM User WHERE userName = :userName");
-			query.setParameter("userName", user.getUserName());
-			int deleted = query.executeUpdate();
-			if (deleted == 0)
-				throw new EntityNotFoundException();			
-		});
-	}
-	public void deleteByUserName(final String userName) throws EntityNotFoundException{
-		JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-			Query query = entityManager.createQuery("DELETE FROM User WHERE userName = :userName");
-			query.setParameter("userName", userName);
-			int deleted = query.executeUpdate();
-			if (deleted == 0)
-				throw new EntityNotFoundException();			
-		});
-	}
-	
-	public void update(final User user) throws EntityNotFoundException{
-		JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-			Query query = entityManager.createQuery("UPDATE User SET (userPicture, isUserAdmin, displayedTitle, sessionKey) VALUES (:pic, :admin, :title, :session) WHERE userName= :userName");
-		//	query.setParameter("pic", user.getDisplayedTitle());
-			query.setParameter("admin", user.isUserIsAdmin());
-		//	query.setParameter("title", user.getDisplayedTitle());
-			query.setParameter("session", user.getSessionKey());
-			query.setParameter("userName", user.getUserName());
-			int updated = query.executeUpdate();
-			if (updated == 0) 
-				throw new EntityNotFoundException();		
-		});
-	}
 	@SuppressWarnings("unchecked")
 	public List<Group> getGroups(final User user) throws EntityNotFoundException{
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
@@ -108,25 +76,7 @@ public class UserPersistenceService extends PersistenceService<User> {
 			return query.getResultList();
 		});
 	}
-	
-	public void save(final User user) throws EntityExistsException {
-		JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-			try {
-				this.getByName(user.getUserName());
-				throw new EntityExistsException();
-			}catch(NoResultException e) {
-				//User nicht gefunden, also darf er erstellt werden
-				Query query = entityManager.createQuery("INSERT INTO User (userPicture, isUserAdmin, displayedTitle, sessionKey) VALUES (:pic, :admin, :title, :session)");
-			//	query.setParameter("pic", user.getDisplayedTitle());
-				query.setParameter("admin", user.isUserIsAdmin());
-			//	query.setParameter("title", user.getDisplayedTitle());
-				query.setParameter("session", user.getSessionKey());
-				query.setParameter("userName", user.getUserName());
-				return query.executeUpdate();
-			}
-			
-		});
-	}
+
 	
 	public int getCurrentPoints(final String userName) throws NoResultException {
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
@@ -148,8 +98,6 @@ public class UserPersistenceService extends PersistenceService<User> {
 			return 12;
 		});
 	}
-	
-	
 	
 	@SuppressWarnings("unchecked")
 	public List<User> getAll() {
