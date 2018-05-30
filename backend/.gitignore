@@ -3,5 +3,6 @@ gradle.properties
 .idea/
 build/
 out/
+*.iml
 .classpath
 bin/
