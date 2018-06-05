@@ -20,7 +20,7 @@ public abstract class UserResource {
     }
 
     @POST
-    @Path("a:set|Set")
+    @Path("/{a:set|Set}")
     @Consumes(MediaType.APPLICATION_JSON)
     public abstract Response setUser(User user);
 

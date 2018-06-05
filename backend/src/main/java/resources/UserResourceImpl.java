@@ -12,7 +12,12 @@ public class UserResourceImpl extends UserResource {
 
     @Override
     public Response setUser(User user) {
-        userPersistenceService.update(user);
+        User userReal = UserPersistenceService.getInstance().getBySessionKey(user.getSessionKey());
+        if(user.getUserPicture() != null)
+        {
+            userReal.setUserPicture(user.getUserPicture());     
+        }
+        userPersistenceService.update(userReal);
         return Response.accepted().build();
     }
 
