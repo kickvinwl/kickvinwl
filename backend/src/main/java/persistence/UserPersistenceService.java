@@ -124,5 +124,12 @@ public class UserPersistenceService extends PersistenceService<User> {
             return query.getResultList();
         });
     }
+    @SuppressWarnings("unchecked")
+    public List<User> getSearch(String search) {
+    	return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+    		Query query = entityManager.createQuery("SELECT u FROM User u WHERE userName LIKE '%" + search + "%'");
+    		return query.getResultList();
+    	});
+    }
 
 }
