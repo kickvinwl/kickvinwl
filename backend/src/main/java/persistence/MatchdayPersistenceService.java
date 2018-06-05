@@ -2,7 +2,7 @@ package persistence;
 
 import entities.Matchday;
 
-public class MatchdayPersistenceService  extends PersistenceService<Matchday> {
+public class MatchdayPersistenceService extends PersistenceService<Matchday> {
 
     private static MatchdayPersistenceService instance;
 
