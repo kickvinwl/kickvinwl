@@ -41,16 +41,15 @@ public class Login {
                 user.setSessionKey(generateToken());
                 hmap.put("token", user.getSessionKey());
                 rb.entity(hmap);
-                    setSettionTime(user);
+                setSettionTime(user);
 
-                    //User speichern
-                    UserPersistenceService.getInstance().update(user);
+                //User speichern
+                UserPersistenceService.getInstance().update(user);
 
             }
             catch (NoResultException re)
             {
-                rb.status(Response.Status.NO_CONTENT); //TODO hier nutzer anlegen
-                System.out.println("Neuer Nutzer angelegt:");
+                rb.status(Response.Status.NO_CONTENT);
                 hmap.put("token", createNewUser(name));
                 rb.entity(hmap);
             }
@@ -94,7 +93,7 @@ public class Login {
     @Path("/logout/{sessionKey}")
     public Response getUserBySessionKey(@PathParam("sessionKey") String sessionKey) {
 
-        Response.ResponseBuilder rb = Response.accepted();
+        Response.ResponseBuilder rb = Response.status(Response.Status.GONE);
 
         //User zu sessionKey finden
         User user = UserPersistenceService.getInstance().getBySessionKey(sessionKey);
