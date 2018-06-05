@@ -37,9 +37,7 @@ public class BundesligaTablePersistenceService extends PersistenceService<Bundes
             if(bundesligaTableEntries.isEmpty())
                 throw new NoResultException();
             else {
-                for(BundesligaTable blt: bundesligaTableEntries) {
-                    blt.setGoalDifference();
-                }
+                bundesligaTableEntries.forEach((BundesligaTable::setGoalDifference));
                 return bundesligaTableEntries;
             }
         });
