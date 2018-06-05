@@ -41,7 +41,7 @@ public class Login {
                 user.setSessionKey(generateToken());
                 hmap.put("token", user.getSessionKey());
                 rb.entity(hmap);
-                setSettionTime(user);
+                setSessionTime(user);
 
                 //User speichern
                 UserPersistenceService.getInstance().update(user);
@@ -64,7 +64,7 @@ public class Login {
         return rb.build();
     }
 
-    private void setSettionTime(User u)
+    private void setSessionTime(User u)
     {
         u.setLastAction(new Date());
     }
@@ -81,7 +81,7 @@ public class Login {
         user.setUserPicture("default");
         user.setUserIsAdmin(userName == "Woelk_m");
         user.setSessionKey(generateToken());
-        setSettionTime(user);
+        setSessionTime(user);
 
         UserPersistenceService.getInstance().save(user);
 
