@@ -1,8 +1,10 @@
 package entities;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class MatchTip extends EntityGeneratedKey{
 
     @ManyToOne(fetch = FetchType.LAZY)

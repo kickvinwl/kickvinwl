@@ -1,5 +1,6 @@
 package resources;
 
+import entities.MatchTip;
 import entities.User;
 
 import javax.ws.rs.*;
@@ -12,17 +13,10 @@ public abstract class TipResource {
 
 
     @POST
-    @Path("a:set|Set")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public abstract Response setTip(String token, MatchTip tip);
+    @Path("/{a:set|Set}")
+    public abstract Response setTip(@QueryParam("sessionKey") String token);
 
     @GET
     @Path("/{a:get|Get}/{token}")
-    @Produces(MediaType.APPLICATION_JSON)
     public abstract Response getTipByToken(@PathParam("token") String token);
-
-    class MatchTip
-    {
-
-    }
 }

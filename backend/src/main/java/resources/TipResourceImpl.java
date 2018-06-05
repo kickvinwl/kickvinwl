@@ -1,13 +1,18 @@
 package resources;
 
+import entities.Match;
+import entities.MatchTip;
 import entities.User;
+import persistence.MatchTipPersistenceService;
 import persistence.UserPersistenceService;
 
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 public class TipResourceImpl extends TipResource {
+
     @Override
-    public Response setTip(String token, TipResource.MatchTip tip) {
+    public Response setTip(String token) {
         Response.ResponseBuilder response = Response.accepted();
 
         //Token -> User
@@ -26,9 +31,9 @@ public class TipResourceImpl extends TipResource {
         User user = UserPersistenceService.getInstance().getBySessionKey(token);
 
         //User -> MatchTip
-        MatchTip matchTip = null; //TODO Match aus MatchTipPersistenceService beziehen
+        List<MatchTip> matchTips = MatchTipPersistenceService.getInstance().getByUserId(user.getId());
 
 
-        return response.entity(matchTip).build();
+        return response.entity(matchTips).build();
     }
 }
