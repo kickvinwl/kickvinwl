@@ -3,7 +3,6 @@ package resources;
 
 import de.kvwl.commons.authentication.AuthenticationServiceFactory;
 import entities.User;
-import jdk.nashorn.internal.runtime.regexp.joni.constants.AsmConstants;
 import persistence.UserPersistenceService;
 
 
@@ -42,16 +41,15 @@ public class Login {
                 user.setSessionKey(generateToken());
                 hmap.put("token", user.getSessionKey());
                 rb.entity(hmap);
-                    //TODO Last login setzten für User
+                setSettionTime(user);
 
-                    //User speichern
-                    UserPersistenceService.getInstance().update(user);
+                //User speichern
+                UserPersistenceService.getInstance().update(user);
 
             }
             catch (NoResultException re)
             {
-                rb.status(Response.Status.NO_CONTENT); //TODO hier nutzer anlegen
-                System.out.println("Neuer Nutzer angelegt:");
+                rb.status(Response.Status.NO_CONTENT);
                 hmap.put("token", createNewUser(name));
                 rb.entity(hmap);
             }
@@ -66,6 +64,11 @@ public class Login {
         return rb.build();
     }
 
+    private void setSettionTime(User u)
+    {
+        u.setLastAction(new Date());
+    }
+
     /**
      *
      * @param userName
@@ -78,8 +81,7 @@ public class Login {
         user.setUserPicture("default");
         user.setUserIsAdmin(userName == "Woelk_m");
         user.setSessionKey(generateToken());
-        user.setLastAction(new Date());
-        //TODO user daten füllen
+        setSettionTime(user);
 
         UserPersistenceService.getInstance().save(user);
 
@@ -91,7 +93,7 @@ public class Login {
     @Path("/logout/{sessionKey}")
     public Response getUserBySessionKey(@PathParam("sessionKey") String sessionKey) {
 
-        Response.ResponseBuilder rb = Response.accepted();
+        Response.ResponseBuilder rb = Response.status(Response.Status.GONE);
 
         //User zu sessionKey finden
         User user = UserPersistenceService.getInstance().getBySessionKey(sessionKey);
