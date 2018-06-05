@@ -15,11 +15,11 @@ public class Achievement extends EntityGeneratedKey{
 
 	@Column(updatable = true, nullable = false)
 	private String title;
-
+/*
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="fk_icon")
 	private AchievementIcon icon;
-
+*/
 	@ManyToMany(mappedBy = "achievements")
 	private List<User> users = new ArrayList<>();
 
