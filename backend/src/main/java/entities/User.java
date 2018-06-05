@@ -1,44 +1,48 @@
 package entities;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
 public class User extends EntityGeneratedKey {
+
 	@Column(updatable = false, nullable = false, unique = true)
 	private String userName;
 	@Column(updatable = true, nullable = false)
 	private String userPicture;
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
-	
-	//@JoinColumn(name = "id")
-	//@Column(updatable = true, nullable = false)
-	//private Achievement displayedTitle;
-	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "fk_displayedTitle")
+	private Achievement displayedTitle;
+
 	@Column(updatable = true, nullable = false)
 	private String sessionKey;
 
 	@Column(updatable = true, nullable = false)
 	private Date lastAction;
-	
 
-	//TODO:Mapping-Parameter sorgen noch für Fehler. Zunächst auskommentiert
-	/*
-	@OneToMany(mappedBy = "userG")
-	private Set<GroupUser> groups = new HashSet<GroupUser>();
-	@OneToMany(mappedBy = "userA")
-	private Set<UserAchievement> achievements = new HashSet<UserAchievement>();
-	*/
+	@Column(updatable = true, nullable = false)
+	@OneToMany(mappedBy = "id")
+	private List<Group> adminGroups = new ArrayList<>();
 
+	@ManyToMany
+	@JoinTable(
+			name = "user_squad",
+			joinColumns = { @JoinColumn(name = "fk_user") },
+			inverseJoinColumns = { @JoinColumn(name = "fk_squad")})
+	private List<Group> groups = new ArrayList<>();
+
+	@ManyToMany
+	@JoinTable(
+			name = "user_achievement",
+			joinColumns = { @JoinColumn(name = "fk_user") },
+			inverseJoinColumns = { @JoinColumn(name = "fk_achievement")})
+	private List<Achievement> achievements = new ArrayList<>();
 
 	public String getUserName() {
 		return userName;
@@ -72,6 +76,7 @@ public class User extends EntityGeneratedKey {
 		this.userIsAdmin = userIsAdmin;
 	}
 
+	//TODO: später einkommentieren
 	//public String getDisplayedTitle() {
 	//	return displayedTitle.getTitle();
 	//}
