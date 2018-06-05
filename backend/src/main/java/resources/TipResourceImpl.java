@@ -34,6 +34,6 @@ public class TipResourceImpl extends TipResource {
         List<MatchTip> matchTips = MatchTipPersistenceService.getInstance().getByUserId(user.getId());
 
 
-        return response.entity(matchTips).build();
+        return response.entity(matchTips.toArray()).build();
     }
 }
