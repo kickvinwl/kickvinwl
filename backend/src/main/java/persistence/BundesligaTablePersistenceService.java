@@ -15,7 +15,7 @@ public class BundesligaTablePersistenceService extends PersistenceService<Bundes
 
     /**
      *
-     * @return
+     * @return instance of the persistence service
      */
     public static BundesligaTablePersistenceService getInstance()
     {
@@ -25,7 +25,7 @@ public class BundesligaTablePersistenceService extends PersistenceService<Bundes
     /**
      *
      * @param leagueId
-     * @return
+     * @return List of all table entries for a corresponding league in order
      * @throws NoResultException
      */
     public List<BundesligaTable> getAllEntriesByLeagueId(final int leagueId) throws NoResultException{
@@ -36,8 +36,12 @@ public class BundesligaTablePersistenceService extends PersistenceService<Bundes
             List<BundesligaTable> bundesligaTableEntries = query.getResultList();
             if(bundesligaTableEntries.isEmpty())
                 throw new NoResultException();
-            else
+            else {
+                for(BundesligaTable blt: bundesligaTableEntries) {
+                    blt.setGoalDifference();
+                }
                 return bundesligaTableEntries;
+            }
         });
     }
 
@@ -58,8 +62,10 @@ public class BundesligaTablePersistenceService extends PersistenceService<Bundes
             List<BundesligaTable> bundesligaTableEntries = query.getResultList();
             if(bundesligaTableEntries.isEmpty())
                 throw new NoResultException();
-            else
+            else {
+                 bundesligaTableEntries.get(0).setGoalDifference();
                 return bundesligaTableEntries.get(0);
+            }
         });
     }
 }
