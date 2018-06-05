@@ -30,6 +30,10 @@ public class User extends EntityGeneratedKey {
 	@OneToMany(mappedBy = "id")
 	private List<Group> adminGroups = new ArrayList<>();
 
+	@Column(updatable = true, nullable = false)
+    @OneToMany(mappedBy = "id")
+    private List<MatchTip> tips = new ArrayList<>();
+
 	@ManyToMany
 	@JoinTable(
 			name = "user_squad",

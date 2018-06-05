@@ -15,8 +15,7 @@ public abstract class UserResource {
     UserPersistenceService userPersistenceService;
 
     public UserResource() {
-        //TODO: User Persistence Service Instanziieren;
-        userPersistenceService = new UserPersistenceService();
+        userPersistenceService = UserPersistenceService.getInstance();
     }
 
     @POST

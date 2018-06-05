@@ -20,10 +20,10 @@ public class AchievementIcon extends EntityGeneratedKey{
 	TODO
 	mapping between achievement icon and achievement does not work
 	 */
-
+/*
 	@OneToMany(mappedBy = "icon")
 	private List<Achievement> achievements = new ArrayList<Achievement>();
-
+*/
 	public String getIconUrl() {
 		return iconUrl;
 	}

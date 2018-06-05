@@ -1,20 +1,20 @@
 package entities;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
+import javax.persistence.*;
+
+/**
+ *
+ */
 @Entity
-public class BundesligaTable extends EntityGeneratedKey{
+public class BundesligaTable extends EntityGeneratedKey {
 
-    //TODO: mapping
-    //@ManyToOne
-    //@JoinColumn(name = "league_id")
-    private League leagueId;
+    @ManyToOne
+    @JoinColumn(name = "league_id")
+    private League league;
     private int leaguePosition;
-    //TODO: mapping
-    //@ManyToOne
-    //@JoinColumn(name = "team_id")
-    private Team teamId;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
     private int matches;
     private int wins;
     private int draws;
@@ -23,12 +23,35 @@ public class BundesligaTable extends EntityGeneratedKey{
     private int opponentGoals;
     private int points;
 
-    public League getLeagueId() {
-        return leagueId;
+    @Transient
+    private int goalDifference;
+
+
+    /**
+     * automatic calculation of the goal difference
+     */
+    public void setGoalDifference() {
+        this.goalDifference = getGoals() - getOpponentGoals();
     }
 
-    public void setLeagueId(League leagueId) {
-        this.leagueId = leagueId;
+    public League getLeague() {
+        return league;
+    }
+
+    public void setLeague(League league) {
+        this.league = league;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public int getGoalDifference() {
+        return goalDifference;
     }
 
     public int getLeaguePosition() {
@@ -37,14 +60,6 @@ public class BundesligaTable extends EntityGeneratedKey{
 
     public void setLeaguePosition(int leaguePosition) {
         this.leaguePosition = leaguePosition;
-    }
-
-    public Team getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(Team teamId) {
-        this.teamId = teamId;
     }
 
     public int getMatches() {
@@ -102,7 +117,6 @@ public class BundesligaTable extends EntityGeneratedKey{
     public void setPoints(int points) {
         this.points = points;
     }
-
 
 
 }

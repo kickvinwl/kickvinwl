@@ -19,6 +19,7 @@ public class UserPersistenceService extends PersistenceService<User> {
     {
         return instance = instance != null ? instance : new UserPersistenceService();
     }
+    private UserPersistenceService() {};
 
     public User getByName(final String userName) throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
@@ -119,6 +120,13 @@ public class UserPersistenceService extends PersistenceService<User> {
             Query query = entityManager.createQuery("SELECT * FROM User");
             return query.getResultList();
         });
+    }
+    @SuppressWarnings("unchecked")
+    public List<User> getSearch(String search) {
+    	return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+    		Query query = entityManager.createQuery("SELECT u FROM User u WHERE userName LIKE '%" + search + "%'");
+    		return query.getResultList();
+    	});
     }
 
 }
