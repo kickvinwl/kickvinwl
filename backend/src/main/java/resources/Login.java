@@ -3,7 +3,6 @@ package resources;
 
 import de.kvwl.commons.authentication.AuthenticationServiceFactory;
 import entities.User;
-import jdk.nashorn.internal.runtime.regexp.joni.constants.AsmConstants;
 import persistence.UserPersistenceService;
 
 
@@ -42,7 +41,7 @@ public class Login {
                 user.setSessionKey(generateToken());
                 hmap.put("token", user.getSessionKey());
                 rb.entity(hmap);
-                    //TODO Last login setzten für User
+                    setSettionTime(user);
 
                     //User speichern
                     UserPersistenceService.getInstance().update(user);
@@ -66,6 +65,11 @@ public class Login {
         return rb.build();
     }
 
+    private void setSettionTime(User u)
+    {
+        u.setLastAction(new Date());
+    }
+
     /**
      *
      * @param userName
@@ -78,8 +82,7 @@ public class Login {
         user.setUserPicture("default");
         user.setUserIsAdmin(userName == "Woelk_m");
         user.setSessionKey(generateToken());
-        user.setLastAction(new Date());
-        //TODO user daten füllen
+        setSettionTime(user);
 
         UserPersistenceService.getInstance().save(user);
 
