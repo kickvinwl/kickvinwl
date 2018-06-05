@@ -1,5 +1,7 @@
 package entities;
 
+import org.joda.time.DateTime;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
 public class Match extends EntityGeneratedKey{
 
     private int matchdayId;
-//    private DateTime matchDateTime;
+    private DateTime matchDateTime;
 
 /*
     @ManyToMany
