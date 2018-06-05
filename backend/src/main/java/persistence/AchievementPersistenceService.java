@@ -13,6 +13,11 @@ public class AchievementPersistenceService extends PersistenceService{
 
     private static AchievementPersistenceService instance;
 
+    public static AchievementPersistenceService getInstance() {
+        return instance = instance != null ? instance : new AchievementPersistenceService();
+    }
+    private AchievementPersistenceService() {};
+
     /**
      * @param achievementName
      * @return
@@ -49,10 +54,5 @@ public class AchievementPersistenceService extends PersistenceService{
         });
     }
 
-    /**
-     * @return
-     */
-    public static AchievementPersistenceService getInstance() {
-        return instance = instance != null ? instance : new AchievementPersistenceService();
-    }
+
 }
