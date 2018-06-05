@@ -15,6 +15,8 @@ public class UserPersistenceService extends PersistenceService<User> {
 
     private static UserPersistenceService instance;
 
+    private static long SESSION_LENGTH = 30 * 60 * 1000;
+
     public static UserPersistenceService getInstance()
     {
         return instance = instance != null ? instance : new UserPersistenceService();
@@ -62,7 +64,7 @@ public class UserPersistenceService extends PersistenceService<User> {
         });
     }
 
-    public User getBySessionKey(final String sessionKey) throws NoResultException {
+    public User getBySessionKey(final String sessionKey) throws NoResultException, SecurityException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
             Query query = entityManager.createQuery("SELECT us FROM User us WHERE us.sessionKey = :sKey");
             query.setParameter("sKey", sessionKey);
@@ -70,6 +72,7 @@ public class UserPersistenceService extends PersistenceService<User> {
             if(user.isEmpty())
                 throw new NoResultException();
             else
+                if(user.get(0).getLastAction().getTime() <= System.currentTimeMillis() - SESSION_LENGTH) throw new SecurityException("Session ausgelaufen!");
                 return user.get(0);
         });
     }
