@@ -19,6 +19,7 @@ public class UserPersistenceService extends PersistenceService<User> {
     {
         return instance = instance != null ? instance : new UserPersistenceService();
     }
+    private UserPersistenceService() {};
 
     public User getByName(final String userName) throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
