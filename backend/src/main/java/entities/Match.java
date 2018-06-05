@@ -34,6 +34,6 @@ public class Match extends EntityGeneratedKey{
     /**
      * This number describes the id which is associated with this specific dataset in OpenLigaDB
      */
-    private int externalMatchID;
+    private int matchID;
 
 }
