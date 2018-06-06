@@ -4,6 +4,7 @@ $(document).ready(function() {
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
 			$('#gameday').text(data.gameday);
+			$('#season').text(data.season);
 			var dateOptions = { weekday: 'long', /*year: 'numeric',*/ month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 			var lastDate;
 			$.each(data.matches, function(i, val) {
@@ -60,11 +61,30 @@ $(document).ready(function() {
 });
 
 $('#submitTip').click(function() {
+	submitTips();
+});
+
+function submitTips() {
+	var data = {'sessionKey': Cookies.get('token'), 'gameday': parseInt($('#gameday').text()), 'season': $('#season').text()};
+	data['matches'] = [];
 	$('#gamedayTable tbody tr td').each(function() {
 		var val = $(this);
-		var matchId = this.id;
-		var homeTip = val.find('.homeTip').val();
-		var awayTip = val.find('.awayTip').val();
-		console.log(matchId, homeTip, awayTip);
+		var matchId = parseInt(this.id);
+		var homeTip = parseInt(val.find('.homeTip').val());
+		var awayTip = parseInt(val.find('.awayTip').val());
+		var match = {'matchId': matchId, 'homeTip': homeTip, 'awayTip': awayTip};
+		data['matches'].push(match);
 	});
-});
+	console.log(data);
+	$.ajax({
+		url: urlPath + 'backend/betting/put', // group nur temporär für Testzwecke
+		type: 'POST',
+		data: data,
+		success: function(data) {
+			
+		},
+		error: function(data) {
+			
+		}
+	});
+}

@@ -29,6 +29,8 @@ function login(user, pw) {
 		url: urlPath + 'backend/login?name=' + user + '&pw=' + pw + '&group=GG_EVAULT_Default_Standardfunktionen', // group nur temporär für Testzwecke
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
+			console.log('data:');
+			console.log(data);
 			$('#loginError').addClass('d-none');
 			Cookies.set('token', data.token, { expires: 1/24 });
 			window.location.href = urlPath;
