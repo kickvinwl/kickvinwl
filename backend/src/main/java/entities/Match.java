@@ -36,4 +36,31 @@ public class Match extends EntityGeneratedKey{
      */
     private int matchID;
 
+    public int getMatchdayId() {
+        return matchdayId;
+    }
+
+    public DateTime getMatchDateTime() {
+        return matchDateTime;
+    }
+
+    public List<MatchTip> getTips() {
+        return tips;
+    }
+
+    public int getGoalsTeam1() {
+        return goalsTeam1;
+    }
+
+    public int getGoalsTeam2() {
+        return goalsTeam2;
+    }
+
+    public int getStatusId() {
+        return statusId;
+    }
+
+    public int getMatchID() {
+        return matchID;
+    }
 }

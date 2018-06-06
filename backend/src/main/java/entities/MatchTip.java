@@ -19,4 +19,15 @@ public class MatchTip extends EntityGeneratedKey{
     private int goalsTeam2;
     private int userPoints;
 
+    public int getGoalsTeam1() {
+        return goalsTeam1;
+    }
+
+    public int getGoalsTeam2() {
+        return goalsTeam2;
+    }
+
+    public int getUserPoints() {
+        return userPoints;
+    }
 }

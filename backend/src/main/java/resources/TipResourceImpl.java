@@ -2,6 +2,7 @@ package resources;
 
 import entities.Match;
 import entities.MatchTip;
+import entities.Team;
 import entities.User;
 import persistence.MatchTipPersistenceService;
 import persistence.UserPersistenceService;
@@ -43,11 +44,24 @@ public class TipResourceImpl extends TipResource {
         return response.entity(matchTip).build();
     }
 
-    private MatchTipTransform.MatchWithPoints fillMatch()
+    private MatchTipTransform.MatchWithPoints createMatch()
     {
         MatchTipTransform.MatchWithPoints ret = new MatchTipTransform.MatchWithPoints();
 
-        
+
+
+        return ret;
+    }
+
+    private MatchTipTransform.MatchWithPoints.Team creatTeam(MatchTip matchTip, Team team, Match match, boolean isHomeTeam)
+    {
+        MatchTipTransform.MatchWithPoints.Team ret = new MatchTipTransform.MatchWithPoints.Team();
+
+        ret.setId(team.getId());
+        ret.setName(team.getTeamName());
+        ret.setLogo(team.getTeamIconURL());
+        ret.setTipScore((isHomeTeam) ? matchTip.getGoalsTeam1() : matchTip.getGoalsTeam2());
+        ret.setRealScore((isHomeTeam) ? match.getGoalsTeam1() : match.getGoalsTeam2());
 
         return ret;
     }
