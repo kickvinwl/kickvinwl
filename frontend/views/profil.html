@@ -12,7 +12,7 @@
 		</div>
 		<div class="col-md-8">
 			<div>
-				<input type="text" name="nname" disabled value="Max Mustermann"></input>
+				<input type="text" name="nname" disabled value="Max Mustermann" id="name"></input>
 			</div>
 			<div>
 				<label id="cur_Titel">-Bankwärmer-</label>
@@ -181,13 +181,53 @@
 					$('#cur_Titel').text($(v).prop("name"));
 				}
 			});
-			
 			$('#TitelModal').modal('hide');
+			lieferNeueDaten($('#cur_Titel').text(), "titel");
 		});
 
 		$('#file-input').change(function(){
-			$('#form-image').submit();
-			location.reload()
-;		});
+			lieferNeueDaten($('#file-input').val(), "bild");
+		});
+
+		var token2 = Cookies.get('token');
+		if (typeof token2 != 'undefined') {
+			$.getJSON("backend/user/get/" + token2, function(result){
+				$('#name').val(result.userName);
+				var pic = result.userPicture;
+				if(pic != null){
+					$('#profilBild').attr('src', pic);
+				}
+			});
+		}
+		else{
+			window.location.href = urlPath + '?page=login';
+		}
+		
+		function lieferNeueDaten(daten, was){
+			var token = Cookies.get('token');
+			if (typeof token != 'undefined') {
+				var datenSend = new Object();
+				if(was == "titel")
+					datenSend.Achievement = daten;
+				else
+					datenSend.userPicture = "https://as.ftcdn.net/r/v1/pics/ea2e0032c156b2d3b52fa9a05fe30dedcb0c47e3/landing/images_photos.jpg";
+				datenSend.sessionKey = token;
+				var d = JSON.stringify(datenSend);
+					$.ajax({
+					  type: "POST",
+					  headers: { 
+					        'Content-Type': 'application/json' 
+					  },
+					  url: "backend/user/set/",
+					  data: d,
+					  success: function(response){},
+					  dataType: "json"
+					});
+					location.reload();		
+			}
+			else{
+				window.location.href = urlPath + '?page=login';
+			}
+		}
 	});
 </script>

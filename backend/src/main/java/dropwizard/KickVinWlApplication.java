@@ -28,6 +28,7 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         final UserResource userResource = new UserResourceImpl();
         environment.jersey().register(userResource);
 
-
+        final SearchResource searchResource = new SearchResourceImpl();
+        environment.jersey().register(searchResource);
     }
 }

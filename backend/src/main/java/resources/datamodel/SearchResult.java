@@ -1,4 +1,4 @@
-package resources;
+package resources.datamodel;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ public class SearchResult {
 	private ArrayList<Group> groups;
 	
 	public SearchResult() {
-		users = new ArrayList<>();
+		users = new ArrayList<User>();
 		groups = new ArrayList<Group>();
 	}
 

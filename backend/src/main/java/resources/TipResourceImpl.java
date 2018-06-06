@@ -23,6 +23,8 @@ public class TipResourceImpl extends TipResource {
         return response.build();
     }
 
+
+
     @Override
     public Response getTipByToken(String token) {
         Response.ResponseBuilder response = Response.accepted();
