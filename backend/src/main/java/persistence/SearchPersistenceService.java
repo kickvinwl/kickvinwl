@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import entities.Group;
 import entities.User;
-import resources.SearchResult;
+import resources.datamodel.SearchResult;
 
 public class SearchPersistenceService {
 	
