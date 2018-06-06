@@ -14,10 +14,12 @@ public class Match extends EntityGeneratedKey{
     private int matchdayId;
     private Date matchDateTime;
 
-    @JoinColumn(name = "team1_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_team1")
     private Team team;
 
-    @JoinColumn(name = "team2_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_team2")
     private Team team2;
 
 
