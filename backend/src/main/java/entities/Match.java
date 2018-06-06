@@ -14,10 +14,13 @@ public class Match extends EntityGeneratedKey{
     private int matchdayId;
     private Date matchDateTime;
 
+
     @JoinColumn(name = "team1_id")
+    @Column(columnDefinition="int(11)")
     private Team team;
 
     @JoinColumn(name = "team2_id")
+    @Column(columnDefinition="int(11)")
     private Team team2;
 
 
