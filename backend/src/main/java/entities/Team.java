@@ -4,7 +4,10 @@ import javax.persistence.Entity;
 
 @Entity
 public class Team extends EntityGeneratedKey {
+
+
 	private int teamId;
+
 	private String teamName;
 	private String teamIconURL;
 
