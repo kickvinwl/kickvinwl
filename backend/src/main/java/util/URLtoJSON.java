@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-/**
- * Created by hannibal on 06.06.2018.
- */
+
 public class URLtoJSON {
 
     public static String readUrl(String urlString) throws Exception {
