@@ -38,7 +38,8 @@ public class TeamDeserializer {
         //JsonReader reader = new JsonReader(new FileReader("2018.json"));
         String json = URLtoJSON.readUrl(teamURL);
         Team[] teamsA = customGson.fromJson(json, Team[].class);
-        return  Arrays.asList(teamsA);
+        List<Team> teams = Arrays.asList(teamsA);
+        return teams;
     }
 
 }
