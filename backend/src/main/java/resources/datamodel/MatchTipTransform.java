@@ -1,5 +1,7 @@
 package resources.datamodel;
 
+import entities.Match;
+import entities.MatchTip;
 import entities.Team;
 
 import java.util.Date;
@@ -11,6 +13,12 @@ public class MatchTipTransform {
     String gameday;
 
     List<MatchWithPoints> matches;
+
+    public void fill()
+    {
+
+    }
+
 
     public void setSeason(String season) {
         this.season = season;
@@ -30,6 +38,12 @@ public class MatchTipTransform {
         Team homeTeam;
         Team awayTeam;
         int points;
+
+        public MatchWithPoints(MatchTip matchTip, entities.Team team, Match match, boolean isHomeTeam)
+        {
+                setId(match.getId());
+                setDate(match.getMatchDateTime());
+        }
 
         public void setId(int id) {
             this.id = id;
@@ -57,6 +71,16 @@ public class MatchTipTransform {
             String logo;
             int tipScore;
             int realScore;
+
+            public Team(MatchTip matchTip, entities.Team team, Match match, boolean isHomeTeam)
+            {
+                setId(team.getId());
+                setName(team.getTeamName());
+                setLogo(team.getTeamIconURL());
+                setTipScore((isHomeTeam) ? matchTip.getGoalsTeam1() : matchTip.getGoalsTeam2());
+                setRealScore((isHomeTeam) ? match.getGoalsTeam1() : match.getGoalsTeam2());
+
+            }
 
             public void setId(int id) {
                 this.id = id;
