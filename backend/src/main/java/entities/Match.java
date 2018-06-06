@@ -15,16 +15,14 @@ public class Match extends EntityGeneratedKey{
     private Date matchDateTime;
 
     @JoinColumn(name = "team1_id")
-    @OneToMany(mappedBy = "id")
     private Team team;
 
-
     @JoinColumn(name = "team2_id")
-    @OneToMany(mappedBy = "id")
     private Team team2;
 
 
     @Column(updatable = true, nullable = true)
+    @OneToMany(mappedBy = "id")
     private List<MatchTip> tips = new ArrayList<>();
 
     private int goalsTeam1;

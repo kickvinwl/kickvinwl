@@ -16,13 +16,13 @@ public class Team extends EntityGeneratedKey {
 	private String teamName;
 	private String teamIconURL;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "team_home")
-	private List<Match> home = new ArrayList<>();
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "team_away")
-	private List<Match> away = new ArrayList<>();
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "team_home")
+//	private List<Match> home = new ArrayList<>();
+//
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "team_away")
+//	private List<Match> away = new ArrayList<>();
 
 	public int getTeamId() {
 		return teamId;
