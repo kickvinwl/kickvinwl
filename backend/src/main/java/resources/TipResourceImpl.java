@@ -5,7 +5,11 @@ import entities.MatchTip;
 import entities.User;
 import persistence.MatchTipPersistenceService;
 import persistence.UserPersistenceService;
+<<<<<<< HEAD
 import resources.datamodel.Tip;
+=======
+import resources.datamodel.MatchTipTransform;
+>>>>>>> 8ef4fbc496c241d6cfcf2609cc3f22e17ded390c
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.Response;
@@ -33,16 +37,28 @@ public class TipResourceImpl extends TipResource {
 
 
     @Override
-    public Response getTipByToken(String token) {
+    public Response getTipByToken(String gameday, String token) {
         Response.ResponseBuilder response = Response.accepted();
 
         //Token -> User
         User user = UserPersistenceService.getInstance().getBySessionKey(token);
 
-        //User -> MatchTip
-        List<MatchTip> matchTips = MatchTipPersistenceService.getInstance().getByUserId(user.getId());
+        //MatchTipTransform füllen
+        MatchTipTransform matchTip = new MatchTipTransform();
+        matchTip.setGameday(gameday);
+        matchTip.setSeason("2017/18"); //TODO Season besorgen
 
+        MatchTipTransform.MatchWithPoints matche;
 
-        return response.entity(matchTips.toArray()).build();
+        return response.entity(matchTip).build();
+    }
+
+    private MatchTipTransform.MatchWithPoints fillMatch()
+    {
+        MatchTipTransform.MatchWithPoints ret = new MatchTipTransform.MatchWithPoints();
+
+        
+
+        return ret;
     }
 }
