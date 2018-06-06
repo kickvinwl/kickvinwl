@@ -30,7 +30,7 @@ public class User extends EntityGeneratedKey {
 	@OneToMany(mappedBy = "id")
 	private List<Group> adminGroups = new ArrayList<>();
 
-	@Column(updatable = true, nullable = false)
+	@Column(updatable = true, nullable = true)
     @OneToMany(mappedBy = "id")
     private List<MatchTip> tips = new ArrayList<>();
 
@@ -95,5 +95,9 @@ public class User extends EntityGeneratedKey {
 
 	public void setSessionKey(String sessionKey) {
 		this.sessionKey = sessionKey;
+	}
+
+	public List<MatchTip> getTips() {
+		return tips;
 	}
 }
