@@ -11,9 +11,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by hannibal on 06.06.2018.
- */
+
 public class TeamDeserializer {
 
     JsonDeserializer<Team> deserializer = new JsonDeserializer<Team>() {
