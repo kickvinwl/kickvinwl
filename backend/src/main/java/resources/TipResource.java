@@ -17,6 +17,6 @@ public abstract class TipResource {
     public abstract Response setTip(@QueryParam("sessionKey") String token);
 
     @GET
-    @Path("/{a:get|Get}/{token}")
-    public abstract Response getTipByToken(@PathParam("token") String token);
+    @Path("/{a:get|Get}/{gameday}/{token}")
+    public abstract Response getTipByToken(@PathParam("gameday") String gameday, @PathParam("token") String token);
 }
