@@ -31,7 +31,7 @@ public class User extends EntityGeneratedKey {
 	private List<Group> adminGroups = new ArrayList<>();
 
 	@Column(updatable = true, nullable = true)
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<MatchTip> tips = new ArrayList<>();
 
 	@ManyToMany

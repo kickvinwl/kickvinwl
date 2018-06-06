@@ -6,10 +6,12 @@ import entities.Team;
 import entities.User;
 import persistence.MatchTipPersistenceService;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@XmlRootElement
 public class MatchTipTransform {
 
     String season;
