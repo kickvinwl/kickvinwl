@@ -10,6 +10,12 @@ public class TeamPersistenceService extends PersistenceService<Team> {
     {
         return instance = instance != null ? instance : new TeamPersistenceService();
     }
-    private TeamPersistenceService() {};
+
+    /**
+     * private constructor so only getInstance is used
+     */
+    private TeamPersistenceService() {}
+
+
 
 }
