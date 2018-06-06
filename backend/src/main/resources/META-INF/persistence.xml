@@ -15,6 +15,8 @@
         <class>entities.Match</class>
         <class>entities.MatchTip</class>
 
+        <class>entities.Team</class>
+
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/kickvinwl"/>

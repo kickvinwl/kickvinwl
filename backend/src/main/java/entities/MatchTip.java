@@ -7,11 +7,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class MatchTip extends EntityGeneratedKey{
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER )
     @JoinColumn(name = "fk_user")
     private User owner;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="fk_match")
     private Match tippedMatch;
 
@@ -19,7 +19,16 @@ public class MatchTip extends EntityGeneratedKey{
     private int goalsTeam2;
     private int userPoints;
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public Match getTippedMatch() {
+        return tippedMatch;
+    }
+
     public int getGoalsTeam1() {
+
         return goalsTeam1;
     }
 

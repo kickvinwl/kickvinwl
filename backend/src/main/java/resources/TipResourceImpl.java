@@ -1,9 +1,10 @@
 package resources;
 
-import com.sun.xml.internal.bind.v2.TODO;
+import entities.Match;
 import entities.MatchTip;
 import entities.Team;
 import entities.User;
+import persistence.MatchPersistenceService;
 import persistence.MatchTipPersistenceService;
 import persistence.UserPersistenceService;
 import resources.datamodel.Tip;
@@ -38,15 +39,13 @@ public class TipResourceImpl extends TipResource {
     public Response getTipByToken(String gameday, String token) {
         Response.ResponseBuilder response = Response.accepted();
 
+
+
         //Token -> User
         User user = UserPersistenceService.getInstance().getBySessionKey(token);
 
         //MatchTipTransform füllen
-        MatchTipTransform matchTip = new MatchTipTransform();
-        matchTip.setGameday(gameday);
-        matchTip.setSeason("2017/18"); //TODO Season besorgen
-
-        MatchTipTransform.MatchWithPoints matche;
+        MatchTipTransform matchTip = new MatchTipTransform("2017/18", gameday, user.getTips()); //TODO
 
         return response.entity(matchTip).build();
     }

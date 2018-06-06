@@ -3,7 +3,10 @@ package resources.datamodel;
 import entities.Match;
 import entities.MatchTip;
 import entities.Team;
+import entities.User;
+import persistence.MatchTipPersistenceService;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,11 +17,23 @@ public class MatchTipTransform {
 
     List<MatchWithPoints> matches;
 
-    public void fill()
-    {
+    public MatchTipTransform(String season, String gameday, List<MatchTip> matchTips) {
+        this.season = season;
+        this.gameday = gameday;
 
+        MatchTipPersistenceService matchTipPersistenceService = MatchTipPersistenceService.getInstance();
+
+
+        ArrayList<MatchWithPoints> matchesOut = new ArrayList<>();
+
+
+        for (MatchTip matchTip: matchTips) {
+//            MatchTip matchTip = matchTipPersistenceService.getByUserIdAndMatchId(user.getId(), match.getMatchID());
+            matchesOut.add(new MatchWithPoints(matchTip));
+        }
+
+        setMatches(matchesOut);
     }
-
 
     public void setSeason(String season) {
         this.season = season;
@@ -39,10 +54,14 @@ public class MatchTipTransform {
         Team awayTeam;
         int points;
 
-        public MatchWithPoints(MatchTip matchTip, entities.Team team, Match match, boolean isHomeTeam)
+        public MatchWithPoints(MatchTip matchTip)
         {
+                Match match = matchTip.getTippedMatch();
                 setId(match.getId());
                 setDate(match.getMatchDateTime());
+                setHomeTeam(new Team(matchTip, true));
+                setHomeTeam(new Team(matchTip, false));
+                setPoints(matchTip.getUserPoints());
         }
 
         public void setId(int id) {
@@ -72,8 +91,12 @@ public class MatchTipTransform {
             int tipScore;
             int realScore;
 
-            public Team(MatchTip matchTip, entities.Team team, Match match, boolean isHomeTeam)
+            public Team(MatchTip matchTip, boolean isHomeTeam)
             {
+                Match match = matchTip.getTippedMatch();
+
+                entities.Team team = (isHomeTeam) ? match.getTeam() : match.getTeam2();
+
                 setId(team.getId());
                 setName(team.getTeamName());
                 setLogo(team.getTeamIconURL());
