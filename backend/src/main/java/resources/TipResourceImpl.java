@@ -6,11 +6,8 @@ import entities.Team;
 import entities.User;
 import persistence.MatchTipPersistenceService;
 import persistence.UserPersistenceService;
-<<<<<<< HEAD
 import resources.datamodel.Tip;
-=======
 import resources.datamodel.MatchTipTransform;
->>>>>>> 8ef4fbc496c241d6cfcf2609cc3f22e17ded390c
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.Response;
