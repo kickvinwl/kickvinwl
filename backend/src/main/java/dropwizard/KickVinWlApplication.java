@@ -16,8 +16,8 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
     @Override
     public void run(KickVinWlConfiguration configuration, Environment environment) throws Exception {
-        //DBInitializer.dropDatabase();
-        //DBInitializer.init();
+        DBInitializer.dropDatabase();
+        DBInitializer.init();
 
         final Resource resource = new Resource();
         environment.jersey().register(resource);
