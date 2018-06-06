@@ -220,10 +220,11 @@
 					  },
 					  url: "backend/user/set/",
 					  data: d,
-					  success: function(response){},
+					  success: function(response){
+					  	location.reload();	
+					  },
 					  dataType: "json"
-					});
-					location.reload();		
+					});	
 			}
 			else{
 				window.location.href = urlPath + '?page=login';
