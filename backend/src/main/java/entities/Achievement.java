@@ -7,13 +7,10 @@ import javax.persistence.*;
 @Entity
 public class Achievement extends EntityGeneratedKey{
 
-	@Column(updatable = true, nullable = false)
-	private String achievementName;
-
-	@Column(updatable = true, nullable = false)
+	@Column(updatable = true, nullable = true)
 	private String achievementDescription;
 
-	@Column(updatable = true, nullable = false)
+	@Column(updatable = true, nullable = true)
 	private String title;
 /*
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -26,12 +23,6 @@ public class Achievement extends EntityGeneratedKey{
 	@OneToMany(mappedBy = "displayedTitle")
 	private List<User> presenter = new ArrayList<>();
 
-	public String getAchievementName() {
-		return achievementName;
-	}
-	public void setAchievementName(String achievementName) {
-		this.achievementName = achievementName;
-	}
 	public String getAchievementDescription() {
 		return achievementDescription;
 	}
