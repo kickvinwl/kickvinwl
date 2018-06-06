@@ -4,19 +4,18 @@ package util;
 import com.google.gson.JsonDeserializer;
 import entities.BundesligaTable;
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import entities.Team;
-import persistence.TeamPersistenceService;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
-public class BundesligaTableDeserializer {
-    //https://www.openligadb.de/api/getbltable/bl1/2017
 
+/**
+ *
+ */
+public class BundesligaTableDeserializer {
+
+    /**
+     *
+     */
     JsonDeserializer<BundesligaTable> deserializer = new JsonDeserializer<BundesligaTable>() {
         @Override
         public BundesligaTable deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -36,8 +35,6 @@ public class BundesligaTableDeserializer {
             //bl.setTeam(TeamPersistenceService.getInstance().getByTeamId(jsonObject.get("TeamInfoId").getAsInt()));
             //TODO: liga setzen
             //bl.setLeague()
-            //TODO: Position bei iteration setzen
-            //bl.setLeaguePosition()
 
             return bl;
         }
@@ -58,6 +55,10 @@ public class BundesligaTableDeserializer {
         String json = URLtoJSON.readUrl(bundesligaURL);
         BundesligaTable[] blA = customGson.fromJson(json, BundesligaTable[].class);
         List<BundesligaTable> bligaEntries = Arrays.asList(blA);
+        // Position setzen
+        for(int i = 1; i <= bligaEntries.size(); i++){
+            bligaEntries.get(i-1).setLeaguePosition(i);
+        }
         return bligaEntries;
     }
 }
