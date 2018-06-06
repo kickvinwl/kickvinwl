@@ -205,25 +205,25 @@
 		
 		function lieferNeueDaten(daten, was){
 			var token = Cookies.get('token');
-			var datenSend = new Object();
-			if(was == "titel")
-				datenSend.Achievement = daten;
-			else
-				datenSend.userPicture = "https://as.ftcdn.net/r/v1/pics/ea2e0032c156b2d3b52fa9a05fe30dedcb0c47e3/landing/images_photos.jpg";
-			daten.sessionKey = token;
-			var d = JSON.stringify(datenSend);
 			if (typeof token != 'undefined') {
-				$.ajax({
-				  type: "POST",
-				  headers: { 
-				        'Content-Type': 'application/json' 
-				  },
-				  url: "backend/user/set/",
-				  data: d,
-				  success: function(response){},
-				  dataType: "json"
-				});
-				location.reload();		
+				var datenSend = new Object();
+				if(was == "titel")
+					datenSend.Achievement = daten;
+				else
+					datenSend.userPicture = "https://as.ftcdn.net/r/v1/pics/ea2e0032c156b2d3b52fa9a05fe30dedcb0c47e3/landing/images_photos.jpg";
+				datenSend.sessionKey = token;
+				var d = JSON.stringify(datenSend);
+					$.ajax({
+					  type: "POST",
+					  headers: { 
+					        'Content-Type': 'application/json' 
+					  },
+					  url: "backend/user/set/",
+					  data: d,
+					  success: function(response){},
+					  dataType: "json"
+					});
+					location.reload();		
 			}
 			else{
 				window.location.href = urlPath + '?page=login';

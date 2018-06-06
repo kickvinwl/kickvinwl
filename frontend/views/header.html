@@ -46,8 +46,8 @@
 			</div>
 		</li>
 	</ul>
-	<form class="form-inline" style="margin-right: 5px; padding-top: .8rem;">
-        <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="Suche" />
+	<form class="form-inline" style="margin-right: 5px; padding-top: .8rem;" id="searchSubmit">
+        <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="Suche" id="suche" />
         <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Suchen</button>
     </form>
 	<div class="dropdown show">
@@ -61,3 +61,23 @@
   </div>
 </nav>
 
+<script>
+	$('#searchSubmit').submit(function(){
+		var token2 = Cookies.get('token');
+		if(token2 != 'undefined')
+		{
+			$.ajax({
+				type: "GET",
+				url: "backend/search/" + token + "&" + $('#suche').val(),
+				success: function(response)
+				{
+
+				}
+			});
+		}
+		else
+		{
+			window.location.href = urlPath + "?page=login";
+		}
+	});
+</script>
