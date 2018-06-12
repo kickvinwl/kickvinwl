@@ -19,8 +19,8 @@ public abstract class GroupResource {
     @POST
     @Path("/{a:create|Create")
     @Consumes(MediaType.APPLICATION_JSON)
-    public abstract Response createGroup(@PathParam("token") String token,
-                                         @PathParam("groupName") String groupName,
-                                         @PathParam("groupPassword") String groupPassword);
+    public abstract Response createGroup(String token,
+                                         String groupName,
+                                         String groupPassword);
 
 }
