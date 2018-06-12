@@ -204,8 +204,8 @@
 						$('#profilBild').attr('src', pic);
 					}
 					$('#aktPkt').val(result.Punkte);
-					$('#aktPkt').val(result.Platz);
-					//variable für aktPkt, aktPlatz, besterTag
+					$('#aktPlatz').val(result.Platz);
+					$('#besterTag').val(result.Bester);
 				});
 			}
 			else{
@@ -216,7 +216,7 @@
 				var token = Cookies.get('token');
 				if (typeof token != 'undefined') {
 					var datenSend = new Object();
-					datenSend.userName = $('#name').val();	
+					//datenSend.userName = $('#name').val();	
 					if(was == "titel")
 						datenSend.Achievement = daten;
 					else
@@ -247,7 +247,7 @@
 			//variable für aktPkt, aktPlatz, besterTag, username, bild
 			$.ajax({
 				type: "GET",
-				url: "backen/user/getByName?token=" + token + "&userName=" + searchName,
+				url: "backend/user/getByName?token=" + token + "&userName=" + searchName,
 				success: function(result){
 					$('#name').val(result.userName);
 					var pic = result.userPicture;
@@ -255,7 +255,8 @@
 						$('#profilBild').attr('src', pic);
 					}
 					$('#aktPkt').val(result.Punkte);
-					$('#aktPkt').val(result.Platz);
+					$('#aktPlatz').val(result.Platz);
+					$('#besterTag').val(result.Bester);
 				}
 			});
 		}
