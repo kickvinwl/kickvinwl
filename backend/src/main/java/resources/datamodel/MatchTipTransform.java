@@ -1,5 +1,6 @@
 package resources.datamodel;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import entities.Match;
 import entities.MatchTip;
 import entities.Team;
@@ -15,9 +16,13 @@ import java.util.List;
 
 public class MatchTipTransform {
 
-    String season;
+    @JsonProperty
     String gameday;
 
+    @JsonProperty
+    String season;
+
+    @JsonProperty
     List<MatchWithPoints> matches;
 
     public MatchTipTransform(String season, String gameday, List<MatchTip> matchTips) {
@@ -32,6 +37,7 @@ public class MatchTipTransform {
 
         for (MatchTip matchTip: matchTips) {
 //            MatchTip matchTip = matchTipPersistenceService.getByUserIdAndMatchId(user.getId(), match.getMatchID());
+            System.out.println("mt" + matchTip);
             matchesOut.add(new MatchWithPoints(matchTip));
         }
 
@@ -51,10 +57,15 @@ public class MatchTipTransform {
     }
 
     public static class MatchWithPoints{
+        @JsonProperty
         int id;
+        @JsonProperty
         Date date;
+        @JsonProperty
         Team homeTeam;
+        @JsonProperty
         Team awayTeam;
+        @JsonProperty
         int points;
 
         public MatchWithPoints(MatchTip matchTip)
@@ -88,10 +99,15 @@ public class MatchTipTransform {
         }
 
         public static class Team {
+            @JsonProperty
             int id;
+            @JsonProperty
             String name;
+            @JsonProperty
             String logo;
+            @JsonProperty
             int tipScore;
+            @JsonProperty
             int realScore;
 
             public Team(MatchTip matchTip, boolean isHomeTeam)

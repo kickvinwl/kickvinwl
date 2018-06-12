@@ -1,9 +1,6 @@
 package persistence;
 
-import entities.Achievement;
-import entities.Match;
-import entities.MatchTip;
-import entities.User;
+import entities.*;
 
 public class DatabaseDefaultData {
 
@@ -22,14 +19,22 @@ public class DatabaseDefaultData {
 
 	private void userDataMitTips()
 	{
-		System.out.println("WWWWWWWWWWWWWWWWWWWWWWWW");
-
 		UserPersistenceService ups = UserPersistenceService.getInstance();
 		MatchTipPersistenceService mtps = MatchTipPersistenceService.getInstance();
 		MatchPersistenceService mps = MatchPersistenceService.getInstance();
+		TeamPersistenceService tps = TeamPersistenceService.getInstance();
 
 		if(ups.hasEntries())
 			return;
+
+		Team t1 = new Team();
+		t1.setTeamName("Team 1");
+		t1.setTeamIconURL("default");
+		Team t2 = new Team();
+		t2.setTeamName("Team 2");
+		t2.setTeamIconURL("default");
+		tps.save(t1);
+		tps.save(t2);
 
 		User user = new User("qwertz", "t");
 		User user1 = new User("qwertz1", "t1");
@@ -41,6 +46,8 @@ public class DatabaseDefaultData {
 
 		//Tipsabgeben
 		Match match = new Match();
+		match.setTeam(t1);
+		match.setTeam2(t2);
 		mps.save(match);
 
 		MatchTip mt = new MatchTip(user, match, 1, 10);

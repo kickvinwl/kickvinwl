@@ -1,11 +1,6 @@
 package resources;
 
-import entities.Match;
-import entities.MatchTip;
-import entities.Team;
 import entities.User;
-import persistence.MatchPersistenceService;
-import persistence.MatchTipPersistenceService;
 import persistence.UserPersistenceService;
 import resources.datamodel.Tip;
 import resources.datamodel.MatchTipTransform;
@@ -13,7 +8,6 @@ import resources.datamodel.MatchTipTransform;
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TipResourceImpl extends TipResource {
 
@@ -36,7 +30,7 @@ public class TipResourceImpl extends TipResource {
 
 
     @Override
-    public Response getTipByToken(String gameday, String token) {
+    public MatchTipTransform getTipByToken(String gameday, String token) {
         Response.ResponseBuilder response = Response.accepted();
 
 
@@ -47,7 +41,7 @@ public class TipResourceImpl extends TipResource {
         //MatchTipTransform füllen
         MatchTipTransform matchTip = new MatchTipTransform("2017/18", gameday, user.getTips()); //TODO
 
-        return response.entity(matchTip).build();
+        return matchTip;
     }
 
 

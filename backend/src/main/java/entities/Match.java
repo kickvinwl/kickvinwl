@@ -71,4 +71,12 @@ public class Match extends EntityGeneratedKey{
     public Team getTeam2() {
         return team2;
     }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public void setTeam2(Team team2) {
+        this.team2 = team2;
+    }
 }
