@@ -11,9 +11,8 @@ import javax.ws.rs.core.Response;
 public abstract class GroupResource {
 
     /**
-     *
-     * @param token sessionKey of the user that is creating the group
-     * @param groupName desired GroupName
+     * @param token         sessionKey of the user that is creating the group
+     * @param groupName     desired GroupName
      * @param groupPassword password to enter a group
      * @return Response of the request
      */
@@ -22,6 +21,6 @@ public abstract class GroupResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public abstract Response createGroup(@PathParam("token") String token,
                                          @PathParam("groupName") String groupName,
-                                         @PathParam("groupPassword") String groupPassword );
+                                         @PathParam("groupPassword") String groupPassword);
 
 }

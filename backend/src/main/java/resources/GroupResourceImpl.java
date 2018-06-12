@@ -8,7 +8,7 @@ import persistence.UserPersistenceService;
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.Response;
 
-public class GroupResourceImpl extends GroupResource{
+public class GroupResourceImpl extends GroupResource {
 
 
     @Override
@@ -35,7 +35,7 @@ public class GroupResourceImpl extends GroupResource{
             GroupPersistenceService.getInstance().save(newGroup);
             // send positive response
             return Response.accepted().build();
-        } catch ( NoResultException e ) {
+        } catch (NoResultException e) {
             //TODO: Fall User nicht gefunden, eventuell korrigieren
             // send negative response
             Response.ResponseBuilder rb = Response.accepted();
