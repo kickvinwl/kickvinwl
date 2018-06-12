@@ -30,12 +30,7 @@ public class BundesligaTableDeserializer {
             bl.setGoals(jsonObject.get("Goals").getAsInt());
             bl.setOpponentGoals(jsonObject.get("OpponentGoals").getAsInt());
             bl.setGoalDifference();
-
-            //TODO: team instanz beschaffen, eventuell an anderer Stelle
-            //bl.setTeam(TeamPersistenceService.getInstance().getByTeamId(jsonObject.get("TeamInfoId").getAsInt()));
-            //TODO: liga setzen
-            //bl.setLeague()
-
+            bl.setTeam(TeamPersistenceService.getInstance().getByTeamId(jsonObject.get("TeamInfoId").getAsInt()));
             return bl;
         }
 
