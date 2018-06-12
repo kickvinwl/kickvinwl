@@ -4,6 +4,7 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import resources.*;
+import util.DBInitializer;
 
 public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
@@ -27,8 +28,11 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
     @Override
     public void run(KickVinWlConfiguration configuration, Environment environment) throws Exception {
-        DBInitializer.dropDatabase();
+//        DBInitializer.dropDatabase();
         DBInitializer.init();
+
+        final TipResource tipResource = new TipResourceImpl();
+        environment.jersey().register(tipResource);
 
         final Resource resource = new Resource();
         environment.jersey().register(resource);
