@@ -1,9 +1,11 @@
 package dropwizard;
 
-import persistence.AchievementTestData;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
+import persistence.DatabaseDefaultData;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,6 +21,8 @@ public class DBInitializer {
         String sqlString = "CREATE DATABASE IF NOT EXISTS kickvinwl";
         runstatement(sqlString);
         setupTables();
+        
+        DatabaseDefaultData.getInstance().generatetData();
     }
 
     public static void dropDatabase() {
@@ -26,9 +30,6 @@ public class DBInitializer {
         runstatement(sqlString);
     }
 
-    public static void generateAchievementTestData() {
-        AchievementTestData.generateTestData();
-    }
 
     private static void setupTables() {
         //durch den Aufruf der Factory wird hibernate angesprochen - je nach
