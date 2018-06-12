@@ -15,11 +15,11 @@ import java.util.Optional;
 public abstract class TipResource {
     Response response;
 
-    @POST
-    @Path("/{a:set|Set}")
-    public abstract Response setTip(String token, ArrayList<Tip> tipList);
+//    @POST
+//    @Path("/{a:set|Set}")
+//    public abstract Response setTip(String token, ArrayList<Tip> tipList);
 
     @GET
     @Path("/{a:get|Get}")
-    public abstract Response getTipByToken( @QueryParam("token") String token, @QueryParam("gameday") Optional<String> gameday);
+    public abstract Response getTipByToken( @QueryParam("token") String token, @QueryParam("gameday") String gameday);
 }

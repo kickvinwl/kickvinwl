@@ -37,7 +37,6 @@ public class MatchTipTransform {
 
         for (MatchTip matchTip: matchTips) {
 //            MatchTip matchTip = matchTipPersistenceService.getByUserIdAndMatchId(user.getId(), match.getMatchID());
-            System.out.println("mt" + matchTip);
             matchesOut.add(new MatchWithPoints(matchTip));
         }
 
@@ -63,8 +62,10 @@ public class MatchTipTransform {
         Date date;
         @JsonProperty
         Team homeTeam;
+
         @JsonProperty
         Team awayTeam;
+
         @JsonProperty
         int points;
 
@@ -74,7 +75,7 @@ public class MatchTipTransform {
                 setId(match.getId());
                 setDate(match.getMatchDateTime());
                 setHomeTeam(new Team(matchTip, true));
-                setHomeTeam(new Team(matchTip, false));
+                setAwayTeam(new Team(matchTip, false));
                 setPoints(matchTip.getUserPoints());
         }
 
@@ -112,6 +113,7 @@ public class MatchTipTransform {
 
             public Team(MatchTip matchTip, boolean isHomeTeam)
             {
+
                 Match match = matchTip.getTippedMatch();
 
                 entities.Team team = (isHomeTeam) ? match.getTeam() : match.getTeam2();
