@@ -12,10 +12,10 @@ public abstract class GroupResource {
 
     /**
      *
-     * @param token
-     * @param groupName
-     * @param groupPassword
-     * @return
+     * @param token sessionKey of the user that is creating the group
+     * @param groupName desired GroupName
+     * @param groupPassword password to enter a group
+     * @return Response of the request
      */
     @POST
     @Path("/{a:create|Create")

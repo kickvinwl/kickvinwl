@@ -6,6 +6,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import entities.Group;
+import entities.User;
 
 public class GroupPersistenceService extends PersistenceService<Group> {
 
@@ -33,6 +34,15 @@ public class GroupPersistenceService extends PersistenceService<Group> {
 			} else {
 				return groups;
 			}
+		});
+	}
+
+	public boolean exists(final String groupName){
+		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+			Query query = entityManager.createQuery("SELECT g FROM Squad g WHERE groupName = :groupName");
+			query.setParameter("groupName", groupName);
+			List<Group> groups = query.getResultList();
+			return !groups.isEmpty();
 		});
 	}
 
