@@ -11,6 +11,7 @@ import resources.datamodel.Tip;
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class TipResourceImpl extends TipResource {
 
@@ -33,12 +34,13 @@ public class TipResourceImpl extends TipResource {
 
 
     @Override
-    public Response getTipByToken(String gameday, String token) {
+    public Response getTipByToken(String token, Optional<String> gameday) {
         response = Response.accepted().build();
 
         try {
+
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
-            MatchTipTransform matchTip = new MatchTipTransform("2017/18", gameday, user.getTips());
+            MatchTipTransform matchTip = new MatchTipTransform("2017/18", gameday.orElse("HIER MUSS DER AKTUELLE SPIELTAG STEHEN"), user.getTips());
             response = Response.accepted(matchTip).build();
 
         }catch (SecurityException | NoResultException exeption) {
