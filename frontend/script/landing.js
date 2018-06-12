@@ -1,12 +1,39 @@
 $(document).ready(function() {
+	loadTipps();
+});
+
+var displaySpieltag = null;
+
+$('#prevGameday').click(function() {
+	displaySpieltag--;
+	loadTipps(displaySpieltag);
+});
+
+$('#nextGameday').click(function() {
+	displaySpieltag++;
+	loadTipps(displaySpieltag);
+});
+
+function loadTipps(spieltag) {
+	console.log(spieltag);
+	
+	// TODO richtige Url mit Parametern
+	var url = urlPath + 'match-example.json';
+	if (typeof spieltag != undefined) {
+		url += '?spieltag=' + spieltag;
+	}
+	
+	console.log(url);
 	$.ajax({
-		url: urlPath + 'match-example.json', // group nur temporär für Testzwecke
+		url: url,
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
+			displaySpieltag = parseInt(data.gameday);
 			$('#gameday').text(data.gameday);
 			$('#season').text(data.season);
 			var dateOptions = { weekday: 'long', /*year: 'numeric',*/ month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 			var lastDate;
+			$('#gamedayTable tbody').empty();
 			$.each(data.matches, function(i, val) {
 				var date = new Date(val.date * 1000);
 				if (typeof lastDate == 'undefined' || lastDate.getTime() !== date.getTime()) {
@@ -58,14 +85,14 @@ $(document).ready(function() {
 			
 		}
 	});
-});
+}
 
 $('#submitTip').click(function() {
 	submitTips();
 });
 
 function submitTips() {
-	var data = {'sessionKey': Cookies.get('token'), 'gameday': parseInt($('#gameday').text()), 'season': $('#season').text()};
+	var data = {'token': Cookies.get('token'), 'gameday': parseInt($('#gameday').text()), 'season': $('#season').text()};
 	data['matches'] = [];
 	$('#gamedayTable tbody tr td').each(function() {
 		var val = $(this);
@@ -77,7 +104,7 @@ function submitTips() {
 	});
 	console.log(data);
 	$.ajax({
-		url: urlPath + 'backend/betting/put', // group nur temporär für Testzwecke
+		url: urlPath + 'backend/betting/put',
 		type: 'POST',
 		data: data,
 		success: function(data) {
