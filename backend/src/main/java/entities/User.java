@@ -11,7 +11,7 @@ public class User extends EntityGeneratedKey {
 
 	@Column(updatable = false, nullable = false, unique = true)
 	private String userName;
-	@Column(updatable = true, nullable = false)
+	@Column(updatable = true, nullable = true)
 	private byte[] userPicture;
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
@@ -53,7 +53,7 @@ public class User extends EntityGeneratedKey {
 		this.userName = name;
 		this.sessionKey = sessionKey;
 		this.lastAction = new Date();
-		this.setUserPicture("default");
+//		this.setUserPicture("default");
 		this.setUserIsAdmin(false);
 	}
 
