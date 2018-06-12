@@ -48,7 +48,7 @@
 	</ul>
 	<form class="form-inline" style="margin-right: 5px; padding-top: .8rem;" id="searchSubmit">
         <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="Suche" id="suche" />
-        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Suchen</button>
+        <button class="btn btn-outline-info my-2 my-sm-0" type="submit" value="submit">Suchen</button>
     </form>
 	<div class="dropdown show">
 		<img style="border-radius: 50%;  width: 50px; height: 50px;" class="dropdown-toggle img-fluid img-thumbnail" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="https://www.w3schools.com/howto/img_lights.jpg"></img>
@@ -62,22 +62,10 @@
 </nav>
 
 <script>
-	$('#searchSubmit').submit(function(){
-		var token2 = Cookies.get('token');
-		if(token2 != 'undefined')
-		{
-			$.ajax({
-				type: "GET",
-				url: "backend/search/" + token + "&" + $('#suche').val(),
-				success: function(response)
-				{
-
-				}
-			});
-		}
-		else
-		{
-			window.location.href = urlPath + "?page=login";
-		}
+	$(document).ready(function(){
+		$('#searchSubmit').submit(function(){
+			window.location.href = urlPath + '?page=suchergebnis&searchString=' + $('#suche').val();
+			return false;
+		});
 	});
 </script>
