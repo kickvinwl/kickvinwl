@@ -44,6 +44,12 @@ public class Group extends EntityGeneratedKey {
 		this.adminUser = adminUser;
 	}
 
+	public void addUserToGroup(User user) {
+		users.add(user);
+		//TODO: user-methode hinzufügen
+		//user.addGroup(this);
+	}
+
 
 
 }
