@@ -1,0 +1,44 @@
+{  
+   "season": "2017/18",
+   "gameday": 27,
+   "matches": [  
+      {  
+         "id": 1234,
+         "date": 1527944400,
+         "homeTeam": {  
+            "id": 123,
+            "name": "Eintracht Frankfurt",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Eintracht_Frankfurt_Logo.svg/20px-Eintracht_Frankfurt_Logo.svg.png",
+            "tipScore": 2,
+            "realScore": 3
+         },
+         "awayTeam": {  
+            "id": 321,
+            "name": "Borussia Dortmund",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Borussia_Dortmund_logo.svg/20px-Borussia_Dortmund_logo.svg.png",
+            "tipScore": 1,
+            "realScore": 1
+         },
+         "points": 2
+      },
+      {  
+         "id": 4321,
+         "date": 1531640616,
+         "homeTeam": {  
+            "id": 456,
+            "name": "Werder Bremen",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/SV-Werder-Bremen-Logo.svg/20px-SV-Werder-Bremen-Logo.svg.png",
+            "tipScore": 0,
+            "realScore": null
+         },
+         "awayTeam": {  
+            "id": 789,
+            "name": "Bayern München",
+            "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/FC_Bayern_M%C3%BCnchen_Logo_2017.png/20px-FC_Bayern_M%C3%BCnchen_Logo_2017.png",
+            "tipScore": 2,
+            "realScore": null
+         },
+         "points": null
+      }
+   ]
+}
