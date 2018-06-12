@@ -1,7 +1,9 @@
 package resources;
 
 import entities.User;
+
 import persistence.MatchTipPersistenceService;
+
 import persistence.UserPersistenceService;
 import resources.datamodel.MatchTipTransform;
 import resources.datamodel.Tip;
@@ -19,12 +21,11 @@ public class TipResourceImpl extends TipResource {
         try {
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
 
-            for (Tip tip:tipList) {
+            for (Tip tip : tipList) {
                 MatchTipPersistenceService.getInstance().createOrUpdateMatchTip(user, tip);
             }
             response = Response.accepted().build();
-        }
-        catch (SecurityException | NoResultException exception) {
+        } catch (SecurityException | NoResultException exception) {
             response = Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -32,11 +33,9 @@ public class TipResourceImpl extends TipResource {
     }
 
 
-
     @Override
-    public Response getTipByToken(String gameday, String token) {
+    public MatchTipTransform getTipByToken(String gameday, String token) {
         Response.ResponseBuilder response = Response.accepted();
-
 
 
         //Token -> User
@@ -45,7 +44,7 @@ public class TipResourceImpl extends TipResource {
         //MatchTipTransform füllen
         MatchTipTransform matchTip = new MatchTipTransform("2017/18", gameday, user.getTips()); //TODO
 
-        return response.entity(matchTip).build();
+        return matchTip;
     }
 
 

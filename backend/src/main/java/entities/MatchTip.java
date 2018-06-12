@@ -19,6 +19,14 @@ public class MatchTip extends EntityGeneratedKey {
     private int goalsTeam2;
     private int userPoints;
 
+    public MatchTip(User owner, Match tippedMatch, int goalsTeam1, int goalsTeam2)
+    {
+        this.owner = owner;
+        this.tippedMatch = tippedMatch;
+        this.goalsTeam1 = goalsTeam1;
+        this.goalsTeam2 = goalsTeam2;
+    }
+
     public User getOwner() {
         return owner;
     }
