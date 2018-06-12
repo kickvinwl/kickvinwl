@@ -1,29 +1,27 @@
 package resources;
 
-import entities.Match;
-import entities.MatchTip;
-import entities.Team;
 import entities.User;
-import persistence.MatchPersistenceService;
 import persistence.MatchTipPersistenceService;
 import persistence.UserPersistenceService;
-import resources.datamodel.Tip;
 import resources.datamodel.MatchTipTransform;
+import resources.datamodel.Tip;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
-import java.util.List;
 
 public class TipResourceImpl extends TipResource {
 
     @Override
-    public Response setTip(String token, int gameday, String season, ArrayList<Tip> tipList) {
+    public Response setTip(String token, ArrayList<Tip> tipList) {
         response = Response.accepted().build();
 
         try {
-            UserPersistenceService.getInstance().getBySessionKey(token);
-            // TODO: Persistieren der Matches
+            User user = UserPersistenceService.getInstance().getBySessionKey(token);
+
+            for (Tip tip:tipList) {
+                MatchTipPersistenceService.getInstance().createOrUpdateMatchTip(user, tip);
+            }
             response = Response.accepted().build();
         }
         catch (SecurityException | NoResultException exception) {

@@ -11,4 +11,9 @@ public class MatchPersistenceService extends PersistenceService<Match> {
         return instance = instance != null ? instance : new MatchPersistenceService();
     }
     private MatchPersistenceService() {};
+
+    public Match getMatchById(int matchID) {
+        //TODO
+        return null;
+    }
 }
