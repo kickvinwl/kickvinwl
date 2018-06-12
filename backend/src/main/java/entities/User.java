@@ -117,4 +117,6 @@ public class User extends EntityGeneratedKey {
 	public List<MatchTip> getTips() {
 		return tips;
 	}
+
+	public void setTips(List<MatchTip> tips) { this.tips = tips; }
 }
