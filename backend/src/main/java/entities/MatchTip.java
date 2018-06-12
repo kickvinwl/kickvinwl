@@ -27,6 +27,9 @@ public class MatchTip extends EntityGeneratedKey {
         this.goalsTeam2 = goalsTeam2;
     }
 
+    public MatchTip() {
+    }
+
     public User getOwner() {
         return owner;
     }
