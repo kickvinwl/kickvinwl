@@ -117,19 +117,49 @@ public class UserPersistenceService extends PersistenceService<User> {
         });
     }
 
+    /**
+     *
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public List<User> getAll() {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
             Query query = entityManager.createQuery("SELECT * FROM User");
-            return query.getResultList();
+            List<User> users = query.getResultList();
+            if ( users.isEmpty()) {
+                throw new NoResultException();
+            } else {
+                return users;
+            }
         });
     }
+
+    /**
+     *
+     * @param search
+     * @return
+     * @throws NoResultException
+     */
     @SuppressWarnings("unchecked")
-    public List<User> getSearch(String search) {
+    public List<User> getSearch(String search) throws NoResultException{
     	return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
     		Query query = entityManager.createQuery("SELECT u FROM User u WHERE userName LIKE '%" + search + "%'");
-    		return query.getResultList();
+            List<User> users = query.getResultList();
+            if ( users.isEmpty()) {
+                throw new NoResultException();
+            } else {
+                return removeSessionKey(users);
+            }
     	});
     }
 
+    /**
+     *
+     * @param users List of users, in which the session key is to be removed
+     * @return list of users without their session keys
+     */
+    public List<User> removeSessionKey(List<User> users) {
+        users.forEach(u -> u.setSessionKey(null));
+        return users;
+    }
 }
