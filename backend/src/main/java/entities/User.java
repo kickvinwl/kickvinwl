@@ -12,7 +12,7 @@ public class User extends EntityGeneratedKey {
 	@Column(updatable = false, nullable = false, unique = true)
 	private String userName;
 	@Column(updatable = true, nullable = false)
-	private String userPicture;
+	private byte[] userPicture;
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
 
@@ -64,11 +64,11 @@ public class User extends EntityGeneratedKey {
 		this.userName = userName;
 	}
 
-	public String getUserPicture() {
+	public byte[] getUserPicture() {
 		return userPicture;
 	}
 
-	public void setUserPicture(String userPicture) {
+	public void setUserPicture(byte[] userPicture) {
 		this.userPicture = userPicture;
 	}
 
