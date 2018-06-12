@@ -1,13 +1,17 @@
 package entities;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class League extends EntityGeneratedKey {
 
+	@Id
 	private int leagueId;
 
+	@Id
 	private String season;
 
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="current_Matchday")
 	private Matchday currentMatchday;
 
 	public int getLeagueId() {
