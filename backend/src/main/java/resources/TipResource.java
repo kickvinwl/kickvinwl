@@ -21,5 +21,5 @@ public abstract class TipResource {
 
     @GET
     @Path("/{a:get|Get}/{gameday}/{token}")
-    public abstract MatchTipTransform getTipByToken(@PathParam("gameday") String gameday, @PathParam("token") String token);
+    public abstract Response getTipByToken(@PathParam("gameday") String gameday, @PathParam("token") String token);
 }

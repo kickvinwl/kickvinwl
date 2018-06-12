@@ -24,7 +24,6 @@ public class TipResourceImpl extends TipResource {
             for (Tip tip : tipList) {
                 MatchTipPersistenceService.getInstance().createOrUpdateMatchTip(user, tip);
             }
-            response = Response.accepted().build();
         } catch (SecurityException | NoResultException exception) {
             response = Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -34,17 +33,18 @@ public class TipResourceImpl extends TipResource {
 
 
     @Override
-    public MatchTipTransform getTipByToken(String gameday, String token) {
-        Response.ResponseBuilder response = Response.accepted();
+    public Response getTipByToken(String gameday, String token) {
+        response = Response.accepted().build();
 
+        try {
+            User user = UserPersistenceService.getInstance().getBySessionKey(token);
+            MatchTipTransform matchTip = new MatchTipTransform("2017/18", gameday, user.getTips());
+            response = Response.accepted(matchTip).build();
 
-        //Token -> User
-        User user = UserPersistenceService.getInstance().getBySessionKey(token);
-
-        //MatchTipTransform füllen
-        MatchTipTransform matchTip = new MatchTipTransform("2017/18", gameday, user.getTips()); //TODO
-
-        return matchTip;
+        }catch (SecurityException | NoResultException exeption) {
+            response = Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return response;
     }
 
 

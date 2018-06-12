@@ -29,6 +29,11 @@ public abstract class UserResource {
     public abstract Response getUserByToken(@PathParam("token") String token);
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getUserByName/{userName}")
+    public abstract Response getUserByName(@PathParam("userName") String userName);
+
+    @GET
     @Path("/{a:logout|Logout}")
     @Consumes(MediaType.APPLICATION_JSON)
     public abstract Response removeSessionKey(String token);

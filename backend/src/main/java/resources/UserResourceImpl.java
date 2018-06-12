@@ -40,6 +40,11 @@ public class UserResourceImpl extends UserResource {
     }
 
     @Override
+    public Response getUserByName(String userName) {
+        return null;
+    }
+
+    @Override
     public Response removeSessionKey(String token) {
         Response.ResponseBuilder response = Response.accepted();
         try {
