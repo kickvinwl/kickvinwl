@@ -30,8 +30,8 @@ public abstract class UserResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/getUserByName/{userName}")
-    public abstract Response getUserByName(@PathParam("userName") String userName);
+    @Path("/getUserByName")
+    public abstract Response getUserByName(@QueryParam("token") String token, @QueryParam("userName") String userName);
 
     @GET
     @Path("/{a:logout|Logout}")
