@@ -11,7 +11,7 @@ public class User extends EntityGeneratedKey {
 
 	@Column(updatable = false, nullable = false, unique = true)
 	private String userName;
-	@Column(updatable = true, nullable = false)
+	@Column(updatable = true, nullable = true)
 	private byte[] userPicture;
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
@@ -20,7 +20,7 @@ public class User extends EntityGeneratedKey {
 	@JoinColumn(name = "fk_displayedTitle")
 	private Achievement displayedTitle;
 
-	@Column(updatable = true, nullable = false)
+	@Column(updatable = true, nullable = true)
 	private String sessionKey;
 
 	@Column(updatable = true, nullable = false)
