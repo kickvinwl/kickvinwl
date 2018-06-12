@@ -20,7 +20,7 @@ public class User extends EntityGeneratedKey {
 	@JoinColumn(name = "fk_displayedTitle")
 	private Achievement displayedTitle;
 
-	@Column(updatable = true, nullable = false)
+	@Column(updatable = true, nullable = true)
 	private String sessionKey;
 
 	@Column(updatable = true, nullable = false)
