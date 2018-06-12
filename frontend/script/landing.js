@@ -102,13 +102,12 @@ function submitTips() {
 		var match = {'matchId': matchId, 'homeTip': homeTip, 'awayTip': awayTip};
 		data['matches'].push(match);
 	});
-	console.log(data);
 	$.ajax({
 		url: urlPath + 'backend/betting/put',
 		type: 'POST',
 		data: data,
 		success: function(data) {
-			
+			loadTipps(displaySpieltag);
 		},
 		error: function(data) {
 			
