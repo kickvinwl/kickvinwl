@@ -11,6 +11,7 @@ import java.util.List;
 public class Match extends EntityGeneratedKey{
 
     private int matchdayId;
+    @Temporal(TemporalType.TIMESTAMP)
     private DateTime matchDateTime;
 
 /*

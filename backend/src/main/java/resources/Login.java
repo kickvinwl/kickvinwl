@@ -72,7 +72,7 @@ public class Login {
         String token = generateToken();
         User user = new User();
         user.setUserName(userName);
-        user.setUserPicture("default");
+//        user.setUserPicture();
         user.setUserIsAdmin(userName == "Woelk_m");
         user.setSessionKey(token);
         setSessionTime(user);
