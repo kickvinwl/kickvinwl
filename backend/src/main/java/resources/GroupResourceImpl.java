@@ -13,7 +13,7 @@ public class GroupResourceImpl extends GroupResource {
 
     @Override
     public Response createGroup(String token, String groupName, String groupPassword) {
-        //TODO: klären: sollen Gruppennamen eindeutig sein?
+        //TODO: klaeren: sollen Gruppennamen eindeutig sein?
         // if group name already exists, negative response
         if (GroupPersistenceService.getInstance().exists(groupName)) {
             Response.ResponseBuilder rb = Response.accepted();
@@ -39,8 +39,38 @@ public class GroupResourceImpl extends GroupResource {
             //TODO: Fall User nicht gefunden, eventuell korrigieren
             // send negative response
             Response.ResponseBuilder rb = Response.accepted();
+            //TODO: korrekten response status setzen
             rb.status(Response.Status.BAD_REQUEST);
             return rb.build();
         }
+    }
+
+
+    @Override
+    public Response leaveGroup(String token, String groupName) {
+        Response.ResponseBuilder rb = Response.accepted();
+        // get user and group from db
+        try {
+            User user = UserPersistenceService.getInstance().getBySessionKey(token);
+            Group group = GroupPersistenceService.getInstance().getByGroupName(groupName);
+            // remove from group, set next admin
+            group.removeUserFromGroup(user);
+            // delete or update group, update user
+            if(group.usersIsEmpty()) {
+                GroupPersistenceService.getInstance().delete(group);
+                UserPersistenceService.getInstance().update(user);
+            } else {
+                GroupPersistenceService.getInstance().update(group);
+                UserPersistenceService.getInstance().update(user);
+                UserPersistenceService.getInstance().update(group.getAdminUser());
+            }
+            rb.status(Response.Status.ACCEPTED);
+            return rb.build();
+        } catch (NoResultException e) {
+            //TODO: korrekten response status
+            rb.status(Response.Status.BAD_REQUEST);
+            return rb.build();
+        }
+
     }
 }

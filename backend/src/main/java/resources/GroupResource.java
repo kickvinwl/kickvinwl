@@ -23,4 +23,15 @@ public abstract class GroupResource {
                                          String groupName,
                                          String groupPassword);
 
+    /**
+     *
+     * @param token     sessionKey of the user thas is leaving the group
+     * @param groupName group name of the group that the user is attempting to leave
+     * @return Response of the request
+     */
+    @POST
+    @Path("{a:leave|Leave")
+    public abstract Response leaveGroup(String token,
+                                        String groupName);
+
 }

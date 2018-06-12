@@ -63,6 +63,29 @@ public class Group extends EntityGeneratedKey {
 		//user.addGroup(this);
 	}
 
+	/**
+	 *
+	 * @param user user to be removed from the group. If the user was an admin, the next user in the group list is set
+	 *             to be the new admin
+	 */
+	public void removeUserFromGroup(User user) {
+		users.remove(user);
+		//TODO: wenn bei user implementiert einkommentieren
+		// user.removeGroup(this)
+		setNextAdmin();
+	}
+
+
+	private void setNextAdmin(){
+		if (!users.isEmpty()) {
+			setAdminUser(users.get(0));
+		}
+	}
+
+	public boolean usersIsEmpty(){
+		return users.isEmpty();
+	}
+
 
 
 }
