@@ -4,6 +4,7 @@ package dropwizard;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import entities.League;
 import persistence.DatabaseDefaultData;
 
 import java.sql.Connection;
@@ -47,6 +48,11 @@ public class DBInitializer {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private static void setupLeague(){
+        League l = new League();
+        l.set
     }
 
 }

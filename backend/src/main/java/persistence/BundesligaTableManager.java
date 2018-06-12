@@ -13,22 +13,29 @@ public class BundesligaTableManager {
     private League league;
 
     public BundesligaTableManager(League league) {
-        apiParameters = league.getLeagueId().toString() + "/" + league.getSeason().toString();
+       // apiParameters = league.getLeagueId().toString() + "/" + league.getSeason().toString();
         this.league = league;
     }
 
-    private void getBundesligatableFromAPI() {
+    private List<BundesligaTable> getBundesligatableFromAPI() throws Exception {
         BundesligaTableDeserializer bltd = new BundesligaTableDeserializer();
-        try {
             List<BundesligaTable> ble = bltd.deserializeBundesligaTable(apiURL+apiParameters);
             ble.forEach( b -> b.setLeague(league) );
-        } catch (Exception e) {
-        }
+            return ble;
     }
 
-    private void getBundesligatableFromDatabse() {
+    private List<BundesligaTable> getBundesligatableFromDatabase() {
         List<BundesligaTable> bl = BundesligaTablePersistenceService.getInstance().getAllEntriesByLeagueId(league.getId());
+        return bl;
     }
 
+    /**
+     *
+     */
+    public void updateData() throws Exception {
+        getBundesligatableFromDatabase().forEach(u ->BundesligaTablePersistenceService.getInstance().delete(u));
+        getBundesligatableFromAPI().forEach(u ->BundesligaTablePersistenceService.getInstance().save(u));
+
+    }
 
 }
