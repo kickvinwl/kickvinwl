@@ -37,11 +37,13 @@ public class Group extends EntityGeneratedKey {
 		this.password = password;
 	}
 
-	public User isAdminUserId() {
+	public User getAdminUser() {
 		return adminUser;
 	}
-	public void setAdminUserId(User adminUser) {
+	public void setAdminUser(User adminUser) {
 		this.adminUser = adminUser;
+		//TODO: user-admin Liste hinzufügen
+		//user.addAdminGroup(this);
 	}
 
 	public void addUserToGroup(User user) {
