@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public abstract class TipResource {
     Response response;
 
-//    @POST
-//    @Path("/{a:set|Set}")
+    @POST
+    @Path("/{a:set|Set}")
     public abstract Response setTip(String token, ArrayList<Tip> tipList);
 
     @GET
