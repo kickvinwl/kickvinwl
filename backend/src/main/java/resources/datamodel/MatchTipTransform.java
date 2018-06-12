@@ -1,10 +1,7 @@
 package resources.datamodel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import entities.Match;
-import entities.MatchTip;
-import entities.Team;
-import entities.User;
+import entities.*;
 import persistence.MatchTipPersistenceService;
 
 import javax.persistence.Entity;
@@ -25,9 +22,15 @@ public class MatchTipTransform {
     @JsonProperty
     List<MatchWithPoints> matches;
 
-    public MatchTipTransform(String season, String gameday, List<MatchTip> matchTips) {
+    /**
+     *
+     * @param season
+     * @param matchday null um alle Spieltage zubekommen
+     * @param matchTips
+     */
+    public MatchTipTransform(String season, Matchday matchday, List<MatchTip> matchTips) {
         this.season = season;
-        this.gameday = gameday;
+        this.gameday = "" + matchday.getId();
 
         MatchTipPersistenceService matchTipPersistenceService = MatchTipPersistenceService.getInstance();
 
@@ -37,7 +40,9 @@ public class MatchTipTransform {
 
         for (MatchTip matchTip: matchTips) {
 //            MatchTip matchTip = matchTipPersistenceService.getByUserIdAndMatchId(user.getId(), match.getMatchID());
-            matchesOut.add(new MatchWithPoints(matchTip));
+            if(matchday == null || matchTip.getTippedMatch().getMatchday().getMatchday() == matchday.getMatchday() ) {
+                matchesOut.add(new MatchWithPoints(matchTip));
+            }
         }
 
         setMatches(matchesOut);

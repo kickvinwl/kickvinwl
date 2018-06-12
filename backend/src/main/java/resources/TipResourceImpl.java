@@ -1,7 +1,9 @@
 package resources;
 
+import entities.Matchday;
 import entities.User;
 import persistence.MatchTipPersistenceService;
+import persistence.MatchdayPersistenceService;
 import persistence.UserPersistenceService;
 import resources.datamodel.MatchTipTransform;
 import resources.datamodel.Tip;
@@ -31,13 +33,14 @@ public class TipResourceImpl extends TipResource {
 
 
     @Override
-    public Response getTipByToken(String token, String gameday) {
+    public Response getTipByToken(String token, int gameday) {
         response = Response.accepted().build();
 
         try {
-
+            MatchdayPersistenceService matchdayPersistenceService = MatchdayPersistenceService.getInstance();
+            Matchday matchday = (gameday == -1 ? matchdayPersistenceService.getDefault() : new Matchday(gameday));
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
-            MatchTipTransform matchTip = new MatchTipTransform("2017/18", gameday, user.getTips());
+            MatchTipTransform matchTip = new MatchTipTransform("2017/18", matchday, user.getTips()); //TODO Season wird noch nicht verarbeitet
             response = Response.accepted(matchTip).build();
 
         }catch (SecurityException | NoResultException exeption) {
