@@ -13,7 +13,7 @@ public class BundesligaTableManager {
     private League league;
 
     public BundesligaTableManager(League league) {
-       // apiParameters = league.getLeagueId().toString() + "/" + league.getSeason().toString();
+        apiParameters = String.valueOf(league.getLeagueId()) + "/" + league.getSeason().toString();
         this.league = league;
     }
 
