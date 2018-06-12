@@ -1,5 +1,6 @@
 package persistence;
 
+import entities.Achievement;
 import entities.Group;
 import entities.User;
 
@@ -130,6 +131,14 @@ public class UserPersistenceService extends PersistenceService<User> {
     		Query query = entityManager.createQuery("SELECT u FROM User u WHERE userName LIKE '%" + search + "%'");
     		return query.getResultList();
     	});
+    }
+
+    public boolean hasEntries(){
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            Query query = entityManager.createQuery("SELECT a FROM User a");
+            List<Achievement> ach = query.getResultList();
+            return !ach.isEmpty();
+        });
     }
 
 }

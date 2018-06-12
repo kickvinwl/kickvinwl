@@ -1,6 +1,9 @@
 package persistence;
 
 import entities.Achievement;
+import entities.Match;
+import entities.MatchTip;
+import entities.User;
 
 public class DatabaseDefaultData {
 
@@ -14,6 +17,39 @@ public class DatabaseDefaultData {
 
 	public void generatetData(){
 		achievementData();
+		userDataMitTips();
+	}
+
+	private void userDataMitTips()
+	{
+		System.out.println("WWWWWWWWWWWWWWWWWWWWWWWW");
+
+		UserPersistenceService ups = UserPersistenceService.getInstance();
+		MatchTipPersistenceService mtps = MatchTipPersistenceService.getInstance();
+		MatchPersistenceService mps = MatchPersistenceService.getInstance();
+
+		if(ups.hasEntries())
+			return;
+
+		User user = new User("qwertz", "t");
+		User user1 = new User("qwertz1", "t1");
+		User user2 = new User("qwertz2", "t2");
+
+		ups.save(user);
+		ups.save(user1);
+		ups.save(user2);
+
+		//Tipsabgeben
+		Match match = new Match();
+		mps.save(match);
+
+		MatchTip mt = new MatchTip(user, match, 1, 10);
+		mtps.save(mt);
+		user.addTip(mt);
+//		MatchTip mt2 = new MatchTip(user, match, 10, 3);
+//		mtps.save(mt2);
+//		user.addTip(mt2);
+
 	}
 
 	private void achievementData() {
@@ -52,7 +88,7 @@ public class DatabaseDefaultData {
 		aps.save(ach);
 
 		ach = new Achievement();
-		ach.setTitle("Been There… Rocked That");
+		ach.setTitle("Been Thereï¿½ Rocked That");
 		ach.setAchievementDescription("Alle Tendenzen an einem Spieltag richtig getippt");
 		aps.save(ach);
 
@@ -73,7 +109,7 @@ public class DatabaseDefaultData {
 
 		ach = new Achievement();
 		ach.setTitle("A Star is Born!");
-		ach.setAchievementDescription("Fünf Spiele richtig getippt. (an einem Spieltag)");
+		ach.setAchievementDescription("Fï¿½nf Spiele richtig getippt. (an einem Spieltag)");
 		aps.save(ach);
 
 		ach = new Achievement();
