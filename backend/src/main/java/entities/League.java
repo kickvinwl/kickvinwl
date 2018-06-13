@@ -4,21 +4,19 @@ import javax.persistence.*;
 @Entity
 public class League extends EntityGeneratedKey {
 
-	@Id
-	private int leagueId;
+	private String leagueId;
 
-	@Id
 	private String season;
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="current_Matchday")
 	private Matchday currentMatchday;
 
-	public int getLeagueId() {
+	public String getLeagueId() {
 		return leagueId;
 	}
 
-	public void setLeagueId(int leagueId) {
+	public void setLeagueId(String leagueId) {
 		this.leagueId = leagueId;
 	}
 

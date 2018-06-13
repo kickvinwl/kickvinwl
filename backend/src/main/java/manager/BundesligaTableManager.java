@@ -1,7 +1,8 @@
-package persistence;
+package manager;
 
 import entities.BundesligaTable;
 import entities.League;
+import persistence.BundesligaTablePersistenceService;
 import util.BundesligaTableDeserializer;
 
 import java.util.List;

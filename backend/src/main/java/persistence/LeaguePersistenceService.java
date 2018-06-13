@@ -24,7 +24,7 @@ public class LeaguePersistenceService extends PersistenceService<League> {
 
     public League getCurrentLeague() throws NoResultException{
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query = entityManager.createQuery("select l from league l order by l.season desc");
+            Query query = entityManager.createQuery("select l from League l order by season desc");
             List<League> leagues = query.getResultList();
             if (leagues.isEmpty()) {
                 throw new NoResultException();
