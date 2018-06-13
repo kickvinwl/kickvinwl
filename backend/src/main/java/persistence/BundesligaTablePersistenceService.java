@@ -30,7 +30,7 @@ public class BundesligaTablePersistenceService extends PersistenceService<Bundes
      */
     public List<BundesligaTable> getAllEntriesByLeagueId(final int leagueId) throws NoResultException{
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            String qlString = "SELECT b FROM bundesligatable b WHERE leagueId = :leagueId";
+            String qlString = "SELECT b FROM BundesligaTable b WHERE league_id = :leagueId";
             Query query = entityManager.createQuery(qlString);
             query.setParameter("leagueId", leagueId);
             List<BundesligaTable> bundesligaTableEntries = query.getResultList();

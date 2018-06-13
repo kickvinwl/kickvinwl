@@ -5,6 +5,7 @@ import entities.League;
 import persistence.BundesligaTablePersistenceService;
 import util.BundesligaTableDeserializer;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class BundesligaTableManager {
@@ -47,8 +48,12 @@ public class BundesligaTableManager {
      *
      */
     public void updateData() throws Exception {
-        getBundesligatableFromDatabase().forEach(u ->BundesligaTablePersistenceService.getInstance().delete(u));
-        getBundesligatableFromAPI().forEach(u ->BundesligaTablePersistenceService.getInstance().save(u));
+        try {
+            getBundesligatableFromDatabase().forEach(u -> BundesligaTablePersistenceService.getInstance().delete(u));
+            getBundesligatableFromAPI().forEach(u ->BundesligaTablePersistenceService.getInstance().save(u));
+        } catch (NoResultException e){
+            getBundesligatableFromAPI().forEach(u ->BundesligaTablePersistenceService.getInstance().save(u));
+        }
 
     }
 

@@ -44,7 +44,7 @@ public class TeamPersistenceService extends PersistenceService<Team> {
         try{
             System.out.println("Starting to persist Teams ...");
             System.out.println();
-            List<Team> teamList = td.deserializeTeam("https://www.openligadb.de/api/getavailableteams/bl1/2018");
+            List<Team> teamList = td.deserializeTeam("https://www.openligadb.de/api/getavailableteams/bl1/2017");
             TeamPersistenceService tps = TeamPersistenceService.getInstance();
             for (Team team : teamList) {
                 try {

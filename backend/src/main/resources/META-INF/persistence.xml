@@ -16,6 +16,9 @@
         <class>entities.MatchTip</class>
 
         <class>entities.Team</class>
+        <class>entities.League</class>
+        <class>entities.Matchday</class>
+        <class>entities.BundesligaTable</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

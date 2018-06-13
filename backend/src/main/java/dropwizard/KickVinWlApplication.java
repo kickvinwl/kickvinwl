@@ -32,13 +32,11 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         System.setProperty("https.proxyHost", "172.28.2.5");
         System.setProperty("https.proxyPort", "9090");
 
-        TeamPersistenceService.persistTeams();
-
     }
 
     @Override
     public void run(KickVinWlConfiguration configuration, Environment environment) throws Exception {
-//        DBInitializer.dropDatabase();
+        //DBInitializer.dropDatabase();
         DBInitializer.init();
 
         final TipResource tipResource = new TipResourceImpl();

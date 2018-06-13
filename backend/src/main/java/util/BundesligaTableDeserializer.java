@@ -6,6 +6,7 @@ import entities.BundesligaTable;
 import com.google.gson.*;
 import persistence.TeamPersistenceService;
 
+import javax.persistence.NoResultException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +33,12 @@ public class BundesligaTableDeserializer {
             bl.setGoals(jsonObject.get("Goals").getAsInt());
             bl.setOpponentGoals(jsonObject.get("OpponentGoals").getAsInt());
             bl.setGoalDifference();
-            bl.setTeam(TeamPersistenceService.getInstance().getByTeamId(jsonObject.get("TeamInfoId").getAsInt()));
+            try {
+                bl.setTeam(TeamPersistenceService.getInstance().getByTeamId(jsonObject.get("TeamInfoId").getAsInt()));
+            } catch (NoResultException e) {
+                System.out.println(jsonObject.get("TeamInfoId"));
+                e.printStackTrace();
+            }
             return bl;
         }
 

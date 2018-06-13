@@ -19,6 +19,7 @@ public class DatabaseDefaultData {
     ;
 
     public void generatetData() {
+        TeamPersistenceService.persistTeams();
         achievementData();
         generateLeague();
         generateBundesligaTable();
@@ -125,6 +126,7 @@ public class DatabaseDefaultData {
             System.out.println("SUCCESS: BUNDESLIGATABLE LOADED");
         } catch (Exception e) {
             System.out.println("ERROR: BUNDESLIGATABLE-GENERATION");
+            e.printStackTrace();
         }
     }
 }
