@@ -3,7 +3,7 @@
    "placements": [
       {  
          "placement": 1,
-         "user": "Ext_SOPRA_Reinke",
+         "user": "Ext_SOPRA_Back",
          "points": 648584
       },
 	  {  
@@ -23,7 +23,7 @@
       },
 	  {  
          "placement": 28,
-         "user": "Ext_SOPRA_Back",
+         "user": "Ext_SOPRA_Reinke",		  
          "points": 312
       },
 	  {  
