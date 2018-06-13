@@ -7,7 +7,6 @@ import java.util.List;
 @Entity
 public class Team extends EntityGeneratedKey {
 
-
 	private int teamId;
 
 	private String teamName;

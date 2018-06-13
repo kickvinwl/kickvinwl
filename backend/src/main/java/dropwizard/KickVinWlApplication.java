@@ -1,10 +1,17 @@
 package dropwizard;
 
+import entities.Team;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.apache.commons.lang3.ObjectUtils;
+import persistence.TeamPersistenceService;
 import resources.*;
 import util.DBInitializer;
+import util.TeamDeserializer;
+
+import javax.persistence.NoResultException;
+import java.util.List;
 
 public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
@@ -24,6 +31,9 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         // HTTPS Proxy Settings
         System.setProperty("https.proxyHost", "172.28.2.5");
         System.setProperty("https.proxyPort", "9090");
+
+        TeamPersistenceService.persistTeams();
+
     }
 
     @Override

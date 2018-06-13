@@ -1,6 +1,7 @@
 package persistence;
 
 import entities.Team;
+import util.TeamDeserializer;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -36,6 +37,28 @@ public class TeamPersistenceService extends PersistenceService<Team> {
                 throw new NoResultException();
             return teams.get(0);
         });
+    }
+
+    public static void persistTeams() {
+        TeamDeserializer td = new TeamDeserializer();
+        try{
+            System.out.println("Starting to persist Teams ...");
+            System.out.println();
+            List<Team> teamList = td.deserializeTeam("https://www.openligadb.de/api/getavailableteams/bl1/2018");
+            TeamPersistenceService tps = TeamPersistenceService.getInstance();
+            for (Team team : teamList) {
+                try {
+                    tps.getByTeamId(team.getTeamId());
+                } catch (NoResultException e) {
+                    tps.save(team);
+                }
+            }
+            System.out.println();
+            System.out.println("Finished to persist Teams !!!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 
