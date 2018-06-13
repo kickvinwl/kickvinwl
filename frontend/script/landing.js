@@ -5,14 +5,26 @@ $(document).ready(function() {
 var displaySpieltag = null;
 
 $('#prevGameday').click(function() {
-	displaySpieltag--;
-	loadTipps(displaySpieltag);
+	if (displaySpieltag > 1) {
+		displaySpieltag--;
+		loadTipps(displaySpieltag);
+		updateArrowCursors();
+	}
 });
 
 $('#nextGameday').click(function() {
-	displaySpieltag++;
-	loadTipps(displaySpieltag);
+	if (displaySpieltag < 34) {
+		displaySpieltag++;
+		loadTipps(displaySpieltag);
+		updateArrowCursors();
+	}
 });
+
+function updateArrowCursors() {
+	$('#prevGameday').css('cursor', displaySpieltag > 1 ? 'pointer' : 'not-allowed');
+	$('#nextGameday').css('cursor', displaySpieltag < 34 ? 'pointer' : 'not-allowed');
+}
+
 function loadTipps(spieltag) {
 	// TODO richtige Url mit Parametern
 	var url = urlPath + 'backend/tip/get/?token=' + Cookies.get('token');
@@ -28,6 +40,8 @@ function loadTipps(spieltag) {
 			displaySpieltag = parseInt(data.gameday);
 			$('#gameday').text(displaySpieltag);
 			$('#season').text(data.season);
+			updateArrowCursors();			
+			
 			var dateOptions = { weekday: 'long', /*year: 'numeric',*/ month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 			var lastDate;
 			$('#gamedayTable tbody').empty();
