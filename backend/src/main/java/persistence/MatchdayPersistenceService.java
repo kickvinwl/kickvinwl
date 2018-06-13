@@ -29,6 +29,15 @@ public class MatchdayPersistenceService extends PersistenceService<Matchday> {
         });
     }
 
+    public boolean exists(final int matchDay){
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            Query query = entityManager.createQuery("SELECT us FROM Matchday us WHERE matchday = :md");
+            query.setParameter("md", matchDay);
+            List<Matchday> matchdays = query.getResultList();
+            return !matchdays.isEmpty();
+        });
+    }
+
     public Matchday getDefault()
     {
         return getById(1);

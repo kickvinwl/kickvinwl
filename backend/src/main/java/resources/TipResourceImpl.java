@@ -2,6 +2,7 @@ package resources;
 
 import entities.Matchday;
 import entities.User;
+import persistence.LeaguePersistenceService;
 import persistence.MatchTipPersistenceService;
 import persistence.MatchdayPersistenceService;
 import persistence.UserPersistenceService;
@@ -38,13 +39,19 @@ public class TipResourceImpl extends TipResource {
 
         try {
             MatchdayPersistenceService matchdayPersistenceService = MatchdayPersistenceService.getInstance();
-            Matchday matchday = (gameday == -1 ? matchdayPersistenceService.getDefault() : new Matchday(gameday));
+            //TODO LeaguePersistenceService.getInstance().getCurrentLeague().getCurrentMatchday() einfügen unten
+            Matchday matchday = (gameday == -1 ?  matchdayPersistenceService.getDefault() : new Matchday(gameday));
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
             MatchTipTransform matchTip = new MatchTipTransform("2017/18", matchday, user.getTips()); //TODO Season wird noch nicht verarbeitet
+            //(matchTip.getGameday().equals("0")) ?  Response.status(Response.Status.NOT_FOUND).build() :
             response = Response.accepted(matchTip).build();
 
-        }catch (SecurityException | NoResultException exeption) {
-            response = Response.status(Response.Status.BAD_REQUEST).build();
+        }catch (SecurityException e) {
+            response = Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        catch (NoResultException e)
+        {
+            response = Response.status(Response.Status.NO_CONTENT).build();
         }
         return response;
     }

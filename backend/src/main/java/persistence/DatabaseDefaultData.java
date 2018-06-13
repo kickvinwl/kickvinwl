@@ -15,7 +15,26 @@ public class DatabaseDefaultData {
 	public void generatetData(){
 		achievementData();
 		userDataMitTips();
+//		league();
 	}
+
+//	private void league()
+//	{
+//		LeaguePersistenceService lps = LeaguePersistenceService.getInstance();
+//		MatchdayPersistenceService mdps = MatchdayPersistenceService.getInstance();
+//
+//		League league = new League();
+//		league.setSeason("2017/18");
+//
+//		Matchday mdDefault = new Matchday();
+//		mdDefault.setMatchday(28);
+//		mdps.save(mdDefault);
+//		mdps.setDefault(mdDefault);
+//
+//		league.setCurrentMatchday(mdDefault);
+//
+//		lps.save(league);
+//	}
 
 	private void userDataMitTips()
 	{
@@ -31,10 +50,6 @@ public class DatabaseDefaultData {
 		Matchday md = new Matchday();
 		md.setMatchday(1);
 		mdps.save(md);
-
-		Matchday mdDefault = new Matchday();
-		mdDefault.setMatchday(28);
-		mdps.setDefault(mdDefault);
 
 		md = new Matchday();
 		md.setMatchday(27);
@@ -65,7 +80,6 @@ public class DatabaseDefaultData {
 		mps.save(match);
 
 		Match match2 = new Match();
-		match2.setMatchday(mdDefault);
 		match2.setTeam(t2);
 		match2.setTeam2(t1);
 		mps.save(match2);

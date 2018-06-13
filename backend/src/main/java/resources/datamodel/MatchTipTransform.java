@@ -30,7 +30,7 @@ public class MatchTipTransform {
      */
     public MatchTipTransform(String season, Matchday matchday, List<MatchTip> matchTips) {
         this.season = season;
-        this.gameday = "" + matchday.getId();
+        this.gameday = "" + matchday.getMatchday();
 
         MatchTipPersistenceService matchTipPersistenceService = MatchTipPersistenceService.getInstance();
 
@@ -61,13 +61,13 @@ public class MatchTipTransform {
     }
 
     public static class MatchWithPoints{
+
         @JsonProperty
         int id;
         @JsonProperty
         Date date;
         @JsonProperty
         Team homeTeam;
-
         @JsonProperty
         Team awayTeam;
 
@@ -105,6 +105,7 @@ public class MatchTipTransform {
         }
 
         public static class Team {
+
             @JsonProperty
             int id;
             @JsonProperty
@@ -115,7 +116,6 @@ public class MatchTipTransform {
             int tipScore;
             @JsonProperty
             int realScore;
-
             public Team(MatchTip matchTip, boolean isHomeTeam)
             {
 
@@ -150,6 +150,11 @@ public class MatchTipTransform {
             public void setRealScore(int realScore) {
                 this.realScore = realScore;
             }
+
         }
+    }
+
+    public String getGameday() {
+        return gameday;
     }
 }
