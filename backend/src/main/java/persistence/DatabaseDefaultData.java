@@ -88,11 +88,6 @@ public class DatabaseDefaultData {
 		mtps.save(mt);
 		user.addTip(mt);
 
-		Match match2 = new Match();
-		match.setTeam(t2);
-		match.setTeam2(t1);
-		mps.save(match2);
-
 		MatchTip mt2 = new MatchTip(user, match2, 2, 3);
 		mtps.save(mt2);
 		user.addTip(mt2);
