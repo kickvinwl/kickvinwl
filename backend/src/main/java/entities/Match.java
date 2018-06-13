@@ -19,7 +19,8 @@ import javax.persistence.TemporalType;
 @Table(name ="game")
 public class Match extends EntityGeneratedKey{
 
-    private int matchdayId;
+    @JoinColumn(name = "fk_matchday")
+    private Matchday matchday;
 
     @Column(columnDefinition="DATETIME")
     @Temporal(TemporalType.TIMESTAMP)
@@ -41,16 +42,12 @@ public class Match extends EntityGeneratedKey{
     private int goalsTeam1;
 
     private int goalsTeam2;
+
     private int statusId;
     /**
      * This number describes the id which is associated with this specific dataset in OpenLigaDB
      */
     private int matchID;
-
-    public int getMatchdayId() {
-        return matchdayId;
-    }
-
     public Date getMatchDateTime() {
         return matchDateTime;
     }
@@ -89,5 +86,13 @@ public class Match extends EntityGeneratedKey{
 
     public void setTeam2(Team team2) {
         this.team2 = team2;
+    }
+
+    public Matchday getMatchday() {
+        return matchday;
+    }
+
+    public void setMatchday(Matchday matchday) {
+        this.matchday = matchday;
     }
 }
