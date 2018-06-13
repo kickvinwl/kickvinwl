@@ -1,6 +1,7 @@
 package entities;
 import javax.persistence.*;
 
+//TODO: leagueid und season sind primärschlüssel, aber als solche noch nicht technisch deklariert (EmbeddedKey)
 @Entity
 public class League extends EntityGeneratedKey {
 
