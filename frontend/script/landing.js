@@ -25,8 +25,7 @@ function updateArrowCursors() {
 	$('#nextGameday').css('cursor', displaySpieltag < 34 ? 'pointer' : 'not-allowed');
 }
 
-function loadTipps(spieltag) {
-	// TODO richtige Url mit Parametern
+function loadTipps(spieltag) {	
 	var url = urlPath + 'backend/tip/get/?token=' + Cookies.get('token');
 	if (typeof spieltag != "undefined") {
 		url += '&gameday=' + spieltag;
