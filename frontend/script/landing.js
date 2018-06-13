@@ -25,14 +25,8 @@ function updateArrowCursors() {
 	$('#nextGameday').css('cursor', displaySpieltag < 34 ? 'pointer' : 'not-allowed');
 }
 
-function loadTipps(spieltag) {
-	var token = Cookies.get('token');
-	if (typeof token == "undefined") {
-		window.location.href = urlPath + '?page=login';
-	}
-	
-	// TODO richtige Url mit Parametern
-	var url = urlPath + 'backend/tip/get/?token=' + token;
+function loadTipps(spieltag) {	
+	var url = urlPath + 'backend/tip/get/?token=' + Cookies.get('token');
 	if (typeof spieltag != "undefined") {
 		url += '&gameday=' + spieltag;
 	}

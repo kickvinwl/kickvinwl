@@ -10,7 +10,7 @@ function logout() {
 	window.location.href = urlPath + '?page=login';
 };
 
-$(document).ready(function(){
+$(document).ready(function() {
 	var page = getUrlParameter('page');
 	if (page != null) {
 		var file = 'views/' + page + '.html';
