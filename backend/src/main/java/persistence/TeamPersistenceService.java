@@ -39,6 +39,17 @@ public class TeamPersistenceService extends PersistenceService<Team> {
         });
     }
 
+    public List<Team> getAllTeams() {
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            String qlString = "SELECT * FROM User";
+            Query query = entityManager.createQuery(qlString);
+            List<Team> teams = query.getResultList();
+            if (teams.isEmpty())
+                throw new NoResultException();
+            return teams;
+        });
+    }
+
     public static void persistTeams() {
         TeamDeserializer td = new TeamDeserializer();
         try{
