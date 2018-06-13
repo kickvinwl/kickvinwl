@@ -31,7 +31,7 @@ public class MatchdayPersistenceService extends PersistenceService<Matchday> {
 
     public boolean exists(final int matchDay){
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query = entityManager.createQuery("SELECT us FROM Matchday us WHERE matchday = :md");
+            Query query = entityManager.createQuery("SELECT us FROM Matchday us WHERE matchday = :md"); //TODO wenn matchday zu matchdayID gemacht wurde anpassen
             query.setParameter("md", matchDay);
             List<Matchday> matchdays = query.getResultList();
             return !matchdays.isEmpty();

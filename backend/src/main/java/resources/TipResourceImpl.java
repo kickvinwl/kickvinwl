@@ -36,9 +36,13 @@ public class TipResourceImpl extends TipResource {
     @Override
     public Response getTipByToken(String token, int gameday) {
         response = Response.accepted().build();
-
+        MatchdayPersistenceService matchdayPersistenceService = MatchdayPersistenceService.getInstance();
+        //gameday nicht gefunden in DB
+        if(!matchdayPersistenceService.exists(gameday))
+        {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
         try {
-            MatchdayPersistenceService matchdayPersistenceService = MatchdayPersistenceService.getInstance();
             //TODO LeaguePersistenceService.getInstance().getCurrentLeague().getCurrentMatchday() einfügen unten
             Matchday matchday = (gameday == -1 ?  matchdayPersistenceService.getDefault() : new Matchday(gameday));
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
@@ -51,7 +55,7 @@ public class TipResourceImpl extends TipResource {
         }
         catch (NoResultException e)
         {
-            response = Response.status(Response.Status.NO_CONTENT).build();
+            response = Response.status(Response.Status.NOT_FOUND).build();
         }
         return response;
     }
