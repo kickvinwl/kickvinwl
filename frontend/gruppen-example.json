@@ -1,0 +1,24 @@
+{  
+   "groups": [
+      {  
+         "id": "1",
+         "name": "Gruppe A"
+      },
+	  {  
+         "id": "2",
+         "name": "Gruppe B"
+      },
+	  {  
+         "id": "3",
+         "name": "Gruppe C"
+      },
+	  {  
+         "id": "4",
+         "name": "Gruppe D"
+      },
+	  {  
+         "id": "5",
+         "name": "Gruppe E"
+      }
+   ]
+}
