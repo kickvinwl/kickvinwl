@@ -18,9 +18,18 @@ public class BundesligaTableTransform {
     public BundesligaTableTransform(int leagueID) {
         teams = new ArrayList<>();
         List<BundesligaTable> allTeams = getAllTeams(leagueID);
-        for (BundesligaTable blt : allTeams) {
-            teams.add(new BLTableInfo(blt));
-        }
+        Collections.sort(allTeams, new Comparator<BundesligaTable>(){
+            public int compare(BundesligaTable bl1, BundesligaTable bl2){
+                if (bl1.getLeaguePosition() > bl2.getLeaguePosition()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            }
+        });
+
+        allTeams.forEach(blt -> teams.add(new BLTableInfo(blt)));
+
         setTeams(teams);
     }
 
@@ -79,7 +88,7 @@ public class BundesligaTableTransform {
                 if (blt.getGoalDifference() > 0 ) {
                     this.difference = "+" + String.valueOf(blt.getGoalDifference());
                 } else {
-                    this.difference = String.valueOf(blt.getGoalDifference();
+                    this.difference = String.valueOf(blt.getGoalDifference());
                 }
                 this.points = blt.getPoints();
             }
