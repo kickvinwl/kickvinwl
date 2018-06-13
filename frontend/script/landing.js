@@ -13,23 +13,20 @@ $('#nextGameday').click(function() {
 	displaySpieltag++;
 	loadTipps(displaySpieltag);
 });
-
 function loadTipps(spieltag) {
-	console.log(spieltag);
-	
 	// TODO richtige Url mit Parametern
-	var url = urlPath + 'match-example.json';
-	if (typeof spieltag != undefined) {
-		url += '?spieltag=' + spieltag;
+	var url = urlPath + 'backend/tip/get/?token=' + Cookies.get('token');
+	if (typeof spieltag != "undefined") {
+		url += '&gameday=' + spieltag;
 	}
 	
-	console.log(url);
 	$.ajax({
 		url: url,
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
+			$('#tipsNotFound').addClass('d-none');
 			displaySpieltag = parseInt(data.gameday);
-			$('#gameday').text(data.gameday);
+			$('#gameday').text(displaySpieltag);
 			$('#season').text(data.season);
 			var dateOptions = { weekday: 'long', /*year: 'numeric',*/ month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 			var lastDate;
@@ -82,7 +79,9 @@ function loadTipps(spieltag) {
 			});
 		},
 		error: function(data) {
-			
+			$('#gameday').text(displaySpieltag);
+			$('#tipsNotFound').removeClass('d-none');
+			$('#gamedayTable tbody').empty();
 		}
 	});
 }
@@ -102,7 +101,6 @@ function submitTips() {
 		var match = {'matchId': matchId, 'homeTip': homeTip, 'awayTip': awayTip};
 		data['matches'].push(match);
 	});
-	console.log(data);
 	$.ajax({
 		url: urlPath + 'backend/tip/set',
 		type: 'POST',
