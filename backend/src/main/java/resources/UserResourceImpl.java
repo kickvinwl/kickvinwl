@@ -13,6 +13,15 @@ public class UserResourceImpl extends UserResource {
 
     @Override
     public Response setUser(User user) {
+        Response response = Response.accepted().build();
+        try {
+            UserPersistenceService.getInstance().getBySessionKey(user.getSessionKey());
+
+            UserPersistenceService.getInstance().update(user);
+        }
+        catch (SecurityException | NoResultException exception) {
+            response = Response.status(Response.Status.UNAUTHORIZED).build();
+        }
         userPersistenceService.update(user);
         return Response.accepted().build();
     }
@@ -52,7 +61,7 @@ public class UserResourceImpl extends UserResource {
             response = Response.accepted(user).build();
         }
         catch (SecurityException | NoResultException exception) {
-            response = Response.status(Response.Status.BAD_REQUEST).build();
+            response = Response.status(Response.Status.UNAUTHORIZED).build();
         }
         return response;
     }
@@ -68,7 +77,7 @@ public class UserResourceImpl extends UserResource {
             UserPersistenceService.getInstance().update(user);
         }
         catch (Exception exception) {
-            response.status(Response.Status.BAD_REQUEST);
+            response.status(Response.Status.UNAUTHORIZED);
         }
         return response.build();
     }

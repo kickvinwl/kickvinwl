@@ -21,7 +21,7 @@ public class SearchResourceImpl extends SearchResource {
             response = Response.accepted(searchResult).build();
         }
         catch (SecurityException | NoResultException exception) {
-            response = Response.status(Response.Status.BAD_REQUEST).build();
+            response = Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
         return response;

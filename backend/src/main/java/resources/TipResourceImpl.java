@@ -23,7 +23,7 @@ public class TipResourceImpl extends TipResource {
                 MatchTipPersistenceService.getInstance().createOrUpdateMatchTip(user, tip);
             }
         } catch (SecurityException | NoResultException exception) {
-            response = Response.status(Response.Status.BAD_REQUEST).build();
+            response = Response.status(Response.Status.UNAUTHORIZED).build();
         }
 
         return response;
@@ -41,7 +41,7 @@ public class TipResourceImpl extends TipResource {
             response = Response.accepted(matchTip).build();
 
         }catch (SecurityException | NoResultException exeption) {
-            response = Response.status(Response.Status.BAD_REQUEST).build();
+            response = Response.status(Response.Status.UNAUTHORIZED).build();
         }
         return response;
     }
