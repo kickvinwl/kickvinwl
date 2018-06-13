@@ -153,7 +153,7 @@ public class UserPersistenceService extends PersistenceService<User> {
             if ( users.isEmpty()) {
                 throw new NoResultException();
             } else {
-                return removeSessionKey(users);
+                return users;
             }
     	});
     }
@@ -180,14 +180,5 @@ public class UserPersistenceService extends PersistenceService<User> {
         return matchTips;
     }
 
-    /**
-     *
-     * @param users List of users, in which the session key is to be removed
-     * @return list of users without their session keys
-     */
-    public List<User> removeSessionKey(List<User> users) {
-        users.forEach(u -> u.setSessionKey(null));
-        return users;
-    }
 
 }
