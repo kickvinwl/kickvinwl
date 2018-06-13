@@ -233,7 +233,10 @@
 						  success: function(response){
 						  	location.reload();	
 						  },
-						  dataType: "json"
+						  dataType: "json",
+						  error: function(result){
+						  	handleError(result);
+						  }
 						});	
 				}
 				else{
@@ -257,6 +260,9 @@
 					$('#aktPkt').val(result.Punkte);
 					$('#aktPlatz').val(result.Platz);
 					$('#besterTag').val(result.Bester);
+				},
+				error: function(result){
+					handleError(result);
 				}
 			});
 		}

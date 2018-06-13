@@ -37,3 +37,8 @@ $(document).ready(function(){
 		});	
 	}
 });
+
+function handleError(result){
+	if(result.status == 401)
+		window.location.href = urlPath + "?page=login";
+}
