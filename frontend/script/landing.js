@@ -26,8 +26,13 @@ function updateArrowCursors() {
 }
 
 function loadTipps(spieltag) {
+	var token = Cookies.get('token');
+	if (typeof token == "undefined") {
+		window.location.href = urlPath + '?page=login';
+	}
+	
 	// TODO richtige Url mit Parametern
-	var url = urlPath + 'backend/tip/get/?token=' + Cookies.get('token');
+	var url = urlPath + 'backend/tip/get/?token=' + token;
 	if (typeof spieltag != "undefined") {
 		url += '&gameday=' + spieltag;
 	}

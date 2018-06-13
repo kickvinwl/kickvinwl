@@ -18,7 +18,12 @@ $(document).ready(function(){
 		var file = 'views/landing.html';
 	}
 
-	if (page != 'login'){
+	if (page != 'login') {
+		var token = Cookies.get('token');
+		if (typeof token == "undefined") {
+			window.location.href = urlPath + '?page=login';
+		}
+		
 		includeFile($('#header'), 'views/header.html');
 		//includeFile($('#footer'), 'views/footer.html');
 	}
