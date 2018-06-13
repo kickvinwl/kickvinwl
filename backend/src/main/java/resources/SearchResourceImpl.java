@@ -3,6 +3,7 @@ package resources;
 import entities.User;
 import persistence.SearchPersistenceService;
 import persistence.UserPersistenceService;
+import persistence.exceptions.NoSearchResultException;
 import resources.datamodel.SearchResult;
 
 import javax.persistence.NoResultException;
@@ -22,6 +23,9 @@ public class SearchResourceImpl extends SearchResource {
         }
         catch (SecurityException | NoResultException exception) {
             response = Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        catch (NoSearchResultException exception) {
+            response = Response.status(Response.Status.fromStatusCode(600)).build();
         }
 
         return response;
