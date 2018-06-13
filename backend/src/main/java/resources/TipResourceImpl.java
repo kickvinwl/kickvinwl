@@ -2,6 +2,8 @@ package resources;
 
 import entities.Matchday;
 import entities.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import persistence.LeaguePersistenceService;
 import persistence.MatchTipPersistenceService;
 import persistence.MatchdayPersistenceService;
@@ -16,17 +18,24 @@ import javax.ws.rs.core.Response;
 public class TipResourceImpl extends TipResource {
 
     @Override
-    public Response setTip(TipList tips) {
+    public Response setTip(TipList matches) {
         response = Response.accepted().build();
-
+        Logger slf4jLogger = LoggerFactory.getLogger("some-logger");
+        slf4jLogger.info("An info log message2");
         try {
-            User user = UserPersistenceService.getInstance().getBySessionKey(tips.getToken());
+            slf4jLogger.info("An info log message3");
+            User user = UserPersistenceService.getInstance().getBySessionKey(matches.getToken());
+            slf4jLogger.info("An info log message4");
 
-            for (Tip tip : tips.getTips()) {
+            for (Tip tip : matches.getMatches()) {
+                slf4jLogger.info("An info log message5");
                 MatchTipPersistenceService.getInstance().createOrUpdateMatchTip(user, tip);
             }
-        } catch (SecurityException | NoResultException exception) {
+        } catch (NoResultException exception) {
             response = Response.status(Response.Status.UNAUTHORIZED).build();
+        }
+        catch (SecurityException e) {
+            response = Response.status(Response.Status.NO_CONTENT).build();
         }
 
         return response;

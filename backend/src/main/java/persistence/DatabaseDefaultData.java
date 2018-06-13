@@ -87,6 +87,10 @@ public class DatabaseDefaultData {
 		MatchTip mt = new MatchTip(user, match, 1, 10);
 		mtps.save(mt);
 		user.addTip(mt);
+
+		MatchTip mt2 = new MatchTip(user, match2, 2, 3);
+		mtps.save(mt2);
+		user.addTip(mt2);
 //		MatchTip mt2 = new MatchTip(user, match, 10, 3);
 //		mtps.save(mt2);
 //		user.addTip(mt2);
