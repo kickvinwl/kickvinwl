@@ -15,7 +15,26 @@ public class DatabaseDefaultData {
 	public void generatetData(){
 		achievementData();
 		userDataMitTips();
+//		league();
 	}
+
+//	private void league()
+//	{
+//		LeaguePersistenceService lps = LeaguePersistenceService.getInstance();
+//		MatchdayPersistenceService mdps = MatchdayPersistenceService.getInstance();
+//
+//		League league = new League();
+//		league.setSeason("2017/18");
+//
+//		Matchday mdDefault = new Matchday();
+//		mdDefault.setMatchday(28);
+//		mdps.save(mdDefault);
+//		mdps.setDefault(mdDefault);
+//
+//		league.setCurrentMatchday(mdDefault);
+//
+//		lps.save(league);
+//	}
 
 	private void userDataMitTips()
 	{
@@ -23,9 +42,19 @@ public class DatabaseDefaultData {
 		MatchTipPersistenceService mtps = MatchTipPersistenceService.getInstance();
 		MatchPersistenceService mps = MatchPersistenceService.getInstance();
 		TeamPersistenceService tps = TeamPersistenceService.getInstance();
+		MatchdayPersistenceService mdps = MatchdayPersistenceService.getInstance();
 
 		if(ups.hasEntries())
 			return;
+
+		Matchday md = new Matchday();
+		md.setMatchday(1);
+		mdps.save(md);
+
+		md = new Matchday();
+		md.setMatchday(27);
+		mdps.save(md);
+
 
 		Team t1 = new Team();
 		t1.setTeamName("Team 1");
@@ -44,11 +73,16 @@ public class DatabaseDefaultData {
 		ups.save(user1);
 		ups.save(user2);
 
-		//Tipsabgeben
 		Match match = new Match();
+		match.setMatchday(md);
 		match.setTeam(t1);
 		match.setTeam2(t2);
 		mps.save(match);
+
+		Match match2 = new Match();
+		match2.setTeam(t2);
+		match2.setTeam2(t1);
+		mps.save(match2);
 
 		MatchTip mt = new MatchTip(user, match, 1, 10);
 		mtps.save(mt);

@@ -93,6 +93,7 @@ function loadTipps(spieltag) {
 			});
 		},
 		error: function(data) {
+			handleError(data);
 			$('#gameday').text(displaySpieltag);
 			$('#tipsNotFound').removeClass('d-none');
 			$('#gamedayTable tbody').empty();
@@ -125,7 +126,7 @@ function submitTips() {
 			loadTipps(displaySpieltag);
 		},
 		error: function(data) {
-			
+			handleError(data);
 		}
 	});
 }

@@ -17,7 +17,7 @@ public class GroupResourceImpl extends GroupResource {
         // if group name already exists, negative response
         if (GroupPersistenceService.getInstance().exists(groupName)) {
             Response.ResponseBuilder rb = Response.accepted();
-            rb.status(Response.Status.BAD_REQUEST);
+            rb.status(Response.Status.UNAUTHORIZED);
             return rb.build();
         }
         try {
@@ -40,7 +40,7 @@ public class GroupResourceImpl extends GroupResource {
             // send negative response
             Response.ResponseBuilder rb = Response.accepted();
             //TODO: korrekten response status setzen
-            rb.status(Response.Status.BAD_REQUEST);
+            rb.status(Response.Status.UNAUTHORIZED);
             return rb.build();
         }
     }
@@ -68,7 +68,7 @@ public class GroupResourceImpl extends GroupResource {
             return rb.build();
         } catch (NoResultException e) {
             //TODO: korrekten response status
-            rb.status(Response.Status.BAD_REQUEST);
+            rb.status(Response.Status.UNAUTHORIZED);
             return rb.build();
         }
 
