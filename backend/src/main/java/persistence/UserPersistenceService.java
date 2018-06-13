@@ -10,6 +10,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -168,7 +169,15 @@ public class UserPersistenceService extends PersistenceService<User> {
 
     private List<MatchTip> loadMatchTips(final int userID) {
         MatchTipPersistenceService mtps = MatchTipPersistenceService.getInstance();
-        return mtps.getByUserId(userID);
+        List<MatchTip> matchTips = new ArrayList<>();
+
+        try {
+            matchTips = mtps.getByUserId(userID);
+        }
+        catch (NoResultException e) {
+
+        }
+        return matchTips;
     }
 
     /**
