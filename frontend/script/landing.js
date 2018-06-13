@@ -92,7 +92,7 @@ $('#submitTip').click(function() {
 });
 
 function submitTips() {
-	var data = {'token': Cookies.get('token'), 'gameday': parseInt($('#gameday').text()), 'season': $('#season').text()};
+	var data = {'token': Cookies.get('token')};
 	data['matches'] = [];
 	$('#gamedayTable tbody tr td').each(function() {
 		var val = $(this);
@@ -103,9 +103,11 @@ function submitTips() {
 		data['matches'].push(match);
 	});
 	$.ajax({
-		url: urlPath + 'backend/betting/put',
+		url: urlPath + 'backend/tip/set',
 		type: 'POST',
-		data: data,
+		dataType: 'json',
+		data: JSON.stringify(data),
+		contentType: "application/json",
 		success: function(data) {
 			loadTipps(displaySpieltag);
 		},
