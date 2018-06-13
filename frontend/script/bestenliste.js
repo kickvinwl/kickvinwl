@@ -3,13 +3,6 @@ $(document).ready(function() {
 	loadGroups();
 });
 
-$(document).ready(function(){
-	$('.bestenliste-group').click(function() {
-		$('#bestenliste-group-selected').text($(this).text());
-		loadGroupBestenlisten($(this).attr('id'));
-	});
-});
-
 function loadGroups() {
 	$.ajax({
 		url: urlPath + 'gruppen-example.json', // TODO
@@ -21,6 +14,10 @@ function loadGroups() {
 					loadGroupBestenlisten(val.id);
 				}
 				$('#groupDropdown').append(`<button id='${val.id}' class='dropdown-item bestenliste-group' type='button'>${val.name}</button>`);
+			});
+			$('.bestenliste-group').click(function() {
+				$('#bestenliste-group-selected').text($(this).text());
+				loadGroupBestenlisten($(this).attr('id'));
 			});
 		},
 		error: function(data) {
