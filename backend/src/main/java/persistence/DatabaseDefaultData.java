@@ -1,5 +1,6 @@
 package persistence;
 
+
 import entities.Achievement;
 import entities.League;
 import manager.BundesligaTableManager;
@@ -118,7 +119,7 @@ public class DatabaseDefaultData {
 
     private void generateBundesligaTable() {
         BundesligaTableManager blmanager = new BundesligaTableManager(
-                            LeaguePersistenceService.getInstance().getCurrentLeague());
+                LeaguePersistenceService.getInstance().getCurrentLeague());
         try {
             blmanager.updateData();
             System.out.println("SUCCESS: BUNDESLIGATABLE LOADED");

@@ -1,16 +1,16 @@
-package dropwizard;
+package util;
 
+import entities.Team;
+import persistence.DatabaseDefaultData;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
-import entities.League;
-import persistence.DatabaseDefaultData;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 public class DBInitializer {
 
@@ -22,7 +22,7 @@ public class DBInitializer {
         String sqlString = "CREATE DATABASE IF NOT EXISTS kickvinwl";
         runstatement(sqlString);
         setupTables();
-        
+
         DatabaseDefaultData.getInstance().generatetData();
     }
 
@@ -31,7 +31,26 @@ public class DBInitializer {
         runstatement(sqlString);
     }
 
-
+    public static void loadTeams() {
+        TeamDeserializer td = new TeamDeserializer();
+        try {
+            List<Team> teams = td.deserializeTeam("https://www.openligadb.de/api/getavailableteams/bl1/2018");
+            for (Team team : teams) {
+                System.out.println(team.toString());
+            }
+        } catch (Exception e) {
+            System.out.println("===================================");
+            System.out.println("ERROR ERROR ERROR ERROR ERROR ERROR");
+            System.out.println("===================================");
+            e.printStackTrace();
+            System.out.println("===================================");
+        }
+    }
+/*
+    public static void generateAchievementTestData() {
+        AchievementTestData.generateTestData();
+    }
+*/
     private static void setupTables() {
         //durch den Aufruf der Factory wird hibernate angesprochen - je nach
         //hibernate.hbm2ddl.auto -Value werden die DB-Tabellen erzeugt oder upgedated
@@ -50,9 +69,5 @@ public class DBInitializer {
         }
     }
 
-    private static void setupLeague(){
-        League l = new League();
-        l.set
-    }
 
 }

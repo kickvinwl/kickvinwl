@@ -1,6 +1,8 @@
 package persistence;
 
+import entities.Achievement;
 import entities.Group;
+import entities.MatchTip;
 import entities.User;
 
 import javax.persistence.EntityExistsException;
@@ -73,6 +75,8 @@ public class UserPersistenceService extends PersistenceService<User> {
                 throw new NoResultException();
             else
                 if(user.get(0).getLastAction().getTime() <= System.currentTimeMillis() - SESSION_LENGTH) throw new SecurityException("Session ausgelaufen!");
+                User u = user.get(0);
+                u.setTips(loadMatchTips(u.getId()));
                 return user.get(0);
         });
     }
@@ -153,6 +157,20 @@ public class UserPersistenceService extends PersistenceService<User> {
     	});
     }
 
+
+    public boolean hasEntries(){
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            Query query = entityManager.createQuery("SELECT a FROM User a");
+            List<Achievement> ach = query.getResultList();
+            return !ach.isEmpty();
+        });
+    }
+
+    private List<MatchTip> loadMatchTips(final int userID) {
+        MatchTipPersistenceService mtps = MatchTipPersistenceService.getInstance();
+        return mtps.getByUserId(userID);
+    }
+
     /**
      *
      * @param users List of users, in which the session key is to be removed
@@ -162,4 +180,5 @@ public class UserPersistenceService extends PersistenceService<User> {
         users.forEach(u -> u.setSessionKey(null));
         return users;
     }
+
 }
