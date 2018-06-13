@@ -15,7 +15,7 @@ public class BundesligaResourceImpl extends BundesligaResource{
         response = Response.accepted().build();
 
         try {
-            User user = UserPersistenceService.getInstance().getBySessionKey(token);
+            //User user = UserPersistenceService.getInstance().getBySessionKey(token);
             BundesligaTableTransform bundesligaTableTransform = new BundesligaTableTransform(LeaguePersistenceService.getInstance().getCurrentLeague().getId());
             response = Response.accepted(bundesligaTableTransform).build();
         } catch (NoResultException e) {

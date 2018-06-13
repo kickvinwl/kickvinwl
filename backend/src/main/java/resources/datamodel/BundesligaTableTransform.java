@@ -6,6 +6,8 @@ import persistence.BundesligaTablePersistenceService;
 import persistence.TeamPersistenceService;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class BundesligaTableTransform {
@@ -57,7 +59,9 @@ public class BundesligaTableTransform {
             @JsonProperty
             int goals;
             @JsonProperty
-            int difference;
+            int opponentGoals;
+            @JsonProperty
+            String difference;
             @JsonProperty
             int points;
 
@@ -71,7 +75,12 @@ public class BundesligaTableTransform {
                 this.loses = blt.getLosses();
                 this.draws = blt.getDraws();
                 this.goals = blt.getGoals();
-                this.difference = blt.getGoalDifference();
+                this.opponentGoals = blt.getOpponentGoals();
+                if (blt.getGoalDifference() > 0 ) {
+                    this.difference = "+" + String.valueOf(blt.getGoalDifference());
+                } else {
+                    this.difference = String.valueOf(blt.getGoalDifference();
+                }
                 this.points = blt.getPoints();
             }
 
