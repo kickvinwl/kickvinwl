@@ -118,9 +118,9 @@ function submitTips() {
 	$.ajax({
 		url: urlPath + 'backend/tip/set',
 		type: 'POST',
-		data: data,
+		dataType: 'json',
+		data: JSON.stringify(data),
 		contentType: "application/json",
-		dataType: "json",
 		success: function(data) {
 			loadTipps(displaySpieltag);
 		},
