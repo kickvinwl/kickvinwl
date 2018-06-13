@@ -1,6 +1,8 @@
 package persistence;
 
+import entities.Achievement;
 import entities.Group;
+import entities.MatchTip;
 import entities.User;
 
 import javax.persistence.EntityExistsException;
@@ -15,10 +17,13 @@ public class UserPersistenceService extends PersistenceService<User> {
 
     private static UserPersistenceService instance;
 
+    private static long SESSION_LENGTH = 30 * 60 * 1000;
+
     public static UserPersistenceService getInstance()
     {
         return instance = instance != null ? instance : new UserPersistenceService();
     }
+    private UserPersistenceService() {};
 
     public User getByName(final String userName) throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
@@ -61,7 +66,7 @@ public class UserPersistenceService extends PersistenceService<User> {
         });
     }
 
-    public User getBySessionKey(final String sessionKey) throws NoResultException {
+    public User getBySessionKey(final String sessionKey) throws NoResultException, SecurityException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
             Query query = entityManager.createQuery("SELECT us FROM User us WHERE us.sessionKey = :sKey");
             query.setParameter("sKey", sessionKey);
@@ -69,6 +74,9 @@ public class UserPersistenceService extends PersistenceService<User> {
             if(user.isEmpty())
                 throw new NoResultException();
             else
+                if(user.get(0).getLastAction().getTime() <= System.currentTimeMillis() - SESSION_LENGTH) throw new SecurityException("Session ausgelaufen!");
+                User u = user.get(0);
+                u.setTips(loadMatchTips(u.getId()));
                 return user.get(0);
         });
     }
@@ -113,12 +121,64 @@ public class UserPersistenceService extends PersistenceService<User> {
         });
     }
 
+    /**
+     *
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public List<User> getAll() {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
             Query query = entityManager.createQuery("SELECT * FROM User");
-            return query.getResultList();
+            List<User> users = query.getResultList();
+            if ( users.isEmpty()) {
+                throw new NoResultException();
+            } else {
+                return users;
+            }
         });
+    }
+
+    /**
+     *
+     * @param search
+     * @return
+     * @throws NoResultException
+     */
+    @SuppressWarnings("unchecked")
+    public List<User> getSearch(String search) throws NoResultException{
+    	return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+    		Query query = entityManager.createQuery("SELECT u FROM User u WHERE userName LIKE '%" + search + "%'");
+            List<User> users = query.getResultList();
+            if ( users.isEmpty()) {
+                throw new NoResultException();
+            } else {
+                return removeSessionKey(users);
+            }
+    	});
+    }
+
+
+    public boolean hasEntries(){
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            Query query = entityManager.createQuery("SELECT a FROM User a");
+            List<Achievement> ach = query.getResultList();
+            return !ach.isEmpty();
+        });
+    }
+
+    private List<MatchTip> loadMatchTips(final int userID) {
+        MatchTipPersistenceService mtps = MatchTipPersistenceService.getInstance();
+        return mtps.getByUserId(userID);
+    }
+
+    /**
+     *
+     * @param users List of users, in which the session key is to be removed
+     * @return list of users without their session keys
+     */
+    public List<User> removeSessionKey(List<User> users) {
+        users.forEach(u -> u.setSessionKey(null));
+        return users;
     }
 
 }

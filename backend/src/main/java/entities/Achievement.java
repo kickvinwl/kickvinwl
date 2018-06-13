@@ -7,31 +7,22 @@ import javax.persistence.*;
 @Entity
 public class Achievement extends EntityGeneratedKey{
 
-	@Column(updatable = true, nullable = false)
-	private String achievementName;
-
-	@Column(updatable = true, nullable = false)
+	@Column(updatable = true, nullable = true)
 	private String achievementDescription;
 
-	@Column(updatable = true, nullable = false)
+	@Column(updatable = true, nullable = true)
 	private String title;
-
+/*
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="fk_icon")
 	private AchievementIcon icon;
-
+*/
 	@ManyToMany(mappedBy = "achievements")
 	private List<User> users = new ArrayList<>();
 
 	@OneToMany(mappedBy = "displayedTitle")
 	private List<User> presenter = new ArrayList<>();
 
-	public String getAchievementName() {
-		return achievementName;
-	}
-	public void setAchievementName(String achievementName) {
-		this.achievementName = achievementName;
-	}
 	public String getAchievementDescription() {
 		return achievementDescription;
 	}
