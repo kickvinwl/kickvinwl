@@ -19,5 +19,5 @@ public abstract class TipResource {
     @GET
     @Path("/{a:get|Get}")
     @Produces(MediaType.APPLICATION_JSON)
-    public abstract Response getTipByToken( @QueryParam("token") String token, @QueryParam("gameday") String gameday);
+    public abstract Response getTipByToken( @QueryParam("token") String token, @DefaultValue("-1") @QueryParam("gameday") int gameday);
 }
