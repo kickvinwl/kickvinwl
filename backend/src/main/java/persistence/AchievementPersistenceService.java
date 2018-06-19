@@ -54,6 +54,14 @@ public class AchievementPersistenceService extends PersistenceService{
 			return achievement;
 		});
 	}
+	public List<Achievement> getAll() {
+		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+			String qlString = "SELECT a FROM achievement a";
+			Query query = entityManager.createQuery(qlString);
+			List<Achievement> achievements = query.getResultList();
+			return achievements;
+		});
+	}
 
 
 	public boolean hasEntries(){
