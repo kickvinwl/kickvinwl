@@ -5,11 +5,12 @@ import entities.Group;
 import entities.MatchTip;
 import entities.User;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -68,16 +69,16 @@ public class UserPersistenceService extends PersistenceService<User> {
 
     public User getBySessionKey(final String sessionKey) throws NoResultException, SecurityException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query = entityManager.createQuery("SELECT us FROM User us WHERE us.sessionKey = :sKey");
+            TypedQuery<User> query = entityManager.createQuery("SELECT us FROM User us WHERE us.sessionKey = :sKey",User.class);
             query.setParameter("sKey", sessionKey);
-            List<User> user = query.getResultList();
-            if(user.isEmpty())
-                throw new NoResultException();
+            User user = query.getSingleResult();
+            if(user==null){
+                System.out.println("noresult");
+                throw new NoResultException();}
             else
-                if(user.get(0).getLastAction().getTime() <= System.currentTimeMillis() - SESSION_LENGTH) throw new SecurityException("Session ausgelaufen!");
-                User u = user.get(0);
-                u.setTips(loadMatchTips(u.getId()));
-                return user.get(0);
+                if(user.getLastAction().getTime() <= System.currentTimeMillis() - SESSION_LENGTH) throw new SecurityException("Session ausgelaufen!");
+                user.setTips(loadMatchTips(user.getId()));
+                return user;
         });
     }
 
@@ -152,7 +153,7 @@ public class UserPersistenceService extends PersistenceService<User> {
             if ( users.isEmpty()) {
                 throw new NoResultException();
             } else {
-                return removeSessionKey(users);
+                return users;
             }
     	});
     }
@@ -168,17 +169,16 @@ public class UserPersistenceService extends PersistenceService<User> {
 
     private List<MatchTip> loadMatchTips(final int userID) {
         MatchTipPersistenceService mtps = MatchTipPersistenceService.getInstance();
-        return mtps.getByUserId(userID);
+        List<MatchTip> matchTips = new ArrayList<>();
+
+        try {
+            matchTips = mtps.getByUserId(userID);
+        }
+        catch (NoResultException e) {
+
+        }
+        return matchTips;
     }
 
-    /**
-     *
-     * @param users List of users, in which the session key is to be removed
-     * @return list of users without their session keys
-     */
-    public List<User> removeSessionKey(List<User> users) {
-        users.forEach(u -> u.setSessionKey(null));
-        return users;
-    }
 
 }

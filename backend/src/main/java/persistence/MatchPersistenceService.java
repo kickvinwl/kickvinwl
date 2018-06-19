@@ -1,6 +1,8 @@
 package persistence;
 
 import entities.Match;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import javax.persistence.TypedQuery;
@@ -25,7 +27,10 @@ public class MatchPersistenceService extends PersistenceService<Match> {
             TypedQuery<Match> query = entityManager.createQuery("SELECT m FROM Match m WHERE matchID = :matchID", Match.class);
             query.setParameter("matchID", matchID);
 
+            Logger slf4jLogger = LoggerFactory.getLogger("something");
+            slf4jLogger.info("An info log 1:'" + matchID+"'");
             Match result = query.getSingleResult();
+            slf4jLogger.info("An info log 2" + result);
             if (result == null) {
                 throw new NoResultException();
             } else {

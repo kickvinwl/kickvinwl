@@ -2,7 +2,6 @@ package util;
 
 import entities.Team;
 import persistence.DatabaseDefaultData;
-import persistence.TeamPersistenceService;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -23,7 +22,7 @@ public class DBInitializer {
         String sqlString = "CREATE DATABASE IF NOT EXISTS kickvinwl";
         runstatement(sqlString);
         setupTables();
-        DatabaseDefaultData.getInstance().generatetData();
+        DatabaseDefaultData.getInstance().generateData();
     }
 
     public static void dropDatabase() {

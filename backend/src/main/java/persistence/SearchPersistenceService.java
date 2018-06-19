@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import entities.Group;
 import entities.User;
+import persistence.exceptions.NoSearchResultException;
 import resources.datamodel.SearchResult;
+
+import javax.persistence.NoResultException;
 
 public class SearchPersistenceService {
 	
@@ -16,10 +19,29 @@ public class SearchPersistenceService {
     }
     private SearchPersistenceService() {};
     
-    public SearchResult getResults(String searchtext) {
+    public SearchResult getResults(String searchtext) throws NoSearchResultException {
     	SearchResult result = new SearchResult();
-    	result.setUsers(new ArrayList<User>(UserPersistenceService.getInstance().getSearch(searchtext)));
-    	result.setGroups(new ArrayList<Group>(GroupPersistenceService.getInstance().getSearch(searchtext)));
+    	boolean user = true;
+    	boolean group = true;
+    	try {
+            result.setGroups(new ArrayList<Group>(GroupPersistenceService.getInstance().getSearch(searchtext)));
+        }
+        catch (NoResultException exception)
+        {
+            group = false;
+        }
+
+        try {
+            result.setUsers(new ArrayList<User>(UserPersistenceService.getInstance().getSearch(searchtext)));
+
+        }
+        catch (NoResultException exception)
+        {
+            user = false;
+        }
+
+        if(user == false && group == false)
+            throw new NoSearchResultException();
     	return result;
     }
 

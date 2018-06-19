@@ -5,32 +5,42 @@ $(document).ready(function() {
 var displaySpieltag = null;
 
 $('#prevGameday').click(function() {
-	displaySpieltag--;
-	loadTipps(displaySpieltag);
+	if (displaySpieltag > 1) {
+		displaySpieltag--;
+		loadTipps(displaySpieltag);
+		updateArrowCursors();
+	}
 });
 
 $('#nextGameday').click(function() {
-	displaySpieltag++;
-	loadTipps(displaySpieltag);
+	if (displaySpieltag < 34) {
+		displaySpieltag++;
+		loadTipps(displaySpieltag);
+		updateArrowCursors();
+	}
 });
 
-function loadTipps(spieltag) {
-	console.log(spieltag);
-	
-	// TODO richtige Url mit Parametern
-	var url = urlPath + 'match-example.json';
-	if (typeof spieltag != undefined) {
-		url += '?spieltag=' + spieltag;
+function updateArrowCursors() {
+	$('#prevGameday').css('cursor', displaySpieltag > 1 ? 'pointer' : 'not-allowed');
+	$('#nextGameday').css('cursor', displaySpieltag < 34 ? 'pointer' : 'not-allowed');
+}
+
+function loadTipps(spieltag) {	
+	var url = urlPath + 'backend/tip/get/?token=' + Cookies.get('token');
+	if (typeof spieltag != "undefined") {
+		url += '&gameday=' + spieltag;
 	}
 	
-	console.log(url);
 	$.ajax({
 		url: url,
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
+			$('#tipsNotFound').addClass('d-none');
 			displaySpieltag = parseInt(data.gameday);
-			$('#gameday').text(data.gameday);
+			$('#gameday').text(displaySpieltag);
 			$('#season').text(data.season);
+			updateArrowCursors();			
+			
 			var dateOptions = { weekday: 'long', /*year: 'numeric',*/ month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
 			var lastDate;
 			$('#gamedayTable tbody').empty();
@@ -82,7 +92,10 @@ function loadTipps(spieltag) {
 			});
 		},
 		error: function(data) {
-			
+			handleError(data);
+			$('#gameday').text(displaySpieltag);
+			$('#tipsNotFound').removeClass('d-none');
+			$('#gamedayTable tbody').empty();
 		}
 	});
 }
@@ -92,7 +105,7 @@ $('#submitTip').click(function() {
 });
 
 function submitTips() {
-	var data = {'token': Cookies.get('token'), 'gameday': parseInt($('#gameday').text()), 'season': $('#season').text()};
+	var data = {'token': Cookies.get('token')};
 	data['matches'] = [];
 	$('#gamedayTable tbody tr td').each(function() {
 		var val = $(this);
@@ -103,14 +116,16 @@ function submitTips() {
 		data['matches'].push(match);
 	});
 	$.ajax({
-		url: urlPath + 'backend/betting/put',
+		url: urlPath + 'backend/tip/set',
 		type: 'POST',
-		data: data,
+		dataType: 'json',
+		data: JSON.stringify(data),
+		contentType: "application/json",
 		success: function(data) {
 			loadTipps(displaySpieltag);
 		},
 		error: function(data) {
-			
+			handleError(data);
 		}
 	});
 }

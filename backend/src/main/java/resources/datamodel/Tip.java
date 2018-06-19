@@ -1,39 +1,48 @@
 package resources.datamodel;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Tip {
 
     public Tip() {
 
     }
 
-    int matchID;
 
-    public int getMatchID() {
-        return matchID;
+    int matchId;
+    int homeTip;
+    int awayTip;
+
+
+    @JsonProperty
+    public int getmatchId() {
+        return matchId;
     }
 
-    public void setMatchID(int matchID) {
-        this.matchID = matchID;
+    @JsonProperty
+    public void setmatchId(int matchId) {
+        this.matchId = matchId;
     }
 
-    public int getTeam1Tip() {
-        return team1Tip;
+    @JsonProperty
+    public int gethomeTip() {
+        return homeTip;
     }
 
-    public void setTeam1Tip(int team1Tip) {
-        this.team1Tip = team1Tip;
+    @JsonProperty
+    public void sethomeTip(int homeTip) {
+        this.homeTip = homeTip;
     }
 
-    public int getTeam2Tip() {
-        return team2Tip;
+    @JsonProperty
+    public int getawayTip() {
+        return awayTip;
     }
 
-    public void setTeam2Tip(int team2Tip) {
-        this.team2Tip = team2Tip;
+    @JsonProperty
+    public void setawayTip(int awayTip) {
+        this.awayTip = awayTip;
     }
-
-    int team1Tip;
-    int team2Tip;
 
 
 }

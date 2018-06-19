@@ -1,23 +1,30 @@
 package resources.datamodel;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class TipList {
     private String token;
 
-    private Tip[] tips;
 
+    private Tip[] matches;
+
+    @JsonProperty
     public String getToken() {
         return token;
     }
 
+    @JsonProperty
     public void setToken(String token) {
         this.token = token;
     }
 
-    public Tip[] getTips() {
-        return tips;
+    @JsonProperty
+    public Tip[] getMatches() {
+        return matches;
     }
 
-    public void setTips(Tip[] tips) {
-        this.tips = tips;
+    @JsonProperty
+    public void setMatches(Tip[] matches) {
+        this.matches = matches;
     }
 }
