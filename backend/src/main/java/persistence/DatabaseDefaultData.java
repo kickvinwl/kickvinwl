@@ -22,7 +22,7 @@ public class DatabaseDefaultData {
         TeamPersistenceService.persistTeams();
         achievementData();
         generateLeague();
-        generateBundesligaTable();
+       // generateBundesligaTable();
     }
 
     private void achievementData() {
@@ -120,7 +120,7 @@ public class DatabaseDefaultData {
 
     private void generateBundesligaTable() {
         BundesligaTableManager blmanager = new BundesligaTableManager(
-                LeaguePersistenceService.getInstance().getCurrentLeague());
+                LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1"));
         try {
             blmanager.updateData();
             System.out.println("SUCCESS: BUNDESLIGATABLE LOADED");
