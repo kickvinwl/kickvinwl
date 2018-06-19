@@ -58,7 +58,7 @@ public class BundesligaTableTransform {
             @JsonProperty
             int wins;
             @JsonProperty
-            int losses;
+            int loses;
             @JsonProperty
             int draws;
             @JsonProperty
@@ -76,8 +76,8 @@ public class BundesligaTableTransform {
                 this.imageLink = tps.getByTeamId(blt.getTeam().getTeamId()).getTeamIconURL();
                 this.clubName = tps.getByTeamId(blt.getTeam().getTeamId()).getTeamName();
                 this.games = blt.getMatches();
-                this.wins = blt.getWins();
-                this.losses = blt.getLosses();
+                this.wins = blt.getLosses();
+                this.loses = blt.getLosses();
                 this.draws = blt.getDraws();
                 this.goals = blt.getGoals();
                 this.opponentGoals = blt.getOpponentGoals();
@@ -97,7 +97,7 @@ public class BundesligaTableTransform {
                         ", clubName='" + clubName + '\'' +
                         ", games=" + games +
                         ", wins=" + wins +
-                        ", losses=" + losses +
+                        ", loses=" + loses +
                         ", draws=" + draws +
                         ", goals=" + goals +
                         ", difference=" + difference +
