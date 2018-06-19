@@ -24,7 +24,7 @@ public class MatchPersistenceService extends PersistenceService<Match> {
 
     public Match getMatchById(int matchID) {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            TypedQuery<Match> query = entityManager.createQuery("SELECT m FROM Match m WHERE matchID = :matchID", Match.class);
+            TypedQuery<Match> query = entityManager.createQuery("SELECT m FROM Match m WHERE fk_matchID=:matchID", Match.class);
             query.setParameter("matchID", matchID);
 
             Logger slf4jLogger = LoggerFactory.getLogger("something");
@@ -41,11 +41,11 @@ public class MatchPersistenceService extends PersistenceService<Match> {
 
     public List<Match> getAllMatchesForMatchDay(final int matchDayID) throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query = entityManager.createQuery("SELECT g FROM game g WHERE matchdayId = :mdID", Match.class);
+            Query query = entityManager.createQuery("SELECT g FROM Match g WHERE fk_matchday =: mdID", Match.class);
             query.setParameter("mdID", matchDayID);
             List<Match> matches = query.getResultList();
             if (matches.isEmpty()) {
-                throw new NoResultException();
+                throw new NoResultException("kein Match mit fk_matchday(ID):" + matchDayID);
             } else {
                 return matches;
             }
@@ -54,7 +54,7 @@ public class MatchPersistenceService extends PersistenceService<Match> {
 
     public boolean exists(final int matchID) throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query = entityManager.createQuery("SELECT g FROM game g WHERE id = :matchID", Match.class);
+            Query query = entityManager.createQuery("SELECT g FROM Match g WHERE id = :matchID", Match.class);
             query.setParameter("matchID", matchID);
             List<Match> matches = query.getResultList();
             return !matches.isEmpty();

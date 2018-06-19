@@ -2,9 +2,12 @@ package resources.datamodel;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import entities.*;
+import persistence.MatchPersistenceService;
 import persistence.MatchTipPersistenceService;
+import persistence.MatchdayPersistenceService;
 
 import javax.persistence.Entity;
+import javax.persistence.NoResultException;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
@@ -26,26 +29,47 @@ public class MatchTipTransform {
      *
      * @param season
      * @param matchday null um alle Spieltage zubekommen
-     * @param matchTips
+     * @param user
      */
-    public MatchTipTransform(String season, Matchday matchday, List<MatchTip> matchTips) {
+    public MatchTipTransform(String season, Matchday matchday, User user) {
         this.season = season;
         this.gameday = "" + matchday.getMatchday();
 
-        MatchTipPersistenceService matchTipPersistenceService = MatchTipPersistenceService.getInstance();
 
-
-        ArrayList<MatchWithPoints> matchesOut = new ArrayList<>();
-
-
-        for (MatchTip matchTip: matchTips) {
-//            MatchTip matchTip = matchTipPersistenceService.getByUserIdAndMatchId(user.getId(), match.getMatchID());
-            if(matchday == null || matchTip.getTippedMatch().getMatchday().getMatchday() == matchday.getMatchday() ) {
-                matchesOut.add(new MatchWithPoints(matchTip));
-            }
-        }
+        List<MatchWithPoints> matchesOut = getAllMatchTipsAndFillWithUserData(user, matchday);
+        System.out.println("END#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##########");
 
         setMatches(matchesOut);
+    }
+
+    private List<MatchWithPoints> getAllMatchTipsAndFillWithUserData(User user, Matchday matchday)
+    {
+        MatchTipPersistenceService matchTipPersistenceService = MatchTipPersistenceService.getInstance();
+        MatchPersistenceService mps = MatchPersistenceService.getInstance();
+        //Matches vom Tag besorgen
+        List<Match> matchesFromDay = mps.getAllMatchesForMatchDay(matchday.getId());
+        ArrayList<MatchWithPoints> matchesTipReturm = new ArrayList<>();
+
+        for(Match match : matchesFromDay)
+        {
+            System.out.println(match);
+            MatchTip tip = null;
+            try {
+                tip = matchTipPersistenceService.getByUserIdAndMatchId(user.getId(), match.getMatchID());
+                System.out.println("Tip alt");
+            }catch (NoResultException e)
+            {
+                System.out.println("Tip neu");
+                tip = new MatchTip();
+                tip.setOwner(user);
+                tip.setTippedMatch(match);
+            }
+            System.out.println("Tip fertig");
+            matchesTipReturm.add(new MatchWithPoints(tip));
+        }
+
+        System.out.println("Return tip");
+        return matchesTipReturm;
     }
 
     public void setSeason(String season) {
@@ -72,16 +96,18 @@ public class MatchTipTransform {
         Team awayTeam;
 
         @JsonProperty
-        int points;
+        Integer points;
 
         public MatchWithPoints(MatchTip matchTip)
         {
-                Match match = matchTip.getTippedMatch();
-                setId(match.getId());
-                setDate(match.getMatchDateTime());
-                setHomeTeam(new Team(matchTip, true));
-                setAwayTeam(new Team(matchTip, false));
-                setPoints(matchTip.getUserPoints());
+            Match match = matchTip.getTippedMatch();
+            setId(match.getId());
+            setDate(match.getMatchDateTime());
+            setHomeTeam(new Team(matchTip, true));
+            setAwayTeam(new Team(matchTip, false));
+            setPoints(matchTip.getUserPoints());
+
+            System.out.println("retttttt");
         }
 
         public void setId(int id) {
@@ -101,7 +127,7 @@ public class MatchTipTransform {
         }
 
         public void setPoints(int points) {
-            this.points = points;
+            this.points = points == -1 ? null : points;
         }
 
         public static class Team {
@@ -113,22 +139,18 @@ public class MatchTipTransform {
             @JsonProperty
             String logo;
             @JsonProperty
-            int tipScore;
+            Integer tipScore;
             @JsonProperty
-            int realScore;
+            Integer realScore;
             public Team(MatchTip matchTip, boolean isHomeTeam)
             {
-
                 Match match = matchTip.getTippedMatch();
-
                 entities.Team team = (isHomeTeam) ? match.getTeam() : match.getTeam2();
-
                 setId(team.getId());
                 setName(team.getTeamName());
                 setLogo(team.getTeamIconURL());
                 setTipScore((isHomeTeam) ? matchTip.getGoalsTeam1() : matchTip.getGoalsTeam2());
                 setRealScore((isHomeTeam) ? match.getGoalsTeam1() : match.getGoalsTeam2());
-
             }
 
             public void setId(int id) {
@@ -144,11 +166,11 @@ public class MatchTipTransform {
             }
 
             public void setTipScore(int tipScore) {
-                this.tipScore = tipScore;
+                this.tipScore = tipScore == -1 ? null : tipScore;
             }
 
             public void setRealScore(int realScore) {
-                this.realScore = realScore;
+                this.realScore = realScore == -1 ? null:  realScore ;
             }
 
         }

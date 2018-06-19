@@ -24,13 +24,26 @@ public class MatchTipPersistenceService extends PersistenceService<MatchTip> {
 
     public List<MatchTip> getByUserId(final int userID) throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query = entityManager.createQuery("SELECT tip FROM MatchTip tip WHERE fk_user = :uID");
+            Query query = entityManager.createQuery("SELECT tip FROM MatchTip tip WHERE fk_user = :uID", MatchTip.class);
             query.setParameter("uID", userID);
             List<MatchTip> matchTips = query.getResultList();
             if (matchTips.isEmpty())
                 throw new NoResultException();
             else
                 return matchTips;
+        });
+    }
+
+    public MatchTip getByUserIdAndMatchId(final int userID, final int matchID) throws NoResultException {
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            Query query = entityManager.createQuery("SELECT tip FROM MatchTip tip WHERE fk_user = :uID AND fk_match = :mID");
+            query.setParameter("uID", userID);
+            query.setParameter("mID", matchID);
+            List<MatchTip> matchTips = query.getResultList();
+            if (matchTips.isEmpty())
+                throw new NoResultException("kein MatchTip gefunden zu userID:"+userID + " und matchID:" + matchID);
+            else
+                return matchTips.get(0);
         });
     }
 

@@ -33,8 +33,7 @@ public class TipResourceImpl extends TipResource {
             }
         } catch (NoResultException exception) {
             response = Response.status(Response.Status.UNAUTHORIZED).build();
-        }
-        catch (SecurityException e) {
+        } catch (SecurityException e) {
             response = Response.status(Response.Status.NO_CONTENT).build();
         }
 
@@ -45,27 +44,38 @@ public class TipResourceImpl extends TipResource {
     @Override
     public Response getTipByToken(String token, int gameday) {
         response = Response.accepted().build();
+        System.out.println("awdawdawdaw" + gameday);
+        Matchday matchdayDefault = new Matchday();//LeaguePersistenceService.getInstance().getCurrentLeague().getCurrentMatchday();
+        matchdayDefault.setMatchday(27);
+        matchdayDefault.setId(18);
+
         MatchdayPersistenceService matchdayPersistenceService = MatchdayPersistenceService.getInstance();
-        //gameday nicht gefunden in DB
+        Matchday matchday = matchdayDefault;
         try {
-            //TODO LeaguePersistenceService.getInstance().getCurrentLeague().getCurrentMatchday() einfügen unten
-            Matchday matchday = (gameday == -1 ?  matchdayPersistenceService.getDefault() : new Matchday(gameday));
-            if(!matchdayPersistenceService.exists(matchday.getMatchday()))
-            {
-                return Response.status(Response.Status.NOT_FOUND).build();
+            if (gameday != -1){
+                try {
+                    matchday = matchdayPersistenceService.getMatchdayBeiInt(gameday); //TODO wenn matchday nicht vorhanden -> wird zu default matchday
+                    System.out.println("Match geladen" + matchday.getMatchday());
+                } catch (NoResultException e) {
+                    System.out.println("Matchday " + gameday + " wurde nicht gefunden");
+                }
             }
+            System.out.println("#########''''''''''''''''''''##########");
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
-            MatchTipTransform matchTip = new MatchTipTransform("2017/18", matchday, user.getTips()); //TODO Season wird noch nicht verarbeitet
+            System.out.println("#########''''''''''''''''''''##########");
+            MatchTipTransform matchTip = new MatchTipTransform("2017/18", matchday, user); //TODO Season wird noch nicht verarbeitet
+            System.out.println(matchTip + "xxxxxxxxxxxxxxxxxxxxxxxx");
             //(matchTip.getGameday().equals("0")) ?  Response.status(Response.Status.NOT_FOUND).build() :
             response = Response.accepted(matchTip).build();
 
-        }catch (SecurityException e) {
+        } catch (SecurityException e) {
+            e.printStackTrace();
             response = Response.status(Response.Status.UNAUTHORIZED).build();
-        }
-        catch (NoResultException e)
-        {
+        } catch (NoResultException e) {
+            e.printStackTrace();
             response = Response.status(Response.Status.NOT_FOUND).build();
         }
+
         return response;
     }
 
