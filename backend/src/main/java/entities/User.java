@@ -48,6 +48,10 @@ public class User extends EntityGeneratedKey {
 			inverseJoinColumns = { @JoinColumn(name = "fk_achievement")})
 	private List<Achievement> achievements = new ArrayList<>();
 
+	public List<Achievement> getAchievements() {
+		return achievements;
+	}
+
 	public User(String name, String sessionKey)
 	{
 		this.userName = name;
@@ -104,6 +108,10 @@ public class User extends EntityGeneratedKey {
 	public void addTip(MatchTip tip)
 	{
 		tips.add(tip);
+	}
+	public void addAchievment(Achievement ach)
+	{
+		achievements.add(ach);
 	}
 
 	public String getSessionKey() {

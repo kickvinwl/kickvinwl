@@ -23,6 +23,20 @@ public class Achievement extends EntityGeneratedKey{
 	@OneToMany(mappedBy = "displayedTitle")
 	private List<User> presenter = new ArrayList<>();
 
+	
+	/*
+	 * Needs to be a select that returns userIds
+	 * all Ids get the achievement
+	 */
+	@Column(updatable = true, nullable = true)
+	private String achievementQuerry;
+	
+	public String getAchievementQuerry() {
+		return achievementQuerry;
+	}
+	public void setAchievementQuerry(String achievementQuerry) {
+		this.achievementQuerry = achievementQuerry;
+	}
 	public String getAchievementDescription() {
 		return achievementDescription;
 	}
