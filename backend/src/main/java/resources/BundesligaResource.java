@@ -10,7 +10,7 @@ public abstract class BundesligaResource {
     Response response;
 
     @GET
-    @Path("/{a:bl|BL|Bl|bL}")
+    @Path("/{a:bl1|Bl1|BL1|bL1}")
     @Produces(MediaType.APPLICATION_JSON)
     public abstract Response getBundesligaTable(@QueryParam("token") String token);
 

@@ -33,11 +33,16 @@ public class BundesligaTableDeserializer {
             bl.setGoals(jsonObject.get("Goals").getAsInt());
             bl.setOpponentGoals(jsonObject.get("OpponentGoals").getAsInt());
             bl.setGoalDifference();
+            boolean tryName = false;
             try {
                 bl.setTeam(TeamPersistenceService.getInstance().getByTeamId(jsonObject.get("TeamInfoId").getAsInt()));
             } catch (NoResultException e) {
-                System.out.println(jsonObject.get("TeamInfoId"));
-                e.printStackTrace();
+                //System.out.println(jsonObject.get("TeamInfoId"));
+                //e.printStackTrace();
+                tryName = true;
+            }
+            if (tryName) {
+                bl.setTeam(TeamPersistenceService.getInstance().getByTeamName(jsonObject.get("TeamName").getAsString()));
             }
             return bl;
         }

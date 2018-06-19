@@ -1,6 +1,7 @@
 package resources;
 
 import entities.User;
+import manager.BundesligaTableManager;
 import persistence.LeaguePersistenceService;
 import persistence.UserPersistenceService;
 import resources.datamodel.BundesligaTableTransform;
@@ -14,14 +15,17 @@ public class BundesligaResourceImpl extends BundesligaResource{
     public Response getBundesligaTable(String token) {
         response = Response.accepted().build();
 
-        try {
-            //User user = UserPersistenceService.getInstance().getBySessionKey(token);
-            BundesligaTableTransform bundesligaTableTransform = new BundesligaTableTransform(LeaguePersistenceService.getInstance().getCurrentLeague().getId());
-            response = Response.accepted(bundesligaTableTransform).build();
+        try{
+            BundesligaTableManager bm = new BundesligaTableManager(LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1"));
+            BundesligaTableTransform bTransform = bm.getTransform();
+            if (bTransform == null) {
+                response = Response.status(Response.Status.BAD_REQUEST).build();
+            } else {
+                response = Response.accepted(bTransform).build();
+            }
         } catch (NoResultException e) {
             response = Response.status(Response.Status.BAD_REQUEST).build();
         }
-
         return response;
     }
 

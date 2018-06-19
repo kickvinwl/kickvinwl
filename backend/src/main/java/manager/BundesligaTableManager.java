@@ -3,6 +3,7 @@ package manager;
 import entities.BundesligaTable;
 import entities.League;
 import persistence.BundesligaTablePersistenceService;
+import resources.datamodel.BundesligaTableTransform;
 import util.BundesligaTableDeserializer;
 
 import javax.persistence.NoResultException;
@@ -39,7 +40,7 @@ public class BundesligaTableManager {
      *
      * @return
      */
-    private List<BundesligaTable> getBundesligatableFromDatabase() {
+    private List<BundesligaTable> getBundesligatableFromDatabase() throws NoResultException{
         List<BundesligaTable> bl = BundesligaTablePersistenceService.getInstance().getAllEntriesByLeagueId(league.getId());
         return bl;
     }
@@ -54,7 +55,22 @@ public class BundesligaTableManager {
         } catch (NoResultException e){
             getBundesligatableFromAPI().forEach(u ->BundesligaTablePersistenceService.getInstance().save(u));
         }
+    }
 
+    //TODO: refactor try/catch stuff
+    public BundesligaTableTransform getTransform() {
+        try {
+            List<BundesligaTable> blt = getBundesligatableFromDatabase();
+            return new BundesligaTableTransform(blt);
+        } catch (NoResultException e) {
+            try {
+                getBundesligatableFromAPI().forEach(u -> BundesligaTablePersistenceService.getInstance().save(u));
+                List<BundesligaTable> blt = getBundesligatableFromDatabase();
+                return new BundesligaTableTransform(blt);
+            } catch (Exception e1) {
+                return null;
+            }
+        }
     }
 
 }

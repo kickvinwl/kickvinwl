@@ -18,18 +18,14 @@ public class BundesligaTableTransform {
     public BundesligaTableTransform(int leagueID) {
         teams = new ArrayList<>();
         List<BundesligaTable> allTeams = getAllTeams(leagueID);
-        Collections.sort(allTeams, new Comparator<BundesligaTable>(){
-            public int compare(BundesligaTable bl1, BundesligaTable bl2){
-                if (bl1.getLeaguePosition() > bl2.getLeaguePosition()) {
-                    return 1;
-                } else {
-                    return -1;
-                }
-            }
-        });
 
         allTeams.forEach(blt -> teams.add(new BLTableInfo(blt)));
+        setTeams(teams);
+    }
 
+    public BundesligaTableTransform(List <BundesligaTable> blt) {
+        teams = new ArrayList<>();
+        blt.forEach(bl -> teams.add(new BLTableInfo(bl)));
         setTeams(teams);
     }
 
