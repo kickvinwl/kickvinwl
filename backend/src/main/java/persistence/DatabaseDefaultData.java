@@ -6,14 +6,14 @@ import manager.BundesligaTableManager;
 
 public class DatabaseDefaultData {
 
+
 	private static DatabaseDefaultData instance;
 
-    public static DatabaseDefaultData getInstance() {
-        return instance = instance != null ? instance : new DatabaseDefaultData();
-    }
+	public static DatabaseDefaultData getInstance(){
 
-    private DatabaseDefaultData() {
-    }
+		return instance = instance != null ? instance : new DatabaseDefaultData();
+	}
+	private DatabaseDefaultData() {}
 
 
     public void generateData() {
@@ -189,4 +189,5 @@ public class DatabaseDefaultData {
             e.printStackTrace();
         }
     }
+
 }
