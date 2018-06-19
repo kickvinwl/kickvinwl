@@ -20,6 +20,9 @@ public class UserPointsLeague extends EntityGeneratedKey{
 
     private int points;
 
+    public UserPointsLeague() {
+    }
+
     public int getPoints() {
         return points;
     }
