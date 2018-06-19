@@ -15,12 +15,11 @@ public abstract class UserResource {
     UserPersistenceService userPersistenceService;
 
     public UserResource() {
-        //TODO: User Persistence Service Instanziieren;
-        userPersistenceService = new UserPersistenceService();
+        userPersistenceService = UserPersistenceService.getInstance();
     }
 
     @POST
-    @Path("a:set|Set")
+    @Path("/{a:set|Set}")
     @Consumes(MediaType.APPLICATION_JSON)
     public abstract Response setUser(User user);
 
@@ -28,6 +27,11 @@ public abstract class UserResource {
     @Path("/{a:get|Get}/{token}")
     @Produces(MediaType.APPLICATION_JSON)
     public abstract Response getUserByToken(@PathParam("token") String token);
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getUserByName")
+    public abstract Response getUserByName(@QueryParam("token") String token, @QueryParam("userName") String userName);
 
     @GET
     @Path("/{a:logout|Logout}")

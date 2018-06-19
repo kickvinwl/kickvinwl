@@ -5,18 +5,18 @@
 		<div class="col-md-4 image-upload">
 			<form action="pathnochnichtvorhanden" id="form-image">
 				<label for="file-input">
-				<img src="https://www.w3schools.com/howto/img_lights.jpg" style="height: 10rem; width: 10rem; border-radius: 50rem; cursor: pointer;" class="img-thumbnail img-fluid" id="profilBild" />	
+					<img src="" style="height: 10rem; width: 10rem; border-radius: 50rem; cursor: pointer;" class="img-thumbnail img-fluid" id="profilBild" />	
 				</label>
 				<input type="file" id="file-input" style="display: none;" name="newImage">
 			</form>
 		</div>
 		<div class="col-md-8">
 			<div>
-				<input type="text" name="nname" disabled value="Max Mustermann"></input>
+				<input type="text" name="nname" disabled value="" id="name"></input>
 			</div>
 			<div>
 				<label id="cur_Titel">-Bankwärmer-</label>
-				<i class="far fa-edit" id="editTitel" style="cursor: pointer;"></i>
+				<i class="far fa-edit" id="editTitel" style="cursor: pointer; display:none;"></i>
 				<ul class="list-inline">
 					<li class="list-inline-item">
 						<i class="fab fa-angellist"></i>
@@ -36,15 +36,15 @@
 				</ul>
 			</div>
 			<div>
-				<label>aktuelle Punktzahl: 33</label>  
+				<label>aktuelle Punktzahl: <i id="aktPkt"></i></label>  
 				<br />
-				<label>aktuelle Platzierung: 1.</label>
+				<label>aktuelle Platzierung: <i id="aktPlatz"></i></label>
 				<br />
-				<label>Punkte bester Spieltag: 9</label>
+				<label>Punkte bester Spieltag: <i id="besterTag"></i></label>
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row" style="display: none;" id="groupRow">
 		<div class="col-md-12">
 			<div class="dropdown">
 				<button class="btn btn-primary dropdown-toggle" type="button" id="about-us" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -167,27 +167,105 @@
 
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#gruppenTable').DataTable();
 
-		$('#editTitel').click(function(){
-			$('#TitelModal').modal('show');	
-		});
+		var searchName = getUrlParameter('name');
+		if(searchName == null)
+		{
+			$('#groupRow').css('display', 'flex');
 
-		$('#changeTitel').click(function(){
+			$('#gruppenTable').DataTable();
+
+			$('#editTitel').css('display', 'inline-block');
+			$('#editTitel').click(function(){
+				$('#TitelModal').modal('show');	
+			});
+
+			$('#changeTitel').click(function(){
+				$.each($('.achv_radio'),function(i,v){
+					if($(v).prop("checked") == true)
+					{
+						$('#cur_Titel').text($(v).prop("name"));
+					}
+				});
+				$('#TitelModal').modal('hide');
+				lieferNeueDaten($('#cur_Titel').text(), "titel");
+			});
+
+			$('#file-input').change(function(){
+				lieferNeueDaten($('#file-input').val(), "bild");
+			});
+
+			var token2 = Cookies.get('token');
+			if (typeof token2 != 'undefined') {
+				$.getJSON("backend/user/get/" + token2, function(result){
+					$('#name').val(result.userName);
+					var pic = result.userPicture;
+					if(pic != null){
+						$('#profilBild').attr('src', pic);
+					}
+					$('#aktPkt').val(result.Punkte);
+					$('#aktPlatz').val(result.Platz);
+					$('#besterTag').val(result.Bester);
+				});
+			}
+			else{
+				window.location.href = urlPath + '?page=login';
+			}
 			
-			$.each($('.achv_radio'),function(i,v){
-				if($(v).prop("checked") == true)
-				{
-					$('#cur_Titel').text($(v).prop("name"));
+			function lieferNeueDaten(daten, was){
+				var token = Cookies.get('token');
+				if (typeof token != 'undefined') {
+					var datenSend = new Object();
+					//datenSend.userName = $('#name').val();	
+					if(was == "titel")
+						datenSend.Achievement = daten;
+					else
+						datenSend.userPicture = "https://as.ftcdn.net/r/v1/pics/ea2e0032c156b2d3b52fa9a05fe30dedcb0c47e3/landing/images_photos.jpg";
+					datenSend.sessionKey = token;
+					var d = JSON.stringify(datenSend);
+						$.ajax({
+						  type: "POST",
+						  headers: { 
+						        'Content-Type': 'application/json' 
+						  },
+						  url: "backend/user/set/",
+						  data: d,
+						  success: function(response){
+						  	location.reload();	
+						  },
+						  dataType: "json",
+						  error: function(result){
+						  	handleError(result);
+						  }
+						});	
+				}
+				else{
+					window.location.href = urlPath + '?page=login';
+				}
+			}	
+		}
+		else
+		{
+			//ajax call für den jeweiligen User
+			//variable für aktPkt, aktPlatz, besterTag, username, bild
+			$.ajax({
+				type: "GET",
+				url: "backend/user/getByName?token=" + token + "&userName=" + searchName,
+				success: function(result){
+					$('#name').val(result.userName);
+					var pic = result.userPicture;
+					if(pic != null){
+						$('#profilBild').attr('src', pic);
+					}
+					$('#aktPkt').val(result.Punkte);
+					$('#aktPlatz').val(result.Platz);
+					$('#besterTag').val(result.Bester);
+				},
+				error: function(result){
+					handleError(result);
 				}
 			});
-			
-			$('#TitelModal').modal('hide');
-		});
-
-		$('#file-input').change(function(){
-			$('#form-image').submit();
-			location.reload()
-;		});
+		}
+		
 	});
 </script>

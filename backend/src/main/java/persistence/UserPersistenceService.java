@@ -1,13 +1,16 @@
 package persistence;
 
+import entities.Achievement;
 import entities.Group;
+import entities.MatchTip;
 import entities.User;
 
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,10 +18,13 @@ public class UserPersistenceService extends PersistenceService<User> {
 
     private static UserPersistenceService instance;
 
+    private static long SESSION_LENGTH = 30 * 60 * 1000;
+
     public static UserPersistenceService getInstance()
     {
         return instance = instance != null ? instance : new UserPersistenceService();
     }
+    private UserPersistenceService() {};
 
     public User getByName(final String userName) throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
@@ -61,15 +67,18 @@ public class UserPersistenceService extends PersistenceService<User> {
         });
     }
 
-    public User getBySessionKey(final String sessionKey) throws NoResultException {
+    public User getBySessionKey(final String sessionKey) throws NoResultException, SecurityException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query = entityManager.createQuery("SELECT us FROM User us WHERE us.sessionKey = :sKey");
+            TypedQuery<User> query = entityManager.createQuery("SELECT us FROM User us WHERE us.sessionKey = :sKey",User.class);
             query.setParameter("sKey", sessionKey);
-            List<User> user = query.getResultList();
-            if(user.isEmpty())
-                throw new NoResultException();
+            User user = query.getSingleResult();
+            if(user==null){
+                System.out.println("noresult");
+                throw new NoResultException();}
             else
-                return user.get(0);
+                if(user.getLastAction().getTime() <= System.currentTimeMillis() - SESSION_LENGTH) throw new SecurityException("Session ausgelaufen!");
+                user.setTips(loadMatchTips(user.getId()));
+                return user;
         });
     }
 
@@ -113,12 +122,63 @@ public class UserPersistenceService extends PersistenceService<User> {
         });
     }
 
+    /**
+     *
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public List<User> getAll() {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
             Query query = entityManager.createQuery("SELECT * FROM User");
-            return query.getResultList();
+            List<User> users = query.getResultList();
+            if ( users.isEmpty()) {
+                throw new NoResultException();
+            } else {
+                return users;
+            }
         });
     }
+
+    /**
+     *
+     * @param search
+     * @return
+     * @throws NoResultException
+     */
+    @SuppressWarnings("unchecked")
+    public List<User> getSearch(String search) throws NoResultException{
+    	return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+    		Query query = entityManager.createQuery("SELECT u FROM User u WHERE userName LIKE '%" + search + "%'");
+            List<User> users = query.getResultList();
+            if ( users.isEmpty()) {
+                throw new NoResultException();
+            } else {
+                return users;
+            }
+    	});
+    }
+
+
+    public boolean hasEntries(){
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            Query query = entityManager.createQuery("SELECT a FROM User a");
+            List<Achievement> ach = query.getResultList();
+            return !ach.isEmpty();
+        });
+    }
+
+    private List<MatchTip> loadMatchTips(final int userID) {
+        MatchTipPersistenceService mtps = MatchTipPersistenceService.getInstance();
+        List<MatchTip> matchTips = new ArrayList<>();
+
+        try {
+            matchTips = mtps.getByUserId(userID);
+        }
+        catch (NoResultException e) {
+
+        }
+        return matchTips;
+    }
+
 
 }

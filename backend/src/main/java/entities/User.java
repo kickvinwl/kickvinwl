@@ -11,8 +11,8 @@ public class User extends EntityGeneratedKey {
 
 	@Column(updatable = false, nullable = false, unique = true)
 	private String userName;
-	@Column(updatable = true, nullable = false)
-	private String userPicture;
+	@Column(updatable = true, nullable = true)
+	private byte[] userPicture;
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
 
@@ -20,7 +20,7 @@ public class User extends EntityGeneratedKey {
 	@JoinColumn(name = "fk_displayedTitle")
 	private Achievement displayedTitle;
 
-	@Column(updatable = true, nullable = false)
+	@Column(updatable = true, nullable = true)
 	private String sessionKey;
 
 	@Column(updatable = true, nullable = false)
@@ -29,6 +29,10 @@ public class User extends EntityGeneratedKey {
 	@Column(updatable = true, nullable = false)
 	@OneToMany(mappedBy = "id")
 	private List<Group> adminGroups = new ArrayList<>();
+
+	@Column(updatable = true, nullable = true)
+    @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
+    private List<MatchTip> tips = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(
@@ -43,6 +47,18 @@ public class User extends EntityGeneratedKey {
 			joinColumns = { @JoinColumn(name = "fk_user") },
 			inverseJoinColumns = { @JoinColumn(name = "fk_achievement")})
 	private List<Achievement> achievements = new ArrayList<>();
+
+	public User(String name, String sessionKey)
+	{
+		this.userName = name;
+		this.sessionKey = sessionKey;
+		this.lastAction = new Date();
+//		this.setUserPicture("default");
+		this.setUserIsAdmin(false);
+	}
+
+	public User() {
+	}
 
 	public String getUserName() {
 		return userName;
@@ -60,11 +76,11 @@ public class User extends EntityGeneratedKey {
 		this.userName = userName;
 	}
 
-	public String getUserPicture() {
+	public byte[] getUserPicture() {
 		return userPicture;
 	}
 
-	public void setUserPicture(String userPicture) {
+	public void setUserPicture(byte[] userPicture) {
 		this.userPicture = userPicture;
 	}
 
@@ -85,6 +101,11 @@ public class User extends EntityGeneratedKey {
 	//	this.displayedTitle = achievement;
 	//}
 
+	public void addTip(MatchTip tip)
+	{
+		tips.add(tip);
+	}
+
 	public String getSessionKey() {
 		return sessionKey;
 	}
@@ -92,4 +113,10 @@ public class User extends EntityGeneratedKey {
 	public void setSessionKey(String sessionKey) {
 		this.sessionKey = sessionKey;
 	}
+
+	public List<MatchTip> getTips() {
+		return tips;
+	}
+
+	public void setTips(List<MatchTip> tips) { this.tips = tips; }
 }

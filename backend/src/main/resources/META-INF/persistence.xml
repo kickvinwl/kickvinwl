@@ -7,9 +7,19 @@
     <persistence-unit name="kickvinwl">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>entities.User</class>
-        <class>entities.Achievement</class>
         <class>entities.Group</class>
+
+        <class>entities.Achievement</class>
         <class>entities.AchievementIcon</class>
+
+        <class>entities.Match</class>
+        <class>entities.MatchTip</class>
+
+        <class>entities.Team</class>
+
+        <class>entities.Matchday</class>
+        <class>entities.League</class>
+
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/kickvinwl"/>
@@ -17,7 +27,7 @@
             <property name="javax.persistence.jdbc.password" value=""/>
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
 </persistence>

@@ -5,7 +5,7 @@ import entities.EntityGeneratedKey;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class PersistenceService<E extends EntityGeneratedKey> {
+public abstract class PersistenceService<E extends EntityGeneratedKey> {
 
     private final EntityManagerFactory emf;
 

