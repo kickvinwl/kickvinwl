@@ -8,7 +8,17 @@ import javax.ws.rs.core.Response;
 public abstract class LeaderboardResource {
 
     @GET
-    @Path("/{a:get|Get}")
+    @Path("/season")
     @Produces(MediaType.APPLICATION_JSON)
-    public abstract Response getLeaderboardByGameday(@DefaultValue("-1") @QueryParam("gameday") int gameday);
+    public abstract Response getSeasonLeaderboard();
+
+    @GET
+    @Path("/gameday")
+    @Produces(MediaType.APPLICATION_JSON)
+    public abstract Response getGamedayLeaderboard();
+
+    @GET
+    @Path("/alltime")
+    @Produces(MediaType.APPLICATION_JSON)
+    public abstract Response getAlltimeLeaderboard();
 }

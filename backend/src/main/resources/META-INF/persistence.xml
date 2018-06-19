@@ -22,7 +22,7 @@
 
         <class>entities.Matchday</class>
         <class>entities.League</class>
-        <class>entities.UserPointsLeague</class>
+        <class>entities.UserPointsMatchday</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />

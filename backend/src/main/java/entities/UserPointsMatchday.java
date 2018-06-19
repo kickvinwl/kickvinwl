@@ -8,19 +8,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
-public class UserPointsLeague extends EntityGeneratedKey{
+public class UserPointsMatchday extends EntityGeneratedKey{
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_user")
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "fk_league")
-    private League league;
+    @JoinColumn(name = "fk_matchday")
+    private Matchday league;
 
     private int points;
 
-    public UserPointsLeague() {
+    public UserPointsMatchday() {
     }
 
     public int getPoints() {
@@ -31,11 +31,11 @@ public class UserPointsLeague extends EntityGeneratedKey{
         this.points = points;
     }
 
-    public League getleague() {
+    public Matchday getleague() {
         return league;
     }
 
-    public void setleague(League league) {
+    public void setleague(Matchday league) {
         this.league = league;
     }
 
