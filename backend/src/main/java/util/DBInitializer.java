@@ -2,10 +2,10 @@ package util;
 
 import entities.Team;
 import persistence.DatabaseDefaultData;
-import util.TeamDeserializer;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,8 +22,7 @@ public class DBInitializer {
         String sqlString = "CREATE DATABASE IF NOT EXISTS kickvinwl";
         runstatement(sqlString);
         setupTables();
-
-        DatabaseDefaultData.getInstance().generatetData();
+        DatabaseDefaultData.getInstance().generateData();
     }
 
     public static void dropDatabase() {
@@ -68,5 +67,6 @@ public class DBInitializer {
             e.printStackTrace();
         }
     }
+
 
 }

@@ -1,6 +1,7 @@
 package persistence;
 
 import entities.Team;
+import util.TeamDeserializer;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -36,6 +37,51 @@ public class TeamPersistenceService extends PersistenceService<Team> {
                 throw new NoResultException();
             return teams.get(0);
         });
+    }
+
+    public Team getByTeamName(final String teamName)throws NoResultException {
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            String qlString = "SELECT t FROM Team t where t.teamName = :tName";
+            Query query = entityManager.createQuery(qlString);
+            query.setParameter("tName", teamName);
+            List<Team> teams = query.getResultList();
+            if (teams.isEmpty())
+                throw new NoResultException();
+            return teams.get(0);
+        });
+    }
+
+    public List<Team> getAllTeams() {
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            String qlString = "SELECT * FROM User";
+            Query query = entityManager.createQuery(qlString);
+            List<Team> teams = query.getResultList();
+            if (teams.isEmpty())
+                throw new NoResultException();
+            return teams;
+        });
+    }
+
+    public static void persistTeams() {
+        TeamDeserializer td = new TeamDeserializer();
+        try{
+            System.out.println("Starting to persist Teams ...");
+            System.out.println();
+            List<Team> teamList = td.deserializeTeam("https://www.openligadb.de/api/getavailableteams/bl1/2017");
+            TeamPersistenceService tps = TeamPersistenceService.getInstance();
+            for (Team team : teamList) {
+                try {
+                    tps.getByTeamId(team.getTeamId());
+                } catch (NoResultException e) {
+                    tps.save(team);
+                }
+            }
+            System.out.println();
+            System.out.println("Finished to persist Teams !!!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 

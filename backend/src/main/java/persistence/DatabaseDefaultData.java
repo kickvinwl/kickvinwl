@@ -1,42 +1,30 @@
 package persistence;
 
+
 import entities.*;
+import manager.BundesligaTableManager;
 
 public class DatabaseDefaultData {
 
+
 	private static DatabaseDefaultData instance;
 
-	public static DatabaseDefaultData getInstance()
-	{
+	public static DatabaseDefaultData getInstance(){
+
 		return instance = instance != null ? instance : new DatabaseDefaultData();
 	}
-	private DatabaseDefaultData() {};
+	private DatabaseDefaultData() {}
 
-	public void generatetData(){
-		achievementData();
-		userDataMitTips();
-//		league();
-	}
 
-//	private void league()
-//	{
-//		LeaguePersistenceService lps = LeaguePersistenceService.getInstance();
-//		MatchdayPersistenceService mdps = MatchdayPersistenceService.getInstance();
-//
-//		League league = new League();
-//		league.setSeason("2017/18");
-//
-//		Matchday mdDefault = new Matchday();
-//		mdDefault.setMatchday(28);
-//		mdps.save(mdDefault);
-//		mdps.setDefault(mdDefault);
-//
-//		league.setCurrentMatchday(mdDefault);
-//
-//		lps.save(league);
-//	}
+    public void generateData() {
+        TeamPersistenceService.persistTeams();
+        achievementData();
+        generateLeague();
+       // generateBundesligaTable();
+    }
 
-	private void userDataMitTips()
+
+	private void generateTipData()
 	{
 		UserPersistenceService ups = UserPersistenceService.getInstance();
 		MatchTipPersistenceService mtps = MatchTipPersistenceService.getInstance();
@@ -177,9 +165,29 @@ public class DatabaseDefaultData {
 		ach.setAchievementDescription("Gewinnen Sie 3 Tippspiele");
 		aps.save(ach);
 
-		ach = new Achievement();   
-		ach.setTitle("Tippsielsieger");
-		ach.setAchievementDescription("Gewinnen Sie ein Tippspiele");
-		aps.save(ach);
-	}
+        ach = new Achievement();
+        ach.setTitle("Tippsielsieger");
+        ach.setAchievementDescription("Gewinnen Sie ein Tippspiele");
+        aps.save(ach);
+    }
+
+    private void generateLeague() {
+        League l = new League();
+        l.setLeagueId("bl1");
+        l.setSeason("2017");
+        LeaguePersistenceService.getInstance().save(l);
+    }
+
+    private void generateBundesligaTable() {
+        BundesligaTableManager blmanager = new BundesligaTableManager(
+                LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1"));
+        try {
+            blmanager.updateData();
+            System.out.println("SUCCESS: BUNDESLIGATABLE LOADED");
+        } catch (Exception e) {
+            System.out.println("ERROR: BUNDESLIGATABLE-GENERATION");
+            e.printStackTrace();
+        }
+    }
+
 }
