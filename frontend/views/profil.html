@@ -213,31 +213,38 @@
 			}
 			
 			function lieferNeueDaten(daten, was){
-				var token = Cookies.get('token');
-				if (typeof token != 'undefined') {
-					var datenSend = new Object();
-					//datenSend.userName = $('#name').val();	
+				var token2 = Cookies.get('token');
+				if (typeof token2 != 'undefined') {
 					if(was == "titel")
-						datenSend.Achievement = daten;
-					else
-						datenSend.userPicture = "https://as.ftcdn.net/r/v1/pics/ea2e0032c156b2d3b52fa9a05fe30dedcb0c47e3/landing/images_photos.jpg";
-					datenSend.sessionKey = token;
-					var d = JSON.stringify(datenSend);
+					{
 						$.ajax({
 						  type: "POST",
 						  headers: { 
 						        'Content-Type': 'application/json' 
 						  },
-						  url: "backend/user/set/",
-						  data: d,
+						  url: "backend/user/setAchievment/" + token2,
+						  data: JSON.stringify(daten),
 						  success: function(response){
 						  	location.reload();	
 						  },
-						  dataType: "json",
-						  error: function(result){
-						  	handleError(result);
-						  }
+						  dataType: "json"
+						});
+					}
+					else
+					{
+						$.ajax({
+						  type: "POST",
+						  headers: { 
+						        'Content-Type': 'application/json' 
+						  },
+						  url: "backend/user/setImage/" + token2,
+						  data: JSON.stringify("https://as.ftcdn.net/r/v1/pics/ea2e0032c156b2d3b52fa9a05fe30dedcb0c47e3/landing/images_photos.jpg"),
+						  success: function(response){
+						  	location.reload();	
+						  },
+						  dataType: "json"
 						});	
+					}
 				}
 				else{
 					window.location.href = urlPath + '?page=login';
@@ -260,9 +267,6 @@
 					$('#aktPkt').val(result.Punkte);
 					$('#aktPlatz').val(result.Platz);
 					$('#besterTag').val(result.Bester);
-				},
-				error: function(result){
-					handleError(result);
 				}
 			});
 		}
