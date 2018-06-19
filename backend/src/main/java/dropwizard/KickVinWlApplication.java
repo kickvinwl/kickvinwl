@@ -56,5 +56,8 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
         final BundesligaResource bundesligaResource = new BundesligaResourceImpl();
         environment.jersey().register(bundesligaResource);
+
+        final NewsfeedResource newsfeedResource = new NewsfeedResourceImpl();
+        environment.jersey().register(newsfeedResource);
     }
 }

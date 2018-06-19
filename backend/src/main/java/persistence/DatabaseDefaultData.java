@@ -4,6 +4,8 @@ package persistence;
 import entities.*;
 import manager.BundesligaTableManager;
 
+import java.util.Calendar;
+
 public class DatabaseDefaultData {
 
 
@@ -21,7 +23,21 @@ public class DatabaseDefaultData {
         achievementData();
         generateLeague();
        // generateBundesligaTable();
+		generateNews();
     }
+
+	private void generateNews() {
+		NewsfeedPersistenceService nps = NewsfeedPersistenceService.getInstance();
+		NewsfeedMessage message = new NewsfeedMessage();
+		Calendar calender = Calendar.getInstance();
+		calender.add(Calendar.DAY_OF_MONTH, 1);
+		message.setEndDate(calender.getTime());
+		calender.add(Calendar.DAY_OF_MONTH, -2);
+		message.setStartDate(calender.getTime());
+		message.setMessageText("YOLO");
+		message.setUserId("420");
+		nps.save(message);
+	}
 
 
 	private void generateTipData()
