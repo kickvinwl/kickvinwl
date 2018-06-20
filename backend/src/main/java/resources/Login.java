@@ -21,16 +21,12 @@ import java.util.UUID;
 public class Login {
 
 
-    /**
-     *
-     * @param name
-     * @param pw
-     * @return
-     */
     @POST
     public Response createToken(Map<String, String> input) {
 
-        String name = input.get("name");
+        System.out.println(input);
+
+        String name = input.get("user");
         String pw = input.get("pw");
 
         System.out.println("öööööööööööööööööööööööööööööööööööööö "+ name + " " + pw);
