@@ -24,11 +24,10 @@ public class Login {
      *
      * @param name
      * @param pw
-     * @param group wird nicht mehr berücksichtigt
      * @return
      */
     @GET
-    public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw, @DefaultValue("GG_APP_Ermaechtigung_GOP_Kataloge_RW") @QueryParam("group") String group) {
+    public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw) {
 
         Response.ResponseBuilder rb = Response.accepted();
 
