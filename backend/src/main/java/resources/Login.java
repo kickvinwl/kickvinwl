@@ -26,8 +26,8 @@ public class Login {
      * @param pw
      * @return
      */
-    @GET
-    public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw) {
+    @POST
+    public Response createToken(String name, String pw) {
 
         Response.ResponseBuilder rb = Response.accepted();
 
