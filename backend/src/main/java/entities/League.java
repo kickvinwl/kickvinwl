@@ -1,4 +1,8 @@
 package entities;
+import manager.MatchDayManager;
+import persistence.LeaguePersistenceService;
+import persistence.MatchdayPersistenceService;
+
 import javax.persistence.*;
 
 //TODO: leagueid und season sind primärschlüssel, aber als solche noch nicht technisch deklariert (EmbeddedKey)
@@ -30,7 +34,7 @@ public class League extends EntityGeneratedKey {
 	}
 
 	public Matchday getCurrentMatchday() {
-		return currentMatchday;
+		return this.currentMatchday;
 	}
 
 	public void setCurrentMatchday(Matchday currentMatchday) {

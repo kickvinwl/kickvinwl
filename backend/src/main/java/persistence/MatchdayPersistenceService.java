@@ -1,8 +1,6 @@
 package persistence;
 
 import entities.Matchday;
-import entities.User;
-
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
@@ -15,6 +13,7 @@ public class MatchdayPersistenceService extends PersistenceService<Matchday> {
     {
         return instance = instance != null ? instance : new MatchdayPersistenceService();
     }
+
     private MatchdayPersistenceService() {};
 
     public Matchday getById(final int id) throws NoResultException {
@@ -26,6 +25,19 @@ public class MatchdayPersistenceService extends PersistenceService<Matchday> {
                 throw new NoResultException();
             else
                 return matchdays.get(0);
+        });
+    }
+
+    // TODO test
+    public List<Matchday> getAllMatchDaysForLeague(final String leagueID) {
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            Query query = entityManager.createQuery("SELECT ma FROM Matchday ma WHERE fk_league = :id");
+            query.setParameter("fk_league", leagueID);
+            List<Matchday> matchdays = query.getResultList();
+            if(matchdays.isEmpty())
+                throw new NoResultException();
+            else
+                return matchdays;
         });
     }
 

@@ -77,7 +77,7 @@ public class UserPersistenceService extends PersistenceService<User> {
                 throw new NoResultException();}
             else
                 if(user.getLastAction().getTime() <= System.currentTimeMillis() - SESSION_LENGTH) throw new SecurityException("Session ausgelaufen!");
-                user.setTips(loadMatchTips(user.getId()));
+                //user.setTips(loadMatchTips(user.getId()));
                 return user;
         });
     }

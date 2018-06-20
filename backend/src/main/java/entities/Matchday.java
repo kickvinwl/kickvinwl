@@ -8,6 +8,8 @@ public class Matchday extends EntityGeneratedKey{
 
 	private int matchday;
 
+	private int externalMatchID;
+
 	@JoinColumn(name = "fk_league")
 	private League league;
 
@@ -24,5 +26,26 @@ public class Matchday extends EntityGeneratedKey{
 
 	public void setMatchday(int matchday) {
 		this.matchday = matchday;
+	}
+
+	public int getExternalMatchID() {
+		return externalMatchID;
+	}
+
+	public void setExternalMatchID(int externalMatchID) {
+		this.externalMatchID = externalMatchID;
+	}
+
+	public League getLeague() {
+		return league;
+	}
+
+	public void setLeague(League league) {
+		this.league = league;
+	}
+
+	@Override
+	public String toString() {
+		return matchday + "|" + externalMatchID + "|" + league.getId();
 	}
 }

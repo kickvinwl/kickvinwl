@@ -1,10 +1,13 @@
 package dropwizard;
 
+import entities.Matchday;
 import entities.Team;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import manager.MatchDayManager;
 import org.apache.commons.lang3.ObjectUtils;
+import persistence.LeaguePersistenceService;
 import persistence.TeamPersistenceService;
 import resources.*;
 import util.DBInitializer;

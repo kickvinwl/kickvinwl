@@ -1,7 +1,8 @@
 package util;
 
-import entities.Team;
-import persistence.DatabaseDefaultData;
+import entities.*;
+import manager.MatchDayManager;
+import persistence.*;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -10,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 public class DBInitializer {
@@ -23,6 +25,8 @@ public class DBInitializer {
         runstatement(sqlString);
         setupTables();
         DatabaseDefaultData.getInstance().generateData();
+        setupVoting();
+        setupMatchDays();
     }
 
     public static void dropDatabase() {
@@ -45,6 +49,42 @@ public class DBInitializer {
             System.out.println("===================================");
         }
     }
+
+    public static void setupVoting() {
+
+        User u = new User();
+        u.setUserName("qwertz");
+        u.setSessionKey("abc");
+        u.setLastAction(new Date());
+        UserPersistenceService.getInstance().save(u);
+
+        Matchday d = new Matchday();
+        d.setMatchday(5);
+        MatchdayPersistenceService.getInstance().save(d);
+
+        Match m = new Match();
+        m.setTeam(TeamPersistenceService.getInstance().getByTeamId(65));
+        m.setTeam2(TeamPersistenceService.getInstance().getByTeamId(81));
+        MatchPersistenceService.getInstance().save(m);
+
+        MatchTip mt = new MatchTip();
+        mt.setOwner(u);
+        mt.setTippedMatch(m);
+        MatchTipPersistenceService.getInstance().save(mt);
+    }
+
+    public static void setupMatchDays() {
+        League league = LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1");
+        MatchDayManager mdm = new MatchDayManager(league);
+        try {
+            List<Matchday> mds = mdm.getMatchDaysFromAPI();
+            mds.forEach(matchday -> MatchdayPersistenceService.getInstance().save(matchday));
+            System.out.println("Success");
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
+    }
+
 /*
     public static void generateAchievementTestData() {
         AchievementTestData.generateTestData();
