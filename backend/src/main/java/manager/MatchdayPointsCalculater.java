@@ -58,7 +58,7 @@ public class MatchdayPointsCalculater {
             userPointsMatchday.setMatchday(matchday);
             userPointsMatchday.setPoints(calculatePointsForUser(user.getId()));
             userPointsMatchday.setuser(user);
-            userPointsPersistenceService.save(userPointsMatchday);
+            userPointsPersistenceService.saveOrUpdatePoints(userPointsMatchday);
         }
     }
 
