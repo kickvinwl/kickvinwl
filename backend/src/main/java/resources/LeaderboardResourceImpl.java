@@ -1,6 +1,8 @@
 package resources;
 
 import manager.MatchdayPointsCalculater;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import persistence.LeaderboardPersistenceService;
 import persistence.LeaguePersistenceService;
 import resources.datamodel.UserPoints;
@@ -46,6 +48,8 @@ public class LeaderboardResourceImpl extends LeaderboardResource {
     @Override
     public Response getGamedayLeaderboard() {
         response = Response.accepted().build();
+        Logger slf4jLogger = LoggerFactory.getLogger("leaderboard logger");
+        slf4jLogger.debug("gameday board started");
         try {
             List<UserPoints> leaderboard = LeaderboardPersistenceService.getInstance().getGamedayLeaderboard(LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1").getCurrentMatchday().getId());
             response = Response.accepted(leaderboard).build();

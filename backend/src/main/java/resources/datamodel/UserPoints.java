@@ -12,6 +12,12 @@ public class UserPoints {
     String username;
     int points;
 
+    public UserPoints(int platzierung, String username, Long points) {
+        this.platzierung = platzierung;
+        this.username = username;
+        this.points = points.intValue();
+    }
+
     public UserPoints(int platzierung, String username, int points) {
         this.platzierung = platzierung;
         this.username = username;
