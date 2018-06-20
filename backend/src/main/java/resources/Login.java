@@ -29,8 +29,6 @@ public class Login {
         String name = input.get("user");
         String pw = input.get("pw");
 
-        System.out.println("öööööööööööööööööööööööööööööööööööööö "+ name + " " + pw);
-
         Response.ResponseBuilder rb = Response.accepted();
 
         boolean isAllow = AuthenticationServiceFactory.getInstance().login(name, pw);
