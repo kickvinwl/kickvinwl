@@ -49,7 +49,7 @@ public class DBInitializer {
 
 
         Matchday md = new Matchday();
-        md.setMatchday(0);
+        md.setMatchday(1);
         MatchdayPersistenceService.getInstance().save(md);
 
         Match match = new Match();
