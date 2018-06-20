@@ -4,9 +4,14 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import persistence.LeaderboardPersistenceService;
+import manager.MatchdayPointsCalculater;
 import persistence.MatchTipPersistenceService;
 import resources.*;
 import util.DBInitializer;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
@@ -59,5 +64,17 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
         final LeaderboardResource leaderboardResource = new LeaderboardResourceImpl();
         environment.jersey().register(leaderboardResource);
+        schedulingJobs();
+    }
+
+
+    private void schedulingJobs() {
+        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                MatchdayPointsCalculater.getInstance().updateUserPointsMatchday();
+            }
+        }, 5, 5, TimeUnit.MINUTES);
     }
 }
