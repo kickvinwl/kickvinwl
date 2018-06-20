@@ -53,7 +53,7 @@ public class TeamPersistenceService extends PersistenceService<Team> {
 
     public List<Team> getAllTeams() {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            String qlString = "SELECT * FROM User";
+            String qlString = "SELECT u FROM User u";
             Query query = entityManager.createQuery(qlString);
             List<Team> teams = query.getResultList();
             if (teams.isEmpty())
