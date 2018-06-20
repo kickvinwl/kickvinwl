@@ -38,7 +38,6 @@ function login(user, pw) {
 			window.location.href = urlPath;
 		},
 		error: function(data) {
-			console.log(data);
 			var text = data.status == 401 ? "Nutzername oder Passwort falsch" :  "Unbekannter Fehler";
 			$('#loginError span').text(text);
 			$('#loginError').removeClass('d-none');
