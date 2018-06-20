@@ -145,7 +145,6 @@ public class MatchTipTransform {
                 setLogo(team.getTeamIconURL());
                 setTipScore((isHomeTeam) ? matchTip.getGoalsTeam1() : matchTip.getGoalsTeam2());
                 setRealScore((isHomeTeam) ? match.getGoalsTeam1() : match.getGoalsTeam2());
-                System.out.println(matchTip.getGoalsTeam1() + " ### " + matchTip.getGoalsTeam2());
             }
 
             public void setId(int id) {

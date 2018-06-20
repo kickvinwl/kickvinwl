@@ -30,9 +30,9 @@ public class MatchTip extends EntityGeneratedKey {
     }
 
     public MatchTip() {
-//        goalsTeam1 =
-//        goalsTeam2 =
-//        userPoints = -1;
+        goalsTeam1 =
+        goalsTeam2 =
+        userPoints = -1;
     }
 
     public User getOwner() {

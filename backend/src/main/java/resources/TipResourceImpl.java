@@ -64,7 +64,6 @@ public class TipResourceImpl extends TipResource {
     @Override
     public Response getTipByToken(String token, int gameday) {
         response = Response.accepted().build();
-        System.out.println("Strat get tip" + gameday);
         Matchday matchdayDefault = new Matchday();//LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1").getCurrentMatchday();
 //        matchdayDefault.setMatchday(27);
 //        matchdayDefault.setId(18);
@@ -78,7 +77,6 @@ public class TipResourceImpl extends TipResource {
             } catch (NoResultException e) {
                 throw new NoResultException("Matchday mit dem Tag " + gameday + " wurde nicht gefunden!");
             }
-            System.out.println("#################" +matchdayDefault.getMatchday());
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
             MatchTipTransform matchTip = new MatchTipTransform("2017/18", matchday, user); //TODO Season wird noch nicht verarbeitet
             //(matchTip.getGameday().equals("0")) ?  Response.status(Response.Status.NOT_FOUND).build() :
