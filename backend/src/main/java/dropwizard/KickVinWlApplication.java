@@ -3,6 +3,7 @@ package dropwizard;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import persistence.AchievementsChecker;
 import resources.*;
 import util.DBInitializer;
 
@@ -30,6 +31,9 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
     public void run(KickVinWlConfiguration configuration, Environment environment) throws Exception {
 //        DBInitializer.dropDatabase();
         DBInitializer.init();
+        
+        AchievementsChecker ac = new AchievementsChecker();
+        ac.check();
 
         final TipResource tipResource = new TipResourceImpl();
         environment.jersey().register(tipResource);

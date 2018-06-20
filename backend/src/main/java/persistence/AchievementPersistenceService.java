@@ -43,7 +43,7 @@ public class AchievementPersistenceService extends PersistenceService{
 	 */
 	public List<Achievement> getAllByUserName(final String userName)throws NoResultException{
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-			String qlString = "SELECT achievement FROM achievement as a " +
+			String qlString = "SELECT achievement FROM Achievement as a " +
 					"INNER JOIN a.user as u " +
 					"WHERE u.userName = :uName";
 			Query query = entityManager.createQuery(qlString);
@@ -56,7 +56,7 @@ public class AchievementPersistenceService extends PersistenceService{
 	}
 	public List<Achievement> getAll() {
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-			String qlString = "SELECT a FROM achievement a";
+			String qlString = "SELECT a FROM Achievement a";
 			Query query = entityManager.createQuery(qlString);
 			List<Achievement> achievements = query.getResultList();
 			return achievements;

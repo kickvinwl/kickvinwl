@@ -127,4 +127,12 @@ public class User extends EntityGeneratedKey {
 	}
 
 	public void setTips(List<MatchTip> tips) { this.tips = tips; }
+
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", userPicture=" + Arrays.toString(userPicture) + ", userIsAdmin="
+				+ userIsAdmin + ", displayedTitle=" + displayedTitle + ", sessionKey=" + sessionKey + ", lastAction="
+				+ lastAction + ", adminGroups=" + adminGroups + ", tips=" + tips + ", groups=" + groups	+ "]";
+	}
+	
 }
