@@ -2,6 +2,7 @@ package entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Matchday extends EntityGeneratedKey{
@@ -10,6 +11,7 @@ public class Matchday extends EntityGeneratedKey{
 
 	private int externalMatchID;
 
+	@ManyToOne
 	@JoinColumn(name = "fk_league")
 	private League league;
 

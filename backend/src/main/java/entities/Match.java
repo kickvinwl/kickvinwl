@@ -35,7 +35,6 @@ public class Match extends EntityGeneratedKey{
     @JoinColumn(name = "fk_team2")
     private Team team2;
 
-
     @Column(updatable = true, nullable = true)
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<MatchTip> tips = new ArrayList<>();

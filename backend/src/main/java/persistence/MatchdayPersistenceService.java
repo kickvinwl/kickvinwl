@@ -28,11 +28,22 @@ public class MatchdayPersistenceService extends PersistenceService<Matchday> {
         });
     }
 
-    // TODO test
-    public List<Matchday> getAllMatchDaysForLeague(final String leagueID) {
+    // TODO
+    public List<Matchday> getAllMatchdaysForLeague(final int leagueID) {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
             Query query = entityManager.createQuery("SELECT ma FROM Matchday ma WHERE fk_league = :id");
             query.setParameter("fk_league", leagueID);
+            List<Matchday> matchdays = query.getResultList();
+            if(matchdays.isEmpty())
+                throw new NoResultException();
+            else
+                return matchdays;
+        });
+    }
+
+    public List<Matchday> getAllMatchdays() {
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            Query query = entityManager.createQuery("SELECT ma FROM Matchday ma");
             List<Matchday> matchdays = query.getResultList();
             if(matchdays.isEmpty())
                 throw new NoResultException();
