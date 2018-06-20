@@ -25,7 +25,6 @@ public class DBInitializer {
         runstatement(sqlString);
         setupTables();
         DatabaseDefaultData.getInstance().generateData();
-        setupVoting();
         setupMatchDays();
     }
 
@@ -137,29 +136,6 @@ public class DBInitializer {
             e.printStackTrace();
             System.out.println("===================================");
         }
-    }
-
-    public static void setupVoting() {
-
-        User u = new User();
-        u.setUserName("qwertz");
-        u.setSessionKey("abc");
-        u.setLastAction(new Date());
-        UserPersistenceService.getInstance().save(u);
-
-        Matchday d = new Matchday();
-        d.setMatchday(5);
-        MatchdayPersistenceService.getInstance().save(d);
-
-        Match m = new Match();
-        m.setTeam(TeamPersistenceService.getInstance().getByTeamId(65));
-        m.setTeam2(TeamPersistenceService.getInstance().getByTeamId(81));
-        MatchPersistenceService.getInstance().save(m);
-
-        MatchTip mt = new MatchTip();
-        mt.setOwner(u);
-        mt.setTippedMatch(m);
-        MatchTipPersistenceService.getInstance().save(mt);
     }
 
     public static void setupMatchDays() {

@@ -20,7 +20,7 @@ public class DatabaseDefaultData {
         TeamPersistenceService.persistTeams();
         achievementData();
         generateLeague();
-       // generateBundesligaTable();
+        generateBundesligaTable();
     }
 
 
