@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -27,7 +28,12 @@ public class Login {
      * @return
      */
     @POST
-    public Response createToken(String name, String pw) {
+    public Response createToken(Map<String, String> input) {
+
+        String name = input.get("name");
+        String pw = input.get("pw");
+
+        System.out.println("öööööööööööööööööööööööööööööööööööööö "+ name + " " + pw);
 
         Response.ResponseBuilder rb = Response.accepted();
 
