@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -20,14 +21,13 @@ import java.util.UUID;
 public class Login {
 
 
-    /**
-     *
-     * @param name
-     * @param pw
-     * @return
-     */
-    @GET
-    public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw) {
+    @POST
+    public Response createToken(Map<String, String> input) {
+
+        System.out.println(input);
+
+        String name = input.get("user");
+        String pw = input.get("pw");
 
         Response.ResponseBuilder rb = Response.accepted();
 

@@ -25,9 +25,13 @@ $(document).keypress(function(e) {
 
 
 function login(user, pw) {
+	var data = {'user': user, 'pw': pw};
 	$.ajax({
-		url: urlPath + 'backend/login?name=' + user + '&pw=' + pw, // group nur temporär für Testzwecke
-		type: 'GET',
+		type: 'POST',
+		url: urlPath + 'backend/login',
+		contentType: "application/json",
+		dataType: 'json',
+		data: JSON.stringify(data),
 		success: function(data, textStatus, jqXHR) {
 			$('#loginError').addClass('d-none');
 			Cookies.set('token', data.token, { expires: 1/24 });
