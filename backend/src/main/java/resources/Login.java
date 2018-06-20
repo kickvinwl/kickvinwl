@@ -25,7 +25,7 @@ public class Login {
 
         Response.ResponseBuilder rb = Response.accepted();
 
-        boolean isAllow = AuthenticationServiceFactory.getInstance().isUserInGroup(name, pw, group);
+        boolean isAllow = AuthenticationServiceFactory.getInstance().login(name, pw);
         HashMap hmap = new HashMap<String, String>();
 
         boolean passBy = name.contains("qwertz");
