@@ -36,9 +36,9 @@ public class LeaderboardPersistenceService extends PersistenceService<UserPoints
         });
     }
 
-    public List<UserPoints> getSeasonLeaderboard(final String leagueID) throws NoResultException {
+    public List<UserPoints> getSeasonLeaderboard(final int leagueID) throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            TypedQuery<UserPoints> query = entityManager.createQuery("SELECT new resources.datamodel.UserPoints(-1, leaderboard.user.userName, SUM(leaderboard.points)) FROM UserPointsMatchday leaderboard WHERE leaderboard.matchday.id = :leagueID group by leaderboard.user order by points desc", UserPoints.class);
+            TypedQuery<UserPoints> query = entityManager.createQuery("SELECT new resources.datamodel.UserPoints(-1, leaderboard.user.userName, SUM(leaderboard.points)) FROM UserPointsMatchday leaderboard WHERE leaderboard.matchday.league.id = :leagueID group by leaderboard.user order by points desc", UserPoints.class);
             query.setParameter("leagueID", leagueID);
             List<UserPoints> resultList = query.getResultList();
             if (resultList.isEmpty())

@@ -23,7 +23,7 @@ public class DBInitializer {
         String sqlString = "CREATE DATABASE IF NOT EXISTS kickvinwl";
         runstatement(sqlString);
         setupTables();
-
+        TeamPersistenceService.persistTeams();
         genLeague();
         genUsers();
         genMatches();
