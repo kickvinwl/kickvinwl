@@ -64,6 +64,7 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
         final LeaderboardResource leaderboardResource = new LeaderboardResourceImpl();
         environment.jersey().register(leaderboardResource);
+        schedulingJobs();
     }
 
 
