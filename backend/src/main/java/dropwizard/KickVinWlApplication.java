@@ -3,10 +3,8 @@ package dropwizard;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-
-import org.apache.commons.lang3.ObjectUtils;
+import persistence.LeaderboardPersistenceService;
 import persistence.MatchTipPersistenceService;
-import persistence.TeamPersistenceService;
 import resources.*;
 import util.DBInitializer;
 
@@ -34,6 +32,7 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
     @Override
     public void run(KickVinWlConfiguration configuration, Environment environment) throws Exception {
         MatchTipPersistenceService.getInstance();
+        LeaderboardPersistenceService.getInstance();
 
         DBInitializer.dropDatabase();
         DBInitializer.init();
