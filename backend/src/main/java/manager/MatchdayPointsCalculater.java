@@ -49,7 +49,7 @@ public class MatchdayPointsCalculater {
         return userPoints;
     }
 
-    public void updateUserPointsMatchday(String leagueID) {
+    public void updateUserPointsMatchday() {
         List<User> userList = getAllUser();
         Matchday matchday = getCurrentMatchday();
 

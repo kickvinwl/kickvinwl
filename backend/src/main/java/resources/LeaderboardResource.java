@@ -21,4 +21,9 @@ public abstract class LeaderboardResource {
     @Path("/alltime")
     @Produces(MediaType.APPLICATION_JSON)
     public abstract Response getAlltimeLeaderboard();
+
+    @GET
+    @Path("/calc")
+    @Produces(MediaType.APPLICATION_JSON)
+    public abstract Response calculateLeaderboard();
 }

@@ -4,6 +4,9 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import manager.MatchdayPointsCalculater;
+import org.apache.commons.lang3.ObjectUtils;
+import persistence.MatchTipPersistenceService;
+import persistence.TeamPersistenceService;
 import resources.*;
 import util.DBInitializer;
 
@@ -34,8 +37,12 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
     @Override
     public void run(KickVinWlConfiguration configuration, Environment environment) throws Exception {
+        MatchTipPersistenceService.getInstance();
+
         DBInitializer.dropDatabase();
         DBInitializer.init();
+        DBInitializer.genUsers();
+        DBInitializer.genMatches();
 
         final TipResource tipResource = new TipResourceImpl();
         environment.jersey().register(tipResource);

@@ -64,7 +64,7 @@ function loadTipps(spieltag) {
 							<div class="row d-flex justify-content-between">
 								<div class="col-5 align-middle mt-3">
 									<div class="float-right" style="font-size: 20px">
-										${val.homeTeam.name} <img src="${val.homeTeam.logo}" />
+										${val.homeTeam.name} <img src="${val.homeTeam.logo}" style="width: 20px;" />
 									</div>
 								</div>
 								<div class="col-2"  title="${points}">
@@ -83,7 +83,7 @@ function loadTipps(spieltag) {
 								</div>
 								<div class="col-5 mt-3">
 									<div style="font-size: 20px">
-										<img src="${val.awayTeam.logo}" /> ${val.awayTeam.name}
+										<img src="${val.awayTeam.logo}" style="width: 20px;" /> ${val.awayTeam.name}
 									</div>
 								</div>
 							</div>

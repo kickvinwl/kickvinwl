@@ -1,6 +1,7 @@
 package persistence;
 
 import entities.UserPointsMatchday;
+import org.apache.commons.lang3.reflect.Typed;
 import resources.datamodel.UserPoints;
 
 import javax.persistence.NoResultException;
@@ -20,28 +21,35 @@ public class LeaderboardPersistenceService extends PersistenceService<UserPoints
     private LeaderboardPersistenceService() {
     }
 
-    public List<UserPointsMatchday> getAlltimeLeaderboard() throws NoResultException {
+    public List<UserPoints> getAlltimeLeaderboard() throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query;
-            query = entityManager.createQuery("SELECT FROM UserPointsMatchday l");
-            List<UserPointsMatchday> leaderboard = query.getResultList();
-            if (leaderboard.isEmpty())
-                throw new NoResultException();
-            else
-                return leaderboard;
-        });
-    }
-
-    public List<UserPoints> getSeasonLeaderboard(final int leagueID) throws NoResultException {
-        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query = entityManager.createQuery("SELECT fk_user, SUM(points) FROM UserPointsMatchday leaderboard WHERE fk_league = :leagueID group by leaderboard.fk_user");
-            query.setParameter("leagueID", leagueID);
-            List<User> resultList = query.getResultList();
+            TypedQuery<UserPoints> query = entityManager.createQuery("SELECT new resources.datamodel.UserPoints('-1', leaderboard.user.username, SUM(points)) FROM UserPointsMatchday leaderboard group by leaderboard.fk_user order by points desc", UserPoints.class);
+            List<UserPoints> resultList = query.getResultList();
             if (resultList.isEmpty())
                 throw new NoResultException();
             else {
+                for (int i=0;i<resultList.size();i++)
+                {
+                    resultList.get(i).setPlatzierung(i);
+                }
+                return resultList;
+            }
+        });
+    }
 
-                return null;
+    public List<UserPoints> getSeasonLeaderboard(final String leagueID) throws NoResultException {
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            TypedQuery<UserPoints> query = entityManager.createQuery("SELECT new resources.datamodel.UserPoints('-1', leaderboard.user.username, SUM(points)) FROM UserPointsMatchday leaderboard WHERE fk_league = :leagueID group by leaderboard.fk_user order by points desc", UserPoints.class);
+            query.setParameter("leagueID", leagueID);
+            List<UserPoints> resultList = query.getResultList();
+            if (resultList.isEmpty())
+                throw new NoResultException();
+            else {
+                for (int i=0;i<resultList.size();i++)
+                {
+                    resultList.get(i).setPlatzierung(i);
+                }
+                return resultList;
             }
         });
     }
