@@ -1,5 +1,6 @@
 package resources;
 
+import manager.MatchdayPointsCalculater;
 import persistence.LeaderboardPersistenceService;
 import persistence.LeaguePersistenceService;
 import resources.datamodel.UserPoints;
@@ -22,6 +23,12 @@ public class LeaderboardResourceImpl extends LeaderboardResource {
             response = Response.status(Response.Status.NOT_FOUND).build();
         }
         return response;
+    }
+
+    @Override
+    public Response calculateLeaderboard() {
+        MatchdayPointsCalculater.getInstance().updateUserPointsMatchday();
+        return Response.accepted().build();
     }
 
     @Override
