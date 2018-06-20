@@ -42,40 +42,80 @@ public class DBInitializer {
         UserPersistenceService.getInstance().save(user);
     }
 
+
     public static void genMatches(){
         List<Team> teams = TeamPersistenceService.getInstance().getAllTeams();
 
+        User us = new User("qwertz_tipper", "t_tipper");
+        UserPersistenceService.getInstance().save(us);
         Team team1 = teams.get(0);
         Team team2 = teams.get(1);
 
 
         Matchday md = LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1").getCurrentMatchday();
-        md.setMatchday(27);
-        MatchdayPersistenceService.getInstance().save(md);
 
         Match match = new Match();
         match.setMatchday(md);
         match.setTeam(team1);
         match.setTeam2(team2);
+        match.setGoalsTeam1(1);
+        match.setGoalsTeam2(1);
         MatchPersistenceService.getInstance().save(match);
+
+        //MatchTip
+        MatchTip matchTip = new MatchTip();
+        matchTip.setOwner(us);
+        matchTip.setTippedMatch(match);
+        matchTip.setGoalsTeam1(1);
+        matchTip.setGoalsTeam2(1);
+        MatchTipPersistenceService.getInstance().save(matchTip);
 
         match = new Match();
         match.setMatchday(md);
         match.setTeam(team1);
         match.setTeam2(team2);
+        match.setGoalsTeam1(2);
+        match.setGoalsTeam2(2);
         MatchPersistenceService.getInstance().save(match);
+
+        //MatchTip
+        matchTip = new MatchTip();
+        matchTip.setOwner(us);
+        matchTip.setTippedMatch(match);
+        matchTip.setGoalsTeam1(1);
+        matchTip.setGoalsTeam2(1);
+        MatchTipPersistenceService.getInstance().save(matchTip);
 
         match = new Match();
         match.setMatchday(md);
         match.setTeam(team1);
         match.setTeam2(team2);
+        match.setGoalsTeam1(2);
+        match.setGoalsTeam2(1);
         MatchPersistenceService.getInstance().save(match);
+
+        //MatchTip
+        matchTip = new MatchTip();
+        matchTip.setOwner(us);
+        matchTip.setTippedMatch(match);
+        matchTip.setGoalsTeam1(2);
+        matchTip.setGoalsTeam2(1);
+        MatchTipPersistenceService.getInstance().save(matchTip);
 
         match = new Match();
         match.setMatchday(md);
         match.setTeam(team1);
         match.setTeam2(team2);
+        match.setGoalsTeam1(2);
+        match.setGoalsTeam2(1);
         MatchPersistenceService.getInstance().save(match);
+
+        matchTip = new MatchTip();
+        matchTip.setOwner(us);
+        matchTip.setTippedMatch(match);
+        matchTip.setGoalsTeam1(1);
+        matchTip.setGoalsTeam2(0);
+        MatchTipPersistenceService.getInstance().save(matchTip);
 
         md = new Matchday();
         md.setMatchday(26);
@@ -85,19 +125,46 @@ public class DBInitializer {
         match.setMatchday(md);
         match.setTeam(team1);
         match.setTeam2(team2);
+        match.setGoalsTeam1(1);
+        match.setGoalsTeam2(0);
         MatchPersistenceService.getInstance().save(match);
+
+        matchTip = new MatchTip();
+        matchTip.setOwner(us);
+        matchTip.setTippedMatch(match);
+        matchTip.setGoalsTeam1(0);
+        matchTip.setGoalsTeam2(1);
+        MatchTipPersistenceService.getInstance().save(matchTip);
 
         match = new Match();
         match.setMatchday(md);
         match.setTeam(team1);
         match.setTeam2(team2);
+        match.setGoalsTeam1(1);
+        match.setGoalsTeam2(0);
         MatchPersistenceService.getInstance().save(match);
+
+        matchTip = new MatchTip();
+        matchTip.setOwner(us);
+        matchTip.setTippedMatch(match);
+        matchTip.setGoalsTeam1(0);
+        matchTip.setGoalsTeam2(0);
+        MatchTipPersistenceService.getInstance().save(matchTip);
 
         match = new Match();
         match.setMatchday(md);
         match.setTeam(team1);
         match.setTeam2(team2);
+        match.setGoalsTeam1(5);
+        match.setGoalsTeam2(0);
         MatchPersistenceService.getInstance().save(match);
+
+        matchTip = new MatchTip();
+        matchTip.setOwner(us);
+        matchTip.setTippedMatch(match);
+        matchTip.setGoalsTeam1(80);
+        matchTip.setGoalsTeam2(0);
+        MatchTipPersistenceService.getInstance().save(matchTip);
 
         md = new Matchday();
         md.setMatchday(27);
@@ -108,6 +175,15 @@ public class DBInitializer {
         match.setTeam(team1);
         match.setTeam2(team2);
         MatchPersistenceService.getInstance().save(match);
+
+        matchTip = new MatchTip();
+        matchTip.setOwner(us);
+        matchTip.setTippedMatch(match);
+        match.setGoalsTeam1(8);
+        match.setGoalsTeam2(9);
+        matchTip.setGoalsTeam1(7);
+        matchTip.setGoalsTeam2(6);
+        MatchTipPersistenceService.getInstance().save(matchTip);
 
         match = new Match();
         match.setMatchday(md);
