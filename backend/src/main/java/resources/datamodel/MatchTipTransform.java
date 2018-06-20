@@ -37,7 +37,6 @@ public class MatchTipTransform {
 
 
         List<MatchWithPoints> matchesOut = getAllMatchTipsAndFillWithUserData(user, matchday);
-        System.out.println("END#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~##########");
 
         setMatches(matchesOut);
     }
@@ -56,19 +55,15 @@ public class MatchTipTransform {
             MatchTip tip = null;
             try {
                 tip = matchTipPersistenceService.getByUserIdAndMatchId(user.getId(), match.getMatchID());
-                System.out.println("Tip alt");
             }catch (NoResultException e)
             {
-                System.out.println("Tip neu");
                 tip = new MatchTip();
                 tip.setOwner(user);
                 tip.setTippedMatch(match);
             }
-            System.out.println("Tip fertig");
             matchesTipReturm.add(new MatchWithPoints(tip));
         }
 
-        System.out.println("Return tip");
         return matchesTipReturm;
     }
 
@@ -106,8 +101,6 @@ public class MatchTipTransform {
             setHomeTeam(new Team(matchTip, true));
             setAwayTeam(new Team(matchTip, false));
             setPoints(matchTip.getUserPoints());
-
-            System.out.println("retttttt");
         }
 
         public void setId(int id) {

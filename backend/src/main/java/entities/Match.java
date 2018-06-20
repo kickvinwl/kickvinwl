@@ -51,6 +51,7 @@ public class Match extends EntityGeneratedKey{
     private int matchID;
 
     public Match() {
+        matchDateTime = new Date(System.currentTimeMillis() * 2);
         goalsTeam1 = -1;
         goalsTeam2 = -1;
     }

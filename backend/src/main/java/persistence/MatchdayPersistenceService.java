@@ -50,15 +50,15 @@ public class MatchdayPersistenceService extends PersistenceService<Matchday> {
         });
     }
 
-    public Matchday getDefault()
-    {
-        return getById(1);
-    }
-
-    public void setDefault(Matchday matchday)
-    {
-        Matchday aDefault = getDefault();
-        aDefault.setMatchday(matchday.getMatchday());
-        update(aDefault);
-    }
+//    public Matchday getDefault()
+//    {
+//        return getById(1);
+//    }
+//
+//    public void setDefault(Matchday matchday)
+//    {
+//        Matchday aDefault = getDefault();
+//        aDefault.setMatchday(matchday.getMatchday());
+//        update(aDefault);
+//    }
 }

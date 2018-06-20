@@ -1,5 +1,6 @@
 package resources;
 
+import entities.MatchTip;
 import entities.Matchday;
 import entities.User;
 import org.slf4j.Logger;
@@ -26,8 +27,9 @@ public class TipResourceImpl extends TipResource {
             slf4jLogger.info("An info log message3");
             User user = UserPersistenceService.getInstance().getBySessionKey(matches.getToken());
             slf4jLogger.info("An info log message4");
-
+            System.out.println(matches);
             for (Tip tip : matches.getMatches()) {
+                System.out.println(tip);
                 slf4jLogger.info("An info log message5");
                 MatchTipPersistenceService.getInstance().createOrUpdateMatchTip(user, tip);
             }
@@ -44,27 +46,23 @@ public class TipResourceImpl extends TipResource {
     @Override
     public Response getTipByToken(String token, int gameday) {
         response = Response.accepted().build();
-        System.out.println("awdawdawdaw" + gameday);
-        Matchday matchdayDefault = new Matchday();//LeaguePersistenceService.getInstance().getCurrentLeague().getCurrentMatchday();
-        matchdayDefault.setMatchday(27);
-        matchdayDefault.setId(18);
+        System.out.println("Strat get tip" + gameday);
+        Matchday matchdayDefault = new Matchday();//LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1").getCurrentMatchday();
+//        matchdayDefault.setMatchday(27);
+//        matchdayDefault.setId(18);
 
         MatchdayPersistenceService matchdayPersistenceService = MatchdayPersistenceService.getInstance();
-        Matchday matchday = matchdayDefault;
+        if(gameday == -1) gameday = matchdayDefault.getMatchday();
         try {
-            if (gameday != -1){
-                try {
-                    matchday = matchdayPersistenceService.getMatchdayBeiInt(gameday); //TODO wenn matchday nicht vorhanden -> wird zu default matchday
-                    System.out.println("Match geladen" + matchday.getMatchday());
-                } catch (NoResultException e) {
-                    System.out.println("Matchday " + gameday + " wurde nicht gefunden");
-                }
+            Matchday matchday;
+            try {
+                matchday = matchdayPersistenceService.getMatchdayBeiInt(gameday); //TODO wenn matchday nicht vorhanden -> wird zu default matchday
+            } catch (NoResultException e) {
+                throw new NoResultException("Matchday mit dem Tag " + gameday + " wurde nicht gefunden!");
             }
-            System.out.println("#########''''''''''''''''''''##########");
+            System.out.println("#################" +matchdayDefault.getMatchday());
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
-            System.out.println("#########''''''''''''''''''''##########");
             MatchTipTransform matchTip = new MatchTipTransform("2017/18", matchday, user); //TODO Season wird noch nicht verarbeitet
-            System.out.println(matchTip + "xxxxxxxxxxxxxxxxxxxxxxxx");
             //(matchTip.getGameday().equals("0")) ?  Response.status(Response.Status.NOT_FOUND).build() :
             response = Response.accepted(matchTip).build();
 
