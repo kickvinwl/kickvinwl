@@ -1,9 +1,7 @@
 package util;
 
-import entities.Match;
-import entities.Matchday;
-import entities.Team;
-import entities.User;
+import entities.*;
+import manager.BundesligaTableManager;
 import persistence.*;
 
 import javax.persistence.EntityManagerFactory;
@@ -25,7 +23,12 @@ public class DBInitializer {
         String sqlString = "CREATE DATABASE IF NOT EXISTS kickvinwl";
         runstatement(sqlString);
         setupTables();
-        DatabaseDefaultData.getInstance().generateData();
+
+        genLeague();
+        genUsers();
+        genMatches();
+        genAchivement();
+        generateBundesligaTable();
     }
 
     public static void dropDatabase() {
@@ -40,16 +43,14 @@ public class DBInitializer {
     }
 
     public static void genMatches(){
-        Team team1 = new Team();
-        team1.setTeamName("Team 1");
-        Team team2 = new Team();
-        team2.setTeamName("Team 2");
-        TeamPersistenceService.getInstance().save(team1);
-        TeamPersistenceService.getInstance().save(team2);
+        List<Team> teams = TeamPersistenceService.getInstance().getAllTeams();
+
+        Team team1 = teams.get(0);
+        Team team2 = teams.get(1);
 
 
-        Matchday md = new Matchday();
-        md.setMatchday(0);
+        Matchday md = LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1").getCurrentMatchday();
+        md.setMatchday(27);
         MatchdayPersistenceService.getInstance().save(md);
 
         Match match = new Match();
@@ -121,6 +122,115 @@ public class DBInitializer {
         MatchPersistenceService.getInstance().save(match);
     }
 
+    public static void genAchivement()
+    {
+        AchievementPersistenceService aps = AchievementPersistenceService.getInstance();
+
+        Achievement ach = new Achievement();
+        ach.setTitle("Rookie");
+        ach.setAchievementDescription("Sie haben es geschafft sich anzumelden");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("Fortuna");
+        ach.setAchievementDescription("Erziele einen Punkt");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("I like where this is going");
+        ach.setAchievementDescription("Erziele 123 Punkte");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("Spartaaaa");
+        ach.setAchievementDescription("Erziele 300 Punkte");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("You cant stop me");
+        ach.setAchievementDescription("Erziele 600 Punkte");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("Profitipper");
+        ach.setAchievementDescription("Erziele 1234 Punkte");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("Been There� Rocked That");
+        ach.setAchievementDescription("Alle Tendenzen an einem Spieltag richtig getippt");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("I knew it");
+        ach.setAchievementDescription("Ein perfekt getippter Spieltag");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("A fresh start");
+        ach.setAchievementDescription("Ein Spiel richtig getippt");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("Look what I can do!");
+        ach.setAchievementDescription("Drei Spiele richtig getippt. (an einem Spieltag)");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("A Star is Born!");
+        ach.setAchievementDescription("F�nf Spiele richtig getippt. (an einem Spieltag)");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("Reach for the stars");
+        ach.setAchievementDescription("Einen Spieltag als bester getippt");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("Miracles come when you least expect them");
+        ach.setAchievementDescription("Spieltag ohne einen einzigen Punkt");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("Legend");
+        ach.setAchievementDescription("Gewinnen Sie 5 Tippspiele");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("Master");
+        ach.setAchievementDescription("Gewinnen Sie 3 Tippspiele");
+        aps.save(ach);
+
+        ach = new Achievement();
+        ach.setTitle("Tippsielsieger");
+        ach.setAchievementDescription("Gewinnen Sie ein Tippspiele");
+        aps.save(ach);
+    }
+
+    public static void genLeague()
+    {
+        Matchday md = new Matchday();
+        md.setMatchday(27);
+        MatchdayPersistenceService.getInstance().save(md);
+
+        League l = new League();
+        l.setLeagueId("bl1");
+        l.setSeason("2017");
+        l.setCurrentMatchday(md);
+        LeaguePersistenceService.getInstance().save(l);
+    }
+
+    public static void generateBundesligaTable() {
+        BundesligaTableManager blmanager = new BundesligaTableManager(
+                LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1"));
+        try {
+            blmanager.updateData();
+            System.out.println("SUCCESS: BUNDESLIGATABLE LOADED");
+        } catch (Exception e) {
+            System.out.println("ERROR: BUNDESLIGATABLE-GENERATION");
+            e.printStackTrace();
+        }
+    }
 
     public static void loadTeams() {
         TeamDeserializer td = new TeamDeserializer();
