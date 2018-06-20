@@ -40,8 +40,8 @@ public class Login {
                 //token generieren
 
                 //token setzten
-                user.setSessionKey(generateToken());
-                hmap.put("token", (passBy) ? "t" + name.replace("qwertz", "") : user.getSessionKey());
+                user.setSessionKey((passBy) ? "t" + name.replace("qwertz", "") : generateToken());
+                hmap.put("token",  user.getSessionKey());
                 setSessionTime(user);
 
                 //User speichern
