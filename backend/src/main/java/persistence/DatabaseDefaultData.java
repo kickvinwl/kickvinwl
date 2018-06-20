@@ -21,7 +21,6 @@ public class DatabaseDefaultData {
         achievementData();
         generateLeague();
        // generateBundesligaTable();
-		generateTipData();
     }
 
 
@@ -54,9 +53,9 @@ public class DatabaseDefaultData {
 		tps.save(t1);
 		tps.save(t2);
 
-		User user = new User("qwertz11", "t");
-		User user1 = new User("qwertz111", "t1");
-		User user2 = new User("qwertz112", "t2");
+		User user = new User("qwertz", "t");
+		User user1 = new User("qwertz1", "t1");
+		User user2 = new User("qwertz2", "t2");
 
 		ups.save(user);
 		ups.save(user1);
@@ -81,7 +80,6 @@ public class DatabaseDefaultData {
 		mtps.save(mt2);
 		user.addTip(mt2);
 
-		ups.update(user);
 //		MatchTip mt2 = new MatchTip(user, match, 10, 3);
 //		mtps.save(mt2);
 //		user.addTip(mt2);
