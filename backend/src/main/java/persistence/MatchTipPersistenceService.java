@@ -47,28 +47,28 @@ public class MatchTipPersistenceService extends PersistenceService<MatchTip> {
         });
     }
 
-    public void createOrUpdateMatchTip(User user, Tip tip) {
-        JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            TypedQuery<MatchTip> query = entityManager.createQuery("SELECT t FROM MatchTip t WHERE fk_user = :uID AND fk_match = :matchID", MatchTip.class);
-            query.setParameter("uID", user.getId());
-            query.setParameter("matchID", tip.getmatchId());
-
-            if (query.getResultList().isEmpty()) {
-                Logger slf4jLogger = LoggerFactory.getLogger("MatchTipPers");
-                MatchTip matchTip = new MatchTip();
-                matchTip.setGoalsTeam1(tip.gethomeTip());
-                matchTip.setGoalsTeam2(tip.getawayTip());
-                matchTip.setOwner(user);
-                slf4jLogger.info("empty matchtip");
-                matchTip.setTippedMatch(MatchPersistenceService.getInstance().getMatchById(tip.getmatchId()));
-                slf4jLogger.info("empty matchtip2");
-                this.save(matchTip);
-            } else {
-                MatchTip matchTip = query.getSingleResult();
-                matchTip.setGoalsTeam1(tip.gethomeTip());
-                matchTip.setGoalsTeam2(tip.getawayTip());
-                this.update(matchTip);
-            }
-        });
-    }
+//    public void createOrUpdateMatchTip(User user, Tip tip) {
+//        JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+//            TypedQuery<MatchTip> query = entityManager.createQuery("SELECT t FROM MatchTip t WHERE fk_user = :uID AND fk_match = :matchID", MatchTip.class);
+//            query.setParameter("uID", user.getId());
+//            query.setParameter("matchID", tip.getmatchId());
+//
+//            if (query.getResultList().isEmpty()) {
+//                Logger slf4jLogger = LoggerFactory.getLogger("MatchTipPers");
+//                MatchTip matchTip = new MatchTip();
+//                matchTip.setGoalsTeam1(tip.gethomeTip());
+//                matchTip.setGoalsTeam2(tip.getawayTip());
+//                matchTip.setOwner(user);
+//                slf4jLogger.info("empty matchtip");
+//                matchTip.setTippedMatch(MatchPersistenceService.getInstance().getMatchById(tip.getmatchId()));
+//                slf4jLogger.info("empty matchtip2");
+//                this.save(matchTip);
+//            } else {
+//                MatchTip matchTip = query.getSingleResult();
+//                matchTip.setGoalsTeam1(tip.gethomeTip());
+//                matchTip.setGoalsTeam2(tip.getawayTip());
+//                this.update(matchTip);
+//            }
+//        });
+//    }
 }

@@ -24,13 +24,9 @@ public class MatchPersistenceService extends PersistenceService<Match> {
 
     public Match getMatchById(int matchID) {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            TypedQuery<Match> query = entityManager.createQuery("SELECT m FROM Match m WHERE fk_matchID=:matchID", Match.class);
+            TypedQuery<Match> query = entityManager.createQuery("SELECT m FROM Match m WHERE id=:matchID", Match.class);
             query.setParameter("matchID", matchID);
-
-            Logger slf4jLogger = LoggerFactory.getLogger("something");
-            slf4jLogger.info("An info log 1:'" + matchID+"'");
             Match result = query.getSingleResult();
-            slf4jLogger.info("An info log 2" + result);
             if (result == null) {
                 throw new NoResultException();
             } else {

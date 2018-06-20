@@ -1,14 +1,12 @@
 package resources;
 
+import entities.Match;
 import entities.MatchTip;
 import entities.Matchday;
 import entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import persistence.LeaguePersistenceService;
-import persistence.MatchTipPersistenceService;
-import persistence.MatchdayPersistenceService;
-import persistence.UserPersistenceService;
+import persistence.*;
 import resources.datamodel.MatchTipTransform;
 import resources.datamodel.Tip;
 import resources.datamodel.TipList;
@@ -20,18 +18,16 @@ public class TipResourceImpl extends TipResource {
 
     @Override
     public Response setTip(TipList matches) {
+        System.out.println("#######-------------- 1");
         response = Response.accepted().build();
+
+        //TODO validate
+
         Logger slf4jLogger = LoggerFactory.getLogger("some-logger");
-        slf4jLogger.info("An info log message2");
         try {
-            slf4jLogger.info("An info log message3");
             User user = UserPersistenceService.getInstance().getBySessionKey(matches.getToken());
-            slf4jLogger.info("An info log message4");
-            System.out.println(matches);
             for (Tip tip : matches.getMatches()) {
-                System.out.println(tip);
-                slf4jLogger.info("An info log message5");
-                MatchTipPersistenceService.getInstance().createOrUpdateMatchTip(user, tip);
+                createMatchTip(user, tip);
             }
         } catch (NoResultException exception) {
             response = Response.status(Response.Status.UNAUTHORIZED).build();
@@ -40,6 +36,28 @@ public class TipResourceImpl extends TipResource {
         }
 
         return response;
+    }
+
+    private MatchTip createMatchTip(User user,Tip tip)
+    {
+        MatchTip ret = new MatchTip();
+        Match match = MatchPersistenceService.getInstance().getMatchById(tip.getmatchId());
+        System.out.println(match);
+
+        try{
+            ret = MatchTipPersistenceService.getInstance().getByUserIdAndMatchId(user.getId(), match.getMatchID());
+            MatchTipPersistenceService.getInstance().update(ret);
+        }catch (NoResultException e) {
+
+            ret.setTippedMatch(match);
+
+            ret.setOwner(user);
+            ret.setGoalsTeam1(tip.gethomeTip());
+            ret.setGoalsTeam2(tip.getawayTip());
+            MatchTipPersistenceService.getInstance().save(ret);
+        }
+
+        return ret;
     }
 
 

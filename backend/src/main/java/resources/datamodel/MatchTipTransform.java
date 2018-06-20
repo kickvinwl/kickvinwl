@@ -54,7 +54,7 @@ public class MatchTipTransform {
             System.out.println(match);
             MatchTip tip = null;
             try {
-                tip = matchTipPersistenceService.getByUserIdAndMatchId(user.getId(), match.getMatchID());
+                tip = matchTipPersistenceService.getByUserIdAndMatchId(user.getId(), match.getId());
             }catch (NoResultException e)
             {
                 tip = new MatchTip();
@@ -135,6 +135,7 @@ public class MatchTipTransform {
             Integer tipScore;
             @JsonProperty
             Integer realScore;
+
             public Team(MatchTip matchTip, boolean isHomeTeam)
             {
                 Match match = matchTip.getTippedMatch();
@@ -144,6 +145,7 @@ public class MatchTipTransform {
                 setLogo(team.getTeamIconURL());
                 setTipScore((isHomeTeam) ? matchTip.getGoalsTeam1() : matchTip.getGoalsTeam2());
                 setRealScore((isHomeTeam) ? match.getGoalsTeam1() : match.getGoalsTeam2());
+                System.out.println(matchTip.getGoalsTeam1() + " ### " + matchTip.getGoalsTeam2());
             }
 
             public void setId(int id) {

@@ -1,5 +1,7 @@
 package entities;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,9 +30,9 @@ public class MatchTip extends EntityGeneratedKey {
     }
 
     public MatchTip() {
-        goalsTeam1 =
-        goalsTeam2 =
-        userPoints = -1;
+//        goalsTeam1 =
+//        goalsTeam2 =
+//        userPoints = -1;
     }
 
     public User getOwner() {
