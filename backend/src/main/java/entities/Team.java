@@ -7,7 +7,6 @@ import java.util.List;
 @Entity
 public class Team extends EntityGeneratedKey {
 
-
 	private int teamId;
 
 	private String teamName;
@@ -20,6 +19,10 @@ public class Team extends EntityGeneratedKey {
 	@Column
 	@OneToMany(mappedBy = "team2")
 	private List<Match> away = new ArrayList<>();
+
+	public Team() {
+		teamIconURL = "default";
+	}
 
 	public int getTeamId() {
 		return teamId;

@@ -4,7 +4,7 @@ $(document).ready(function() {
 
 function loadTabelle() {
 	$.ajax({
-		url: urlPath + 'bundesliga.json',
+		url: urlPath + 'backend/table/bl1',
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
 			$.each(data.teams, function(i, val) {
@@ -13,7 +13,7 @@ function loadTabelle() {
 				  <td><img src='${val.imageLink}' class="img-fluid" style="width: 20px;"> ${val.clubName}</td>
 				  <td>${val.games}</td>
 				  <td>${val.wins}</td>
-				  <td>${val.loses}</td>
+				  <td>${val.losses}</td>
 				  <td>${val.draws}</td>
 				  <td>${val.goals}:${val.opponentGoals}</td>
 				  <td>${val.difference}</td>

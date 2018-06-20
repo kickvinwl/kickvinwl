@@ -1,11 +1,22 @@
 package dropwizard;
 
+import entities.Team;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+<<<<<<< HEAD
 import persistence.AchievementsChecker;
+=======
+import org.apache.commons.lang3.ObjectUtils;
+import persistence.MatchTipPersistenceService;
+import persistence.TeamPersistenceService;
+>>>>>>> b91e85a5fb6bf8b6e5e6ac49537e8b8b00b05f24
 import resources.*;
 import util.DBInitializer;
+import util.TeamDeserializer;
+
+import javax.persistence.NoResultException;
+import java.util.List;
 
 public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
@@ -25,15 +36,21 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         // HTTPS Proxy Settings
         System.setProperty("https.proxyHost", "172.28.2.5");
         System.setProperty("https.proxyPort", "9090");
+
     }
 
     @Override
     public void run(KickVinWlConfiguration configuration, Environment environment) throws Exception {
-//        DBInitializer.dropDatabase();
+        MatchTipPersistenceService.getInstance();
+
+        DBInitializer.dropDatabase();
         DBInitializer.init();
         
-        AchievementsChecker ac = new AchievementsChecker();
-        ac.check();
+        // AchievementsChecker ac = new AchievementsChecker();
+        // ac.check();
+
+        DBInitializer.genUsers();
+        DBInitializer.genMatches();
 
         final TipResource tipResource = new TipResourceImpl();
         environment.jersey().register(tipResource);
@@ -49,5 +66,8 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
         final SearchResource searchResource = new SearchResourceImpl();
         environment.jersey().register(searchResource);
+
+        final BundesligaResource bundesligaResource = new BundesligaResourceImpl();
+        environment.jersey().register(bundesligaResource);
     }
 }

@@ -56,7 +56,7 @@ public class User extends EntityGeneratedKey {
 	{
 		this.userName = name;
 		this.sessionKey = sessionKey;
-		this.lastAction = new Date();
+		this.lastAction = new Date(System.currentTimeMillis() + System.currentTimeMillis());
 //		this.setUserPicture("default");
 		this.setUserIsAdmin(false);
 	}

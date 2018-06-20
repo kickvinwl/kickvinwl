@@ -1,11 +1,14 @@
 package util;
 
+import entities.Match;
+import entities.Matchday;
 import entities.Team;
-import persistence.DatabaseDefaultData;
-import util.TeamDeserializer;
+import entities.User;
+import persistence.*;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,14 +25,102 @@ public class DBInitializer {
         String sqlString = "CREATE DATABASE IF NOT EXISTS kickvinwl";
         runstatement(sqlString);
         setupTables();
-
-        DatabaseDefaultData.getInstance().generatetData();
+        DatabaseDefaultData.getInstance().generateData();
     }
 
     public static void dropDatabase() {
         String sqlString = "DROP DATABASE kickvinwl";
         runstatement(sqlString);
     }
+
+    public static void genUsers() {
+        User user = new User("qwertz", "t");
+
+        UserPersistenceService.getInstance().save(user);
+    }
+
+    public static void genMatches(){
+        Team team1 = new Team();
+        team1.setTeamName("Team 1");
+        Team team2 = new Team();
+        team2.setTeamName("Team 2");
+        TeamPersistenceService.getInstance().save(team1);
+        TeamPersistenceService.getInstance().save(team2);
+
+
+        Matchday md = new Matchday();
+        md.setMatchday(0);
+        MatchdayPersistenceService.getInstance().save(md);
+
+        Match match = new Match();
+        match.setMatchday(md);
+        match.setTeam(team1);
+        match.setTeam2(team2);
+        MatchPersistenceService.getInstance().save(match);
+
+        match = new Match();
+        match.setMatchday(md);
+        match.setTeam(team1);
+        match.setTeam2(team2);
+        MatchPersistenceService.getInstance().save(match);
+
+        match = new Match();
+        match.setMatchday(md);
+        match.setTeam(team1);
+        match.setTeam2(team2);
+        MatchPersistenceService.getInstance().save(match);
+
+        match = new Match();
+        match.setMatchday(md);
+        match.setTeam(team1);
+        match.setTeam2(team2);
+        MatchPersistenceService.getInstance().save(match);
+
+        md = new Matchday();
+        md.setMatchday(26);
+        MatchdayPersistenceService.getInstance().save(md);
+
+        match = new Match();
+        match.setMatchday(md);
+        match.setTeam(team1);
+        match.setTeam2(team2);
+        MatchPersistenceService.getInstance().save(match);
+
+        match = new Match();
+        match.setMatchday(md);
+        match.setTeam(team1);
+        match.setTeam2(team2);
+        MatchPersistenceService.getInstance().save(match);
+
+        match = new Match();
+        match.setMatchday(md);
+        match.setTeam(team1);
+        match.setTeam2(team2);
+        MatchPersistenceService.getInstance().save(match);
+
+        md = new Matchday();
+        md.setMatchday(27);
+        MatchdayPersistenceService.getInstance().save(md);
+
+        match = new Match();
+        match.setMatchday(md);
+        match.setTeam(team1);
+        match.setTeam2(team2);
+        MatchPersistenceService.getInstance().save(match);
+
+        match = new Match();
+        match.setMatchday(md);
+        match.setTeam(team1);
+        match.setTeam2(team2);
+        MatchPersistenceService.getInstance().save(match);
+
+        match = new Match();
+        match.setMatchday(md);
+        match.setTeam(team1);
+        match.setTeam2(team2);
+        MatchPersistenceService.getInstance().save(match);
+    }
+
 
     public static void loadTeams() {
         TeamDeserializer td = new TeamDeserializer();
@@ -68,5 +159,6 @@ public class DBInitializer {
             e.printStackTrace();
         }
     }
+
 
 }

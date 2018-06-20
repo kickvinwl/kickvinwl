@@ -73,7 +73,6 @@ public class UserPersistenceService extends PersistenceService<User> {
             query.setParameter("sKey", sessionKey);
             User user = query.getSingleResult();
             if(user==null){
-                System.out.println("noresult");
                 throw new NoResultException();}
             else
                 if(user.getLastAction().getTime() <= System.currentTimeMillis() - SESSION_LENGTH) throw new SecurityException("Session ausgelaufen!");
@@ -172,7 +171,7 @@ public class UserPersistenceService extends PersistenceService<User> {
         List<MatchTip> matchTips = new ArrayList<>();
 
         try {
-            matchTips = mtps.getByUserId(userID);
+            matchTips = new ArrayList<>(mtps.getByUserId(userID));
         }
         catch (NoResultException e) {
 
