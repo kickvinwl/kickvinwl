@@ -4,23 +4,26 @@ import entities.MatchTip;
 import entities.Matchday;
 import entities.User;
 import entities.UserPointsMatchday;
-import persistence.*;
+import persistence.LeaguePersistenceService;
+import persistence.MatchTipPersistenceService;
+import persistence.UserPersistenceService;
+import persistence.UserPointsPersistenceService;
 
 import java.util.List;
 
 public class MatchdayPointsCalculater {
-    private LeaderboardPersistenceService userPointsPersistenceService;
+    private UserPointsPersistenceService userPointsPersistenceService;
     private UserPersistenceService userPersistenceService;
     private MatchTipPersistenceService matchTipPersistenceService;
     private LeaguePersistenceService leaguePersistenceService;
-    private static MatchdayPointsCalculater instance;
+    private static MatchdayPointsCalculater instance = new MatchdayPointsCalculater();
 
     public static MatchdayPointsCalculater getInstance() {
-        return instance = instance != null ? instance : new MatchdayPointsCalculater();
+        return instance;
     }
 
     private MatchdayPointsCalculater() {
-        userPointsPersistenceService = LeaderboardPersistenceService.getInstance();
+        userPointsPersistenceService = UserPointsPersistenceService.getInstance();
         userPersistenceService = UserPersistenceService.getInstance();
         matchTipPersistenceService = MatchTipPersistenceService.getInstance();
         leaguePersistenceService = LeaguePersistenceService.getInstance();
