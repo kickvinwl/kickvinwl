@@ -16,7 +16,7 @@ public class UserPointsMatchday extends EntityGeneratedKey{
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fk_matchday")
-    private Matchday league;
+    private Matchday matchday;
 
     private int points;
 
@@ -31,12 +31,12 @@ public class UserPointsMatchday extends EntityGeneratedKey{
         this.points = points;
     }
 
-    public Matchday getleague() {
-        return league;
+    public Matchday getMatchday() {
+        return matchday;
     }
 
-    public void setleague(Matchday league) {
-        this.league = league;
+    public void setMatchday(Matchday matchday) {
+        this.matchday = matchday;
     }
 
     public User getuser() {
