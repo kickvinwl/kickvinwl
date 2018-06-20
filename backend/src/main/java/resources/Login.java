@@ -20,15 +20,23 @@ import java.util.UUID;
 public class Login {
 
 
+    /**
+     *
+     * @param name
+     * @param pw
+     * @return
+     */
     @GET
-    public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw, @DefaultValue("GG_APP_Ermaechtigung_GOP_Kataloge_RW") @QueryParam("group") String group) {
+    public Response createToken(@QueryParam("name") String name, @QueryParam("pw") String pw) {
 
         Response.ResponseBuilder rb = Response.accepted();
 
-        boolean isAllow = AuthenticationServiceFactory.getInstance().isUserInGroup(name, pw, group);
+        boolean isAllow = AuthenticationServiceFactory.getInstance().login(name, pw);
         HashMap hmap = new HashMap<String, String>();
 
-        if(isAllow || name.contains("qwertz")) //TODO
+        boolean passBy = name.contains("qwertz");
+
+        if(isAllow || passBy) //TODO
         {
             try {
 
@@ -38,8 +46,8 @@ public class Login {
                 //token generieren
 
                 //token setzten
-                user.setSessionKey(generateToken());
-                hmap.put("token", user.getSessionKey());
+                user.setSessionKey((passBy) ? "t" + name.replace("qwertz", "") : generateToken());
+                hmap.put("token",  user.getSessionKey());
                 setSessionTime(user);
 
                 //User speichern

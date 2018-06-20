@@ -20,6 +20,10 @@ public class Team extends EntityGeneratedKey {
 	@OneToMany(mappedBy = "team2")
 	private List<Match> away = new ArrayList<>();
 
+	public Team() {
+		teamIconURL = "default";
+	}
+
 	public int getTeamId() {
 		return teamId;
 	}

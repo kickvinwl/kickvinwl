@@ -26,7 +26,7 @@ $(document).keypress(function(e) {
 
 function login(user, pw) {
 	$.ajax({
-		url: urlPath + 'backend/login?name=' + user + '&pw=' + pw + '&group=GG_EVAULT_Default_Standardfunktionen', // group nur temporär für Testzwecke
+		url: urlPath + 'backend/login?name=' + user + '&pw=' + pw, // group nur temporär für Testzwecke
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
 			$('#loginError').addClass('d-none');
