@@ -41,8 +41,6 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
         DBInitializer.dropDatabase();
         DBInitializer.init();
-        DBInitializer.genUsers();
-        DBInitializer.genMatches();
 
         final TipResource tipResource = new TipResourceImpl();
         environment.jersey().register(tipResource);
