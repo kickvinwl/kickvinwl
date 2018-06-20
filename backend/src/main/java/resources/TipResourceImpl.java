@@ -18,7 +18,6 @@ public class TipResourceImpl extends TipResource {
 
     @Override
     public Response setTip(TipList matches) {
-        System.out.println("#######-------------- 1");
         response = Response.accepted().build();
 
         //TODO validate
@@ -42,15 +41,15 @@ public class TipResourceImpl extends TipResource {
     {
         MatchTip ret = new MatchTip();
         Match match = MatchPersistenceService.getInstance().getMatchById(tip.getmatchId());
-        System.out.println(match);
 
         try{
-            ret = MatchTipPersistenceService.getInstance().getByUserIdAndMatchId(user.getId(), match.getMatchID());
+            ret = MatchTipPersistenceService.getInstance().getByUserIdAndMatchId(user.getId(), match.getId());
+            ret.setGoalsTeam1(tip.gethomeTip());
+            ret.setGoalsTeam2(tip.getawayTip());
             MatchTipPersistenceService.getInstance().update(ret);
         }catch (NoResultException e) {
 
             ret.setTippedMatch(match);
-
             ret.setOwner(user);
             ret.setGoalsTeam1(tip.gethomeTip());
             ret.setGoalsTeam2(tip.getawayTip());
