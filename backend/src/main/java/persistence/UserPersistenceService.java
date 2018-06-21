@@ -128,7 +128,7 @@ public class UserPersistenceService extends PersistenceService<User> {
     @SuppressWarnings("unchecked")
     public List<User> getAll() {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query = entityManager.createQuery("SELECT * FROM User");
+            Query query = entityManager.createQuery("SELECT u FROM User u");
             List<User> users = query.getResultList();
             if ( users.isEmpty()) {
                 throw new NoResultException();

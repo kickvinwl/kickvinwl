@@ -1,18 +1,17 @@
 package dropwizard;
 
-import entities.Team;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import org.apache.commons.lang3.ObjectUtils;
+import persistence.LeaderboardPersistenceService;
+import manager.MatchdayPointsCalculater;
 import persistence.MatchTipPersistenceService;
-import persistence.TeamPersistenceService;
 import resources.*;
 import util.DBInitializer;
-import util.TeamDeserializer;
 
-import javax.persistence.NoResultException;
-import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
@@ -38,11 +37,10 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
     @Override
     public void run(KickVinWlConfiguration configuration, Environment environment) throws Exception {
         MatchTipPersistenceService.getInstance();
+        LeaderboardPersistenceService.getInstance();
 
         DBInitializer.dropDatabase();
         DBInitializer.init();
-        DBInitializer.genUsers();
-        DBInitializer.genMatches();
 
         final TipResource tipResource = new TipResourceImpl();
         environment.jersey().register(tipResource);
@@ -61,5 +59,20 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
         final BundesligaResource bundesligaResource = new BundesligaResourceImpl();
         environment.jersey().register(bundesligaResource);
+
+        final LeaderboardResource leaderboardResource = new LeaderboardResourceImpl();
+        environment.jersey().register(leaderboardResource);
+        schedulingJobs();
+    }
+
+
+    private void schedulingJobs() {
+        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                MatchdayPointsCalculater.getInstance().updateUserPointsMatchday();
+            }
+        }, 5, 5, TimeUnit.MINUTES);
     }
 }
