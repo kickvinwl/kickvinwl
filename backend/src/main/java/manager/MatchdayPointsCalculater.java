@@ -48,15 +48,16 @@ public class MatchdayPointsCalculater {
 
     public void updateUserPointsMatchday() {
         List<User> userList = getAllUser();
-        Matchday matchday = getCurrentMatchday();
+        userList.forEach(this::initializeUserPointsMatchday);
+    }
 
-        for(User user : userList) {
-            UserPointsMatchday userPointsMatchday= new UserPointsMatchday();
-            userPointsMatchday.setMatchday(matchday);
-            userPointsMatchday.setPoints(calculatePointsForUser(user.getId()));
-            userPointsMatchday.setuser(user);
-            userPointsPersistenceService.saveOrUpdatePoints(userPointsMatchday);
-        }
+    private void initializeUserPointsMatchday(User user) {
+        Matchday matchday = getCurrentMatchday();
+        UserPointsMatchday userPointsMatchday= new UserPointsMatchday();
+        userPointsMatchday.setMatchday(matchday);
+        userPointsMatchday.setPoints(calculatePointsForUser(user.getId()));
+        userPointsMatchday.setuser(user);
+        userPointsPersistenceService.saveOrUpdatePoints(userPointsMatchday);
     }
 
 
