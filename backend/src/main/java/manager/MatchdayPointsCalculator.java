@@ -8,18 +8,18 @@ import persistence.*;
 
 import java.util.List;
 
-public class MatchdayPointsCalculater {
+public class MatchdayPointsCalculator {
     private LeaderboardPersistenceService userPointsPersistenceService;
     private UserPersistenceService userPersistenceService;
     private MatchTipPersistenceService matchTipPersistenceService;
     private LeaguePersistenceService leaguePersistenceService;
-    private static MatchdayPointsCalculater instance;
+    private static MatchdayPointsCalculator instance;
 
-    public static MatchdayPointsCalculater getInstance() {
-        return instance = instance != null ? instance : new MatchdayPointsCalculater();
+    public static MatchdayPointsCalculator getInstance() {
+        return instance = instance != null ? instance : new MatchdayPointsCalculator();
     }
 
-    private MatchdayPointsCalculater() {
+    private MatchdayPointsCalculator() {
         userPointsPersistenceService = LeaderboardPersistenceService.getInstance();
         userPersistenceService = UserPersistenceService.getInstance();
         matchTipPersistenceService = MatchTipPersistenceService.getInstance();
