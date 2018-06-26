@@ -7,6 +7,8 @@ import resources.datamodel.NewsfeedTransform;
 import util.DateTimeParser;
 
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
+import javax.ws.rs.NotFoundException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,10 @@ public class NewsfeedManager {
      *              has been passed through.
      * @param user  user, that is creating the news
      */
-    public void postNewsMessage(Map<String, String> input, User user) throws ParseException {
+    public void createNewsMessage(Map<String, String> input, User user) throws ParseException, SecurityException {
+        if (!user.isUserIsAdmin()) {
+            throw new SecurityException();
+        }
         NewsfeedPersistenceService nps = NewsfeedPersistenceService.getInstance();
         String messageText = input.get("messageText");
         String messageTitle = input.get("messageTitle");
@@ -51,6 +56,34 @@ public class NewsfeedManager {
         newMessage.setStartDate(DateTimeParser.parseNewsfeedDate(startDateString));
         newMessage.setEndDate(DateTimeParser.parseNewsfeedDate(endDateString));
         newMessage.setUser(user);
-        nps.save(newMessage);
+        try {
+            nps.save(newMessage);
+        } catch (PersistenceException e) {
+            throw new ParseException("error in input data", 0);
+        }
     }
+
+    /**
+     * This method deletes a NewsfeedMessage on the database.
+     *
+     * @param newsId id of the message that is to be deleted
+     * @param user   user that sent the request
+     * @throws NoResultException no message with passed id exists
+     * @throws SecurityException user is not an admin and thus not authorized
+     */
+    public void deleteNewsMessage(final int newsId, final User user)
+            throws NotFoundException, SecurityException {
+        if (!user.isUserIsAdmin()) {
+            throw new SecurityException();
+        }
+        NewsfeedPersistenceService nps = NewsfeedPersistenceService.getInstance();
+        try {
+            NewsfeedMessage message = nps.getNewsfeedMessageById(newsId);
+            nps.delete(message);
+        } catch (NoResultException e) {
+            throw new NotFoundException();
+        }
+
+    }
+
 }
