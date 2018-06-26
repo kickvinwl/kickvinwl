@@ -40,7 +40,7 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
     public void run(KickVinWlConfiguration configuration, Environment environment) throws Exception {
         MatchTipPersistenceService.getInstance();
 
-        DBInitializer.dropDatabase();
+//        DBInitializer.dropDatabase();
         DBInitializer.init();
         
          AchievementsChecker ac = new AchievementsChecker();
