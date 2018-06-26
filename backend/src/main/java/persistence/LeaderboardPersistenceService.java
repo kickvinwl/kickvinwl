@@ -23,7 +23,13 @@ public class LeaderboardPersistenceService extends PersistenceService<UserPoints
 
     public List<UserPoints> getAlltimeLeaderboard() throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            TypedQuery<UserPoints> query = entityManager.createQuery("SELECT new resources.datamodel.UserPoints(-1, leaderboard.user.userName, SUM(points)) FROM UserPointsMatchday leaderboard group by leaderboard.user order by points desc", UserPoints.class);
+            if(group==null){
+				String queryString = "SELECT new resources.datamodel.UserPoints(-1, leaderboard.user.userName, SUM(points)) FROM UserPointsMatchday leaderboard group by leaderboard.user order by points desc";
+			}
+			else{
+				String queryString = "SELECT new resources.datamodel.UserPoints(-1, leaderboard.user.userName, SUM(points)) FROM UserPointsMatchday leaderboard group by leaderboard.user WHERE leaderboard.user. order by points desc";
+            }
+			TypedQuery<UserPoints> query = entityManager.createQuery(queryString, UserPoints.class);
             List<UserPoints> resultList = query.getResultList();
             if (resultList.isEmpty())
                 throw new NoResultException();
