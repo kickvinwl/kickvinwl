@@ -38,7 +38,7 @@ public class NewsfeedManager {
      *              has been passed through.
      * @param user  user, that is creating the news
      */
-    public void postNewsMessage(Map<String, String> input, User user) {
+    public void postNewsMessage(Map<String, String> input, User user) throws ParseException {
         NewsfeedPersistenceService nps = NewsfeedPersistenceService.getInstance();
         String messageText = input.get("messageText");
         String messageTitle = input.get("messageTitle");
@@ -48,12 +48,8 @@ public class NewsfeedManager {
         newMessage.setMessageTitle(messageTitle);
         newMessage.setMessageText(messageText);
         // no persistence if the format of the dates is not as defined
-        try {
-            newMessage.setStartDate(DateTimeParser.parseNewsfeedDate(startDateString));
-            newMessage.setEndDate(DateTimeParser.parseNewsfeedDate(endDateString));
-        } catch (ParseException e) {
-            return;
-        }
+        newMessage.setStartDate(DateTimeParser.parseNewsfeedDate(startDateString));
+        newMessage.setEndDate(DateTimeParser.parseNewsfeedDate(endDateString));
         newMessage.setUser(user);
         nps.save(newMessage);
     }
