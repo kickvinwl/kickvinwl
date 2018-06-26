@@ -40,7 +40,7 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         MatchTipPersistenceService.getInstance();
         LeaderboardPersistenceService.getInstance();
 
-//        DBInitializer.dropDatabase();
+        DBInitializer.dropDatabase();
         DBInitializer.init();
 
         
