@@ -26,8 +26,11 @@ public abstract class NewsfeedResource {
      * @return
      */
     @POST
-    @Path("/{a:post|Post}")
+    @Path("/create")
     public abstract Response postNews(Map<String, String> input);
 
+    @POST
+    @Path("/delete/{id}")
+    public abstract Response deleteNews(Map<String, String> input, @PathParam("id") int newsId);
 
 }
