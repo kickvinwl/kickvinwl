@@ -18,9 +18,9 @@ public abstract class LeaderboardResource {
     public abstract Response getGamedayLeaderboard();
 
     @GET
-    @Path("/alltime")
+    @Path("/alltime/{group}")
     @Produces(MediaType.APPLICATION_JSON)
-    public abstract Response getAlltimeLeaderboard();
+    public abstract Response getAlltimeLeaderboard(@DefaultValue("-1") @PathParam("group") int groupID));
 
     @GET
     @Path("/calc")
