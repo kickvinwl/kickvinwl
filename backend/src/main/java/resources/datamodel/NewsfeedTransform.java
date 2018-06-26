@@ -9,6 +9,9 @@ import java.util.List;
 public class NewsfeedTransform {
 
     @JsonProperty
+    private int id;
+
+    @JsonProperty
     private String messageTitle;
 
     @JsonProperty
@@ -26,6 +29,7 @@ public class NewsfeedTransform {
         List<NewsfeedTransform> transformList = new ArrayList<>();
         for (NewsfeedMessage message : news) {
             NewsfeedTransform messageTransform = new NewsfeedTransform();
+            messageTransform.setId(message.getId());
             messageTransform.setMessageText(message.getMessageText());
             messageTransform.setMessageTitle(message.getMessageTitle());
             transformList.add(messageTransform);
@@ -48,5 +52,13 @@ public class NewsfeedTransform {
 
     public void setMessageText(String messageText) {
         this.messageText = messageText;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
