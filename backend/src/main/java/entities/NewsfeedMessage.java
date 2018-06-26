@@ -12,15 +12,19 @@ public class NewsfeedMessage extends EntityGeneratedKey{
     @JoinColumn(name="user_id")
 	private User user;
 
+    @Column(nullable = false)
 	private String messageTitle;
 
+	@Column(nullable = false)
 	private String messageText;
 
-	@Column(columnDefinition="DATETIME")
+	@Column(columnDefinition="DATETIME",
+            nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 
 	private Date startDate;
-	@Column(columnDefinition="DATETIME")
+	@Column(columnDefinition="DATETIME",
+            nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	
