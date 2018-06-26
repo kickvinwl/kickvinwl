@@ -22,6 +22,7 @@
 
         <class>entities.Matchday</class>
         <class>entities.League</class>
+        <class>entities.UserPointsMatchday</class>
 
         <class>entities.NewsfeedMessage</class>
 
