@@ -20,7 +20,7 @@ public abstract class LeaderboardResource {
     @GET
     @Path("/alltime/{group}")
     @Produces(MediaType.APPLICATION_JSON)
-    public abstract Response getAlltimeLeaderboard(@DefaultValue("-1") @PathParam("group") int groupID));
+    public abstract Response getAlltimeLeaderboard(@DefaultValue("") @PathParam("group") String groupName));
 
     @GET
     @Path("/calc")
