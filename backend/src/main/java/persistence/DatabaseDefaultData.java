@@ -102,9 +102,6 @@ public class DatabaseDefaultData {
 		ach.setAchievementDescription("Erziele einen Punkt");
 		ach.setAchievementQuerry("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 1");
 		aps.save(ach);
-		
-		//TODO Hibernate kennt fk_user nicht
-		//  HELP ?!
 
 		ach = new Achievement();
 		ach.setTitle("I like where this is going");

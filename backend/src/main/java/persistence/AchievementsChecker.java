@@ -3,8 +3,6 @@ package persistence;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Hibernate;
-
 import entities.Achievement;
 import entities.User;
 
@@ -17,15 +15,8 @@ public class AchievementsChecker {
 		achievements = new ArrayList<Achievement>(AchievementPersistenceService.getInstance().getAll());
 	}
 	public void check(){
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("###################### CHECKER ######################");
+	
 		String query;
-		System.out.println("Achievements: " + achievements.size());
 
 
 		for (Achievement achievement : achievements) {
@@ -45,9 +36,6 @@ public class AchievementsChecker {
 					UserPersistenceService.getInstance().update(u);
 					AchievementPersistenceService.getInstance().update(achievement);
 				}
-				//				 CHECK Primärschlüssel richtig gesetzt?
-				//wenn nein, dann prüfen ob ach User Kombi bereits existiert
-
 			}
 		}
 	}
