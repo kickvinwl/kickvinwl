@@ -45,7 +45,7 @@ public class GroupResourceImpl extends GroupResource {
             // send negative response
             Response.ResponseBuilder rb = Response.accepted();
             //TODO: korrekten response status setzen
-            rb.status(Response.Status.UNAUTHORIZED);
+            rb.status(Response.Status.NO_CONTENT);
             return rb.build();
         }
     }

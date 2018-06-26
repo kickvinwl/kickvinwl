@@ -1,6 +1,5 @@
 package dropwizard;
 
-import entities.Group;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -51,9 +50,6 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
         final Login login = new Login();
         environment.jersey().register(login);
-
-        final GroupResource group = new GroupResourceImpl();
-        environment.jersey().register(group);
 
         final UserResource userResource = new UserResourceImpl();
         environment.jersey().register(userResource);

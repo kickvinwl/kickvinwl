@@ -18,7 +18,7 @@ public abstract class GroupResource {
      * @return Response of the request
      */
     @POST
-    @Path("/{a:create|Create")
+    @Path("/{a:create|Create}")
     @Consumes(MediaType.APPLICATION_JSON)
     public abstract Response createGroup(Map<String, String> paramsamsam);
 
@@ -28,9 +28,9 @@ public abstract class GroupResource {
      * @param groupName group name of the group that the user is attempting to leave
      * @return Response of the request
      */
-//    @POST
-//    @Path("{a:leave|Leave")
-//    public abstract Response leaveGroup(String token,
-//                                        String groupName);
+    @POST
+    @Path("{a:leave|Leave")
+    public abstract Response leaveGroup(String token,
+                                        String groupName);
 
 }
