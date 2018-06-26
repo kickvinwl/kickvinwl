@@ -1,20 +1,18 @@
 package entities;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
 public class NewsfeedMessage extends EntityGeneratedKey{
-	//FK zu User
-	@Column(updatable = false, nullable = false)
-	private String userId;
 
-	@Column(updatable = true, nullable = false)
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id")
+	private User user;
+
+	private String messageTitle;
 
 	private String messageText;
 
@@ -26,11 +24,11 @@ public class NewsfeedMessage extends EntityGeneratedKey{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	
-	public String getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public String getMessageText() {
 		return messageText;
@@ -51,8 +49,11 @@ public class NewsfeedMessage extends EntityGeneratedKey{
 		this.endDate = endDate;
 	}
 
-	public boolean isValid(){
-		Date now = new Date();
-		return getStartDate().getTime() < now.getTime() && getEndDate().getTime() > now.getTime();
+	public String getMessageTitle() {
+		return messageTitle;
+	}
+
+	public void setMessageTitle(String messageTitle) {
+		this.messageTitle = messageTitle;
 	}
 }
