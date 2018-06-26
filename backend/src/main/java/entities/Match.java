@@ -102,4 +102,12 @@ public class Match extends EntityGeneratedKey{
     public void setMatchday(Matchday matchday) {
         this.matchday = matchday;
     }
+
+    public void setGoalsTeam1(int goalsTeam1) {
+        this.goalsTeam1 = goalsTeam1;
+    }
+
+    public void setGoalsTeam2(int goalsTeam2) {
+        this.goalsTeam2 = goalsTeam2;
+    }
 }
