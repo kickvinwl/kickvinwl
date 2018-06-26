@@ -14,9 +14,17 @@ public class NewsfeedTransform {
     @JsonProperty
     private String messageText;
 
+    /**
+     * Converts a list of newsfeed messages to a list of newsfeed transforms.
+     * The transforms only contain the title and text of the message.
+     *
+     * @param news list of NewsfeedMessage that is to be converted into the list
+     *             of transforms
+     * @return list of transforms
+     */
     public static List<NewsfeedTransform> getTransform(List<NewsfeedMessage> news) {
         List<NewsfeedTransform> transformList = new ArrayList<>();
-        for(NewsfeedMessage message : news ) {
+        for (NewsfeedMessage message : news) {
             NewsfeedTransform messageTransform = new NewsfeedTransform();
             messageTransform.setMessageText(message.getMessageText());
             messageTransform.setMessageTitle(message.getMessageTitle());
