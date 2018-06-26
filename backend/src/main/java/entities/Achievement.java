@@ -35,13 +35,13 @@ public class Achievement extends EntityGeneratedKey{
 	 * all users get the achievement
 	 */
 	@Column(updatable = true, nullable = true)
-	private String achievementQuerry;
+	private String achievementQuery;
 	
-	public String getAchievementQuerry() {
-		return achievementQuerry;
+	public String getAchievementQuery() {
+		return achievementQuery;
 	}
-	public void setAchievementQuerry(String achievementQuerry) {
-		this.achievementQuerry = achievementQuerry;
+	public void setAchievementQuery(String achievementQuery) {
+		this.achievementQuery = achievementQuery;
 	}
 	public String getAchievementDescription() {
 		return achievementDescription;
@@ -65,6 +65,6 @@ public class Achievement extends EntityGeneratedKey{
 	}
 	@Override
 	public String toString() {
-		return "Achievement [achievementDescription=" + achievementDescription + ", title=" + title + ", achievementQuerry=" + achievementQuerry + "]";
+		return "Achievement [achievementDescription=" + achievementDescription + ", title=" + title + ", achievementQuerry=" + achievementQuery + "]";
 	}	
 }
