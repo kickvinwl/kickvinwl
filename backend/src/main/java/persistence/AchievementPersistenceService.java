@@ -10,7 +10,7 @@ import java.util.List;
 /**
  *
  */
-public class AchievementPersistenceService extends PersistenceService{
+public class AchievementPersistenceService extends PersistenceService<Achievement>{
 
 	private static AchievementPersistenceService instance;
 
@@ -54,11 +54,13 @@ public class AchievementPersistenceService extends PersistenceService{
 			return achievement;
 		});
 	}
-	public List<Achievement> getAll() {
+	public List<Achievement> getAll() throws NoResultException{
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			String qlString = "SELECT a FROM Achievement a";
 			Query query = entityManager.createQuery(qlString);
 			List<Achievement> achievements = query.getResultList();
+			if (achievements.isEmpty())
+				throw new NoResultException();
 			return achievements;
 		});
 	}

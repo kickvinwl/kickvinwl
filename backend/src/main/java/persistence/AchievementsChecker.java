@@ -3,24 +3,31 @@ package persistence;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import entities.Achievement;
 import entities.User;
 
 //Triggered SOMEHOW after ech Matchday     //TODO
 public class AchievementsChecker {
 
-	private ArrayList<Achievement> achievements ;
+	private List<Achievement> achievements;
 
 	public AchievementsChecker() {
-		achievements = new ArrayList<Achievement>(AchievementPersistenceService.getInstance().getAll());
+		try{
+			achievements = new ArrayList<Achievement>(AchievementPersistenceService.getInstance().getAll());
+		}catch(NoResultException e) {
+			// Keine Achievements in DB
+			achievements = new ArrayList<>();
+		}
 	}
 	public void check(){
-	
+
 		String query;
 
 
 		for (Achievement achievement : achievements) {
-			query = achievement.getAchievementQuerry();
+			query = achievement.getAchievementQuery();
 			//			System.out.println(query);
 			List<User> user = UserPersistenceService.getInstance().getUsersForAchieveQuery(query);
 			for (User u : user) {

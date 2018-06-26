@@ -178,11 +178,11 @@ public class UserPersistenceService extends PersistenceService<User> {
         }
         return matchTips;
     }
-    public List<User> getUsersForAchieveQuery(String aQuery){
+    public List<User> getUsersForAchieveQuery(String aQuery) {
     	return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
             TypedQuery<User> query = entityManager.createQuery(aQuery, User.class);
-            List<User> usersIds = query.getResultList();
-           return usersIds;
+            List<User> users = query.getResultList();
+           return users;
     	});
     }
 
