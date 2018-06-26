@@ -71,6 +71,7 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
+                MatchdayPointsCalculator.getInstance().calculateUserPointsWithTips();
                 MatchdayPointsCalculator.getInstance().updateUserPointsMatchday();
             }
         }, 5, 5, TimeUnit.MINUTES);
