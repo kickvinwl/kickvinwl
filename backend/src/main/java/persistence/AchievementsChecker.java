@@ -29,7 +29,14 @@ public class AchievementsChecker {
 		for (Achievement achievement : achievements) {
 			query = achievement.getAchievementQuery();
 			//			System.out.println(query);
-			List<User> user = UserPersistenceService.getInstance().getUsersForAchieveQuery(query);
+			
+			List<User> user;
+			try {
+				user = UserPersistenceService.getInstance().getUsersForAchieveQuery(query);				
+			}catch(NoResultException e) {
+				//kein Nutzer hat dieses Achievement freigeschaltet
+				user= new ArrayList<>();
+			}
 			for (User u : user) {
 				boolean hasAch = false;
 				for(Achievement a : u.getAchievements()) {
