@@ -327,7 +327,10 @@ public class DBInitializer {
     }
     private static void generateNews() {
         User user = new User("test_newsfeed","kappa");
+        User userAdmin = new User("test_newsfeed_admin", "kappadmin");
+        userAdmin.setUserIsAdmin(true);
         UserPersistenceService.getInstance().save(user);
+        UserPersistenceService.getInstance().save(userAdmin);
         System.out.println("=================================");
         System.out.println("SAVING NEWS...");
         NewsfeedPersistenceService nps = NewsfeedPersistenceService.getInstance();
