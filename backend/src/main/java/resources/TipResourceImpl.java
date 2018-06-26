@@ -64,7 +64,7 @@ public class TipResourceImpl extends TipResource {
     public Response getTipByToken(String token, int gameday) {
         response = Response.accepted().build();
         Matchday matchdayDefault = new Matchday();//LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1").getCurrentMatchday();
-//        matchdayDefault.setMatchday(27);
+        matchdayDefault.setMatchday(1);
 //        matchdayDefault.setId(18);
 
         MatchdayPersistenceService matchdayPersistenceService = MatchdayPersistenceService.getInstance();
