@@ -10,16 +10,16 @@ public class UserAchievement {
 	public static class UserAchievementId implements Serializable {
 
 		@Column(name = "fk_user")
-		protected Integer userId;
+		protected User userId;
 
 		@Column(name = "fk_achievement")
-		protected Integer achievementId;
+		protected Achievement achievementId;
 
 		public UserAchievementId() {
 			
 		}
 		
-		public UserAchievementId(int userId, int achievementId) {
+		public UserAchievementId(User userId, Achievement achievementId) {
 			this.userId = userId;
 			this.achievementId = achievementId;
 		}
