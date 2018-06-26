@@ -16,12 +16,17 @@ public class LeaderboardResourceImpl extends LeaderboardResource {
     private Response response;
 
     @Override
-    public Response getAlltimeLeaderboard() {
+    public Response getAlltimeLeaderboard(String groupName) {
         response = Response.accepted().build();
         Logger slf4jLogger = LoggerFactory.getLogger("alltime board logger");
         slf4jLogger.debug("alltime board started");
         try {
-            List<UserPoints> leaderboard = LeaderboardPersistenceService.getInstance().getAlltimeLeaderboard();
+            if(!groupName.equals("")){
+            List<UserPoints> leaderboard = LeaderboardPersistenceService.getInstance().getAlltimeLeaderboard(null);
+            }
+            else{
+                List<UserPoints> leaderboard = LeaderboardPersistenceService.getInstance().getAlltimeLeaderboard(GroupPersistenceService.getInstance().getByGroupName(groupName));
+            }
             response = Response.accepted(leaderboard).build();
         } catch (NoResultException e) {
             response = Response.status(Response.Status.NOT_FOUND).build();
