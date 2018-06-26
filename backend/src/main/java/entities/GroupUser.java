@@ -11,10 +11,10 @@ public class GroupUser {
 	public static class GroupUserId implements Serializable {
 
 		@Column(name = "fk_user")
-		protected User userId;
+		protected int userId;
 
 		@Column(name = "fk_group")
-		protected Group groupId;
+		protected int groupId;
 
 		public GroupUserId() {			
 		}

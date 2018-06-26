@@ -180,7 +180,7 @@ public class UserPersistenceService extends PersistenceService<User> {
     }
     public List<User> getUsersForAchieveQuery(String aQuery){
     	return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-    		Query query = entityManager.createQuery(aQuery);
+            TypedQuery<User> query = entityManager.createQuery(aQuery, User.class);
             List<User> usersIds = query.getResultList();
            return usersIds;
     	});
