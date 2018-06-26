@@ -13,10 +13,20 @@ public class MatchdayPointsCalculator {
     private UserPersistenceService userPersistenceService;
     private MatchTipPersistenceService matchTipPersistenceService;
     private LeaguePersistenceService leaguePersistenceService;
-    private static MatchdayPointsCalculator instance;
+    private static MatchdayPointsCalculator INSTANCE;
+    private static Matchday MATCHDAY;
+    private List<User> userList;
 
     public static MatchdayPointsCalculator getInstance() {
-        return instance = instance != null ? instance : new MatchdayPointsCalculator();
+        return INSTANCE = INSTANCE != null ? INSTANCE : new MatchdayPointsCalculator();
+    }
+
+    public void updateUserPointsMatchday() {
+         userList.forEach(this::initializeUserPointsMatchday);
+    }
+
+    public void calculateUserPointsWithTips() {
+
     }
 
     private MatchdayPointsCalculator() {
@@ -24,8 +34,9 @@ public class MatchdayPointsCalculator {
         userPersistenceService = UserPersistenceService.getInstance();
         matchTipPersistenceService = MatchTipPersistenceService.getInstance();
         leaguePersistenceService = LeaguePersistenceService.getInstance();
+        MATCHDAY = getCurrentMatchday();
+        userList = getAllUser();
     }
-
 
     private List<User> getAllUser () {
         return userPersistenceService.getAll();
@@ -35,33 +46,21 @@ public class MatchdayPointsCalculator {
         return leaguePersistenceService.getCurrentLeagueByLeagueId("bl1").getCurrentMatchday();
     }
 
-    private int calculatePointsForUser(final int userID) {
+    private int getUserPointsFromMatchtips(final int userID) {
         List<MatchTip> userTips = matchTipPersistenceService.getByUserId(userID);
         int userPoints = 0;
 
         for(MatchTip tip : userTips) {
             userPoints += tip.getUserPoints();
         }
-
         return userPoints;
     }
 
-    public void updateUserPointsMatchday() {
-        List<User> userList = getAllUser();
-        userList.forEach(this::initializeUserPointsMatchday);
-    }
-
     private void initializeUserPointsMatchday(User user) {
-        Matchday matchday = getCurrentMatchday();
         UserPointsMatchday userPointsMatchday= new UserPointsMatchday();
-        userPointsMatchday.setMatchday(matchday);
-        userPointsMatchday.setPoints(calculatePointsForUser(user.getId()));
+        userPointsMatchday.setMatchday(MATCHDAY);
+        userPointsMatchday.setPoints(getUserPointsFromMatchtips(user.getId()));
         userPointsMatchday.setuser(user);
         userPointsPersistenceService.saveOrUpdatePoints(userPointsMatchday);
     }
-
-
-
-
-
 }
