@@ -29,21 +29,29 @@ public class AchievementsChecker {
 
 
 		for (Achievement achievement : achievements) {
-			System.out.print(achievement.getTitle() + ": ");
 			query = achievement.getAchievementQuerry();
-//			System.out.println(query);
+			//			System.out.println(query);
 			List<User> user = UserPersistenceService.getInstance().getUsersForAchieveQuery(query);
-			System.out.print("("+ user.size() + ") ");
 			for (User u : user) {
-				System.out.println("*** " + u.getUserName());
-				//				u.addAchievment(achievement);
-				//				UserPersistenceService.getInstance().save(u);
-				// CHECK Primärschlüssel richtig gesetzt?
+				boolean hasAch = false;
+				for(Achievement a : u.getAchievements()) {
+					if(a.getId() == achievement.getId())
+						hasAch = true;
+				}
+				if(!hasAch) {
+					System.out.println(achievement.getTitle() + " for user " + u.getUserName() + " unlocked");
+					u.addAchievment(achievement);
+					achievement.addUsers(u);
+					UserPersistenceService.getInstance().update(u);
+					AchievementPersistenceService.getInstance().update(achievement);
+				}
+				//				 CHECK Primärschlüssel richtig gesetzt?
 				//wenn nein, dann prüfen ob ach User Kombi bereits existiert
+
 			}
-			System.out.println();
 		}
 	}
-
 }
+
+
 

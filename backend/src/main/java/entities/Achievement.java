@@ -20,6 +20,12 @@ public class Achievement extends EntityGeneratedKey{
 	@ManyToMany(mappedBy = "achievements", fetch = FetchType.LAZY)
 	private List<User> users = new ArrayList<>();
 
+	public List<User> getUsers() {
+		return users;
+	}
+	public void addUsers(User user) {
+		this.users.add(user);
+	}
 	@OneToMany(mappedBy = "displayedTitle", fetch = FetchType.LAZY)
 	private List<User> presenter = new ArrayList<>();
 

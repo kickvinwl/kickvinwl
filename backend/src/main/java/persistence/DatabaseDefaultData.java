@@ -115,19 +115,19 @@ public class DatabaseDefaultData {
 		ach = new Achievement();
 		ach.setTitle("Spartaaaa");
 		ach.setAchievementDescription("Erziele 300 Punkte");
-		ach.setAchievementQuerry("SELECT mt.fk_user FROM MatchTip mt GROUP BY fk_user HAVING SUM(mt.userPoints) > 300");
+		ach.setAchievementQuerry("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 300");
 		aps.save(ach);
 
 		ach = new Achievement();
 		ach.setTitle("You cant stop me");
 		ach.setAchievementDescription("Erziele 600 Punkte");
-		ach.setAchievementQuerry("SELECT mt.fk_user FROM MatchTip mt GROUP BY fk_user HAVING SUM(mt.userPoints) > 600");
+		ach.setAchievementQuerry("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 600");
 		aps.save(ach);
 
 		ach = new Achievement();
 		ach.setTitle("Profitipper");
 		ach.setAchievementDescription("Erziele 1234 Punkte");
-		ach.setAchievementQuerry("SELECT mt.fk_user FROM MatchTip mt GROUP BY fk_user HAVING SUM(mt.userPoints) > 1234");
+		ach.setAchievementQuerry("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 1234");
 		aps.save(ach);
 
 		ach = new Achievement();
