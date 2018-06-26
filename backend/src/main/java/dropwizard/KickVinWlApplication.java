@@ -4,13 +4,10 @@ import entities.Team;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-<<<<<<< HEAD
 import persistence.AchievementsChecker;
-=======
 import org.apache.commons.lang3.ObjectUtils;
 import persistence.MatchTipPersistenceService;
 import persistence.TeamPersistenceService;
->>>>>>> b91e85a5fb6bf8b6e5e6ac49537e8b8b00b05f24
 import resources.*;
 import util.DBInitializer;
 import util.TeamDeserializer;
@@ -46,8 +43,8 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         DBInitializer.dropDatabase();
         DBInitializer.init();
         
-        // AchievementsChecker ac = new AchievementsChecker();
-        // ac.check();
+         AchievementsChecker ac = new AchievementsChecker();
+         ac.check();
 
         DBInitializer.genUsers();
         DBInitializer.genMatches();
