@@ -71,4 +71,8 @@ public class MatchTip extends EntityGeneratedKey {
     public void setTippedMatch(Match tippedMatch) {
         this.tippedMatch = tippedMatch;
     }
+
+    public void  setUserPoints(int userPoints) {this.userPoints = userPoints;}
 }
+
+
