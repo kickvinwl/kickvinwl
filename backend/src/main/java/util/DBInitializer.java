@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 public class DBInitializer {
@@ -29,6 +30,7 @@ public class DBInitializer {
         genMatches();
         genAchivement();
         generateBundesligaTable();
+        generateNews();
     }
 
     public static void dropDatabase() {
@@ -323,7 +325,37 @@ public class DBInitializer {
             System.out.println("===================================");
         }
     }
-/*
+    private static void generateNews() {
+        User user = new User("test_newsfeed","kappa");
+        UserPersistenceService.getInstance().save(user);
+        System.out.println("=================================");
+        System.out.println("SAVING NEWS...");
+        NewsfeedPersistenceService nps = NewsfeedPersistenceService.getInstance();
+        NewsfeedMessage message = new NewsfeedMessage();
+        Calendar calender = Calendar.getInstance();
+        calender.add(Calendar.DAY_OF_MONTH, 1);
+        message.setEndDate(calender.getTime());
+        calender.add(Calendar.DAY_OF_MONTH, -2);
+        message.setStartDate(calender.getTime());
+        message.setMessageText("YOLO");
+        message.setUser(user);
+        message.setMessageTitle("TITLE 1");
+        nps.save(message);
+        System.out.println("NEWS SAVED?!..");
+        System.out.println("=================================");
+
+        message = new NewsfeedMessage();
+        calender.add(Calendar.DAY_OF_WEEK,7);
+        message.setStartDate(calender.getTime());
+        calender.add(Calendar.DAY_OF_MONTH,5);
+        message.setEndDate(calender.getTime());
+        message.setMessageText("NOONOON");
+        message.setUser(user);
+        message.setMessageTitle("HIGH NOON");
+        nps.save(message);
+    }
+
+    /*
     public static void generateAchievementTestData() {
         AchievementTestData.generateTestData();
     }
