@@ -29,8 +29,8 @@ public class NewsfeedResourceImpl extends NewsfeedResource {
     }
 
     @Override
-    public Response postNews(Map<String, String> input) {
-        response = Response.status(Response.Status.ACCEPTED).build();
+    public Response createNews(Map<String, String> input) {
+        response = Response.status(Response.Status.OK).build();
         String token = input.get("token");
         try {
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
@@ -46,7 +46,7 @@ public class NewsfeedResourceImpl extends NewsfeedResource {
 
     @Override
     public Response deleteNews(Map<String, String> input, int newsId) {
-        response = Response.status(Response.Status.ACCEPTED).build();
+        response = Response.status(Response.Status.OK).build();
         String token = input.get("token");
         try {
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
