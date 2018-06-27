@@ -62,27 +62,4 @@ public class TeamPersistenceService extends PersistenceService<Team> {
         });
     }
 
-    public static void persistTeams() {
-        TeamDeserializer td = new TeamDeserializer();
-        try{
-            System.out.println("Starting to persist Teams ...");
-            System.out.println();
-            List<Team> teamList = td.deserializeTeam("https://www.openligadb.de/api/getavailableteams/bl1/2017");
-            TeamPersistenceService tps = TeamPersistenceService.getInstance();
-            for (Team team : teamList) {
-                try {
-                    tps.getByTeamId(team.getTeamId());
-                } catch (NoResultException e) {
-                    tps.save(team);
-                }
-            }
-            System.out.println();
-            System.out.println("Finished to persist Teams !!!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
 }
