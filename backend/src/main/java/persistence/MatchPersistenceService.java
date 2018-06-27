@@ -1,6 +1,7 @@
 package persistence;
 
 import entities.Match;
+import entities.Matchday;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,6 +57,20 @@ public class MatchPersistenceService extends PersistenceService<Match> {
                 throw new NoResultException("keine Matches gefunden");
             } else {
                 return matches;
+            }
+        });
+    }
+
+    public Match getLastMatch() {
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            TypedQuery<Match> query = entityManager.createQuery("SELECT m FROM Match m WHERE matchDateTime > current_date() ORDER BY matchDateTime ASC", Match.class);
+            List<Match> matches = query.getResultList();
+            if (matches.isEmpty()) {
+                List<Match> mts = getAllMatches();
+                return mts.get(mts.size() - 1);
+            }
+            else {
+                return matches.get(0);
             }
         });
     }

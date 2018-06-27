@@ -41,6 +41,9 @@ public class DBInitializer {
         loadBundesligaTable();
         loadMatches(l);
         generateNews();
+
+        l.setCurrentMatchday(MatchPersistenceService.getInstance().getLastMatch().getMatchday());
+        LeaguePersistenceService.getInstance().update(l);
     }
 
     private static void createDatabase() {
