@@ -34,7 +34,7 @@ public class Achievement extends EntityGeneratedKey{
 	 * Needs to be a select that returns user
 	 * all users get the achievement
 	 */
-	@Column(updatable = true, nullable = true)
+	@Column(updatable = true, nullable = true, length = 700)
 	private String achievementQuery;
 	
 	public String getAchievementQuery() {
