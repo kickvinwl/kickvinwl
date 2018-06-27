@@ -20,7 +20,7 @@ public class NewsfeedManager {
      * This method selects the valid news from the database and converts
      * it into a list of {@link resources.datamodel.NewsfeedTransform}.
      *
-     * @return valid news as a list
+     * @return valid news as a list. if there are no news, the list is empty.
      */
     public List<NewsfeedTransform> getValidNews() {
         List<NewsfeedTransform> newsTransform = new ArrayList<>();
