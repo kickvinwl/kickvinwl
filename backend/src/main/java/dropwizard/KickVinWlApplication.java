@@ -3,6 +3,7 @@ package dropwizard;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import persistence.AchievementsChecker;
 import persistence.LeaderboardPersistenceService;
 import manager.MatchdayPointsCalculater;
 import persistence.MatchTipPersistenceService;
@@ -38,8 +39,11 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         MatchTipPersistenceService.getInstance();
         LeaderboardPersistenceService.getInstance();
 
-        DBInitializer.dropDatabase();
-        DBInitializer.init();
+//        DBInitializer.dropDatabase();
+//        DBInitializer.init();
+
+        AchievementsChecker ac = new AchievementsChecker();
+        ac.check();
 
         final TipResource tipResource = new TipResourceImpl();
         environment.jersey().register(tipResource);

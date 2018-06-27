@@ -17,12 +17,32 @@ public class Achievement extends EntityGeneratedKey{
 	@JoinColumn(name="fk_icon")
 	private AchievementIcon icon;
 */
-	@ManyToMany(mappedBy = "achievements")
+	@ManyToMany(mappedBy = "achievements", fetch = FetchType.LAZY)
 	private List<User> users = new ArrayList<>();
 
-	@OneToMany(mappedBy = "displayedTitle")
+	public List<User> getUsers() {
+		return users;
+	}
+	public void addUsers(User user) {
+		this.users.add(user);
+	}
+	@OneToMany(mappedBy = "displayedTitle", fetch = FetchType.LAZY)
 	private List<User> presenter = new ArrayList<>();
 
+	
+	/*
+	 * Needs to be a select that returns user
+	 * all users get the achievement
+	 */
+	@Column(updatable = true, nullable = true)
+	private String achievementQuery;
+	
+	public String getAchievementQuery() {
+		return achievementQuery;
+	}
+	public void setAchievementQuery(String achievementQuery) {
+		this.achievementQuery = achievementQuery;
+	}
 	public String getAchievementDescription() {
 		return achievementDescription;
 	}
@@ -43,5 +63,8 @@ public class Achievement extends EntityGeneratedKey{
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
+	@Override
+	public String toString() {
+		return "Achievement [achievementDescription=" + achievementDescription + ", title=" + title + ", achievementQuerry=" + achievementQuery + "]";
+	}	
 }

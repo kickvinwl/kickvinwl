@@ -205,87 +205,105 @@ public class DBInitializer {
 
     public static void genAchivement()
     {
-        AchievementPersistenceService aps = AchievementPersistenceService.getInstance();
+    	AchievementPersistenceService aps = AchievementPersistenceService.getInstance();
+		if(aps.hasEntries())
+			return;
 
-        Achievement ach = new Achievement();
-        ach.setTitle("Rookie");
-        ach.setAchievementDescription("Sie haben es geschafft sich anzumelden");
-        aps.save(ach);
+		Achievement ach = new Achievement();          
+		ach.setTitle("Rookie");
+		ach.setAchievementDescription("Sie haben es geschafft sich anzumelden");
+		ach.setAchievementQuery("SELECT u FROM User u");
+		aps.save(ach);
 
-        ach = new Achievement();
-        ach.setTitle("Fortuna");
-        ach.setAchievementDescription("Erziele einen Punkt");
-        aps.save(ach);
+		ach = new Achievement();
+		ach.setTitle("Fortuna");
+		ach.setAchievementDescription("Erziele einen Punkt");
+		ach.setAchievementQuery("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 1");
+		aps.save(ach);
 
-        ach = new Achievement();
-        ach.setTitle("I like where this is going");
-        ach.setAchievementDescription("Erziele 123 Punkte");
-        aps.save(ach);
+		ach = new Achievement();
+		ach.setTitle("I like where this is going");
+		ach.setAchievementDescription("Erziele 123 Punkte");
+		ach.setAchievementQuery("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 123");
+		aps.save(ach);
 
-        ach = new Achievement();
-        ach.setTitle("Spartaaaa");
-        ach.setAchievementDescription("Erziele 300 Punkte");
-        aps.save(ach);
+		ach = new Achievement();
+		ach.setTitle("Spartaaaa");
+		ach.setAchievementDescription("Erziele 300 Punkte");
+		ach.setAchievementQuery("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 300");
+		aps.save(ach);
 
-        ach = new Achievement();
-        ach.setTitle("You cant stop me");
-        ach.setAchievementDescription("Erziele 600 Punkte");
-        aps.save(ach);
+		ach = new Achievement();
+		ach.setTitle("You cant stop me");
+		ach.setAchievementDescription("Erziele 600 Punkte");
+		ach.setAchievementQuery("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 600");
+		aps.save(ach);
 
-        ach = new Achievement();
-        ach.setTitle("Profitipper");
-        ach.setAchievementDescription("Erziele 1234 Punkte");
-        aps.save(ach);
+		ach = new Achievement();
+		ach.setTitle("Profitipper");
+		ach.setAchievementDescription("Erziele 1234 Punkte");
+		ach.setAchievementQuery("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 1234");
+		aps.save(ach);
 
-        ach = new Achievement();
-        ach.setTitle("Been There� Rocked That");
-        ach.setAchievementDescription("Alle Tendenzen an einem Spieltag richtig getippt");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("I knew it");
-        ach.setAchievementDescription("Ein perfekt getippter Spieltag");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("A fresh start");
-        ach.setAchievementDescription("Ein Spiel richtig getippt");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("Look what I can do!");
-        ach.setAchievementDescription("Drei Spiele richtig getippt. (an einem Spieltag)");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("A Star is Born!");
-        ach.setAchievementDescription("F�nf Spiele richtig getippt. (an einem Spieltag)");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("Reach for the stars");
-        ach.setAchievementDescription("Einen Spieltag als bester getippt");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("Miracles come when you least expect them");
-        ach.setAchievementDescription("Spieltag ohne einen einzigen Punkt");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("Legend");
-        ach.setAchievementDescription("Gewinnen Sie 5 Tippspiele");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("Master");
-        ach.setAchievementDescription("Gewinnen Sie 3 Tippspiele");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("Tippsielsieger");
-        ach.setAchievementDescription("Gewinnen Sie ein Tippspiele");
-        aps.save(ach);
+//		ach = new Achievement();
+//		ach.setTitle("Been There, Rocked That");
+//		ach.setAchievementDescription("Alle Tendenzen an einem Spieltag richtig getippt");
+//		ach.setAchievementQuerry("SELECT u.id FROM User u WHERE 1=2");
+//		aps.save(ach);
+//
+//		ach = new Achievement();
+//		ach.setTitle("I knew it");
+//		ach.setAchievementDescription("Ein perfekt getippter Spieltag");
+//		ach.setAchievementQuerry("SELECT u.id FROM User u WHERE 1=2");
+//		aps.save(ach);
+//
+//		ach = new Achievement();
+//		ach.setTitle("A fresh start");
+//		ach.setAchievementDescription("Ein Spiel richtig getippt");
+//		ach.setAchievementQuerry("SELECT u.id FROM User u WHERE 1=2");
+//		aps.save(ach);
+//
+//		ach = new Achievement();
+//		ach.setTitle("Look what I can do!");
+//		ach.setAchievementDescription("Drei Spiele richtig getippt. (an einem Spieltag)");
+//		ach.setAchievementQuerry("SELECT u.id FROM User u WHERE 1=2");
+//		aps.save(ach);
+//
+//		ach = new Achievement();
+//		ach.setTitle("A Star is Born!");
+//		ach.setAchievementDescription("Fünf Spiele richtig getippt. (an einem Spieltag)");
+//		ach.setAchievementQuerry("SELECT u.id FROM User u WHERE 1=2");
+//		aps.save(ach);
+//
+//		ach = new Achievement();
+//		ach.setTitle("Reach for the stars");
+//		ach.setAchievementDescription("Einen Spieltag als bester getippt");
+//		ach.setAchievementQuerry("SELECT u.id FROM User u WHERE 1=2");
+//		aps.save(ach);
+//
+//		ach = new Achievement();
+//		ach.setTitle("Miracles come when you least expect them");
+//		ach.setAchievementDescription("Spieltag ohne einen einzigen Punkt");
+//		ach.setAchievementQuerry("SELECT u.id FROM User u WHERE 1=2");
+//		aps.save(ach);
+//
+//		ach = new Achievement();
+//		ach.setTitle("Legend");
+//		ach.setAchievementDescription("Gewinnen Sie 5 Tippspiele");
+//		ach.setAchievementQuerry("SELECT u.id FROM User u WHERE 1=2");
+//		aps.save(ach);
+//
+//		ach = new Achievement();
+//		ach.setTitle("Master");
+//		ach.setAchievementDescription("Gewinnen Sie 3 Tippspiele");
+//		ach.setAchievementQuerry("SELECT u.id FROM User u WHERE 1=2");
+//		aps.save(ach);
+//
+//		ach = new Achievement();   
+//		ach.setTitle("Tippsielsieger");
+//		ach.setAchievementDescription("Gewinnen Sie ein Tippspiele");
+//		ach.setAchievementQuerry("SELECT u.id FROM User u WHERE 1=2");
+//		aps.save(ach);
     }
 
     public static League genLeague()
