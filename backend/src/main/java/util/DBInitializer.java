@@ -58,7 +58,7 @@ public class DBInitializer {
         UserPersistenceService.getInstance().save(user);
     }
 
-	public static void genAchivement()
+	public static void generateAchievement()
 	{
 		AchievementPersistenceService aps = AchievementPersistenceService.getInstance();
 		if(aps.hasEntries())
