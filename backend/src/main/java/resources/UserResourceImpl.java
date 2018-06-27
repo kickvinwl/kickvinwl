@@ -75,6 +75,22 @@ public class UserResourceImpl extends UserResource {
         }
         return response;
     }
+    @Override
+    public Response getUserAchievementsByName(String token, String userName) {
+    	response = Response.accepted().build();
+    	
+    	try {
+    		UserPersistenceService.getInstance().getBySessionKey(token);
+    		
+    		User user = UserPersistenceService.getInstance().getByName(userName);
+    		
+    		response = Response.accepted(user.getAchievements()).build();
+    	}
+    	catch (SecurityException | NoResultException exception) {
+    		response = Response.status(Response.Status.UNAUTHORIZED).build();
+    	}
+    	return response;
+    }
 
 
 
