@@ -11,7 +11,7 @@ import java.util.List;
 
 public class BundesligaTableManager {
 
-    private final String apiURL = "https://www.openligadb.de/api/getbltable/";
+    private final String API_URL = "https://www.openligadb.de/api/getbltable/";
     private String apiParameters;
     private League league;
 
@@ -31,7 +31,7 @@ public class BundesligaTableManager {
      */
     private List<BundesligaTable> getBundesligatableFromAPI() throws Exception {
         BundesligaTableDeserializer bltd = new BundesligaTableDeserializer();
-            List<BundesligaTable> ble = bltd.deserializeBundesligaTable(apiURL+apiParameters);
+            List<BundesligaTable> ble = bltd.deserializeBundesligaTable(API_URL +apiParameters);
             ble.forEach( b -> b.setLeague(league) );
             return ble;
     }
