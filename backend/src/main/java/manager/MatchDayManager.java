@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MatchDayManager {
 
-    private final String apiURL = "https://www.openligadb.de/api/getavailablegroups/";
+    private final String API_URL = "https://www.openligadb.de/api/getavailablegroups/";
     private String apiParameter;
     private League league;
 
@@ -28,7 +28,7 @@ public class MatchDayManager {
     public List<Matchday> getMatchDaysFromAPI() throws Exception {
         MatchDayDeserializier mdd = new MatchDayDeserializier();
         apiParameter = String.valueOf(league.getLeagueId()+"/"+league.getSeason());
-        List<Matchday> matchdays = mdd.deserializeMatchDays(apiURL+apiParameter,this.league);
+        List<Matchday> matchdays = mdd.deserializeMatchDays(API_URL +apiParameter,this.league);
         matchdays.forEach(matchday -> matchday.setLeague(this.league));
         return matchdays;
     }

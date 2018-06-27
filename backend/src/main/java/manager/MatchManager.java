@@ -5,12 +5,11 @@ import entities.Match;
 import persistence.MatchPersistenceService;
 import util.MatchDeserializer;
 
-import javax.persistence.NoResultException;
 import java.util.List;
 
 public class MatchManager {
 
-    private final String apiUrl = "https://www.openligadb.de/api/getmatchdata/";
+    private final String API_URL = "https://www.openligadb.de/api/getmatchdata/";
     private String apiParameter;
     private League league;
 
@@ -48,19 +47,19 @@ public class MatchManager {
     public List<Match> getMatchesForCurrentMatchdayFromAPI() throws Exception{
         apiParameter = String.valueOf(league.getLeagueId());
         MatchDeserializer md = new MatchDeserializer();
-        return md.deserializeMatches(apiUrl+apiParameter);
+        return md.deserializeMatches(API_URL +apiParameter);
     }
 
     private List<Match> getAllMatchesFromAPI() throws Exception{
         apiParameter = String.valueOf(league.getLeagueId()+"/"+league.getSeason());
         MatchDeserializer md = new MatchDeserializer();
-        return md.deserializeMatches(apiUrl+apiParameter);
+        return md.deserializeMatches(API_URL +apiParameter);
     }
 
     private List<Match> getAllMatchesForMatchdayFromAPI(final int matchDay) throws Exception{
         apiParameter = String.valueOf(league.getLeagueId()+league.getSeason()+matchDay);
         MatchDeserializer md = new MatchDeserializer();
-        return md.deserializeMatches(apiUrl+apiParameter);
+        return md.deserializeMatches(API_URL +apiParameter);
     }
 
     public List<Match> getAllMatchesFromDatabase() {
