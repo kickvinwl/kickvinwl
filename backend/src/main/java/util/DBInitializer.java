@@ -32,7 +32,7 @@ public class DBInitializer {
         createDatabase();
         setupTables();
 
-        // load data
+        // generate and load data
         l = generateLeague();
         loadTeams();
         generateUsers();
@@ -40,6 +40,7 @@ public class DBInitializer {
         generateAchievement();
         loadBundesligaTable();
         loadMatches(l);
+        generateNews();
     }
 
     private static void createDatabase() {
@@ -244,6 +245,7 @@ public class DBInitializer {
     }
 
     private static void generateNews() {
+        //set up test users
         User user = new User("test_newsfeed","kappa");
         User userAdmin = new User("test_newsfeed_admin", "kappadmin");
         userAdmin.setUserIsAdmin(true);
@@ -252,28 +254,32 @@ public class DBInitializer {
         System.out.println("=================================");
         System.out.println("SAVING NEWS...");
         NewsfeedPersistenceService nps = NewsfeedPersistenceService.getInstance();
+
+        //generate first message - date is valid
         NewsfeedMessage message = new NewsfeedMessage();
         Calendar calender = Calendar.getInstance();
         calender.add(Calendar.DAY_OF_MONTH, 1);
         message.setEndDate(calender.getTime());
         calender.add(Calendar.DAY_OF_MONTH, -2);
         message.setStartDate(calender.getTime());
-        message.setMessageText("YOLO");
+        message.setMessageText("HERE COULD BE YOUR MESSAGE!");
         message.setUser(user);
-        message.setMessageTitle("TITLE 1");
+        message.setMessageTitle("Moby Dick");
         nps.save(message);
-        System.out.println("NEWS SAVED?!..");
-        System.out.println("=================================");
 
+        //generate second message - date is invalid
         message = new NewsfeedMessage();
         calender.add(Calendar.DAY_OF_WEEK,7);
         message.setStartDate(calender.getTime());
         calender.add(Calendar.DAY_OF_MONTH,5);
         message.setEndDate(calender.getTime());
-        message.setMessageText("NOONOON");
+        message.setMessageText("This message has an expired Date and should not be displayed!");
         message.setUser(user);
-        message.setMessageTitle("HIGH NOON");
+        message.setMessageTitle("Invalid Message");
         nps.save(message);
+
+        System.out.println("NEWS SAVED!");
+        System.out.println("=================================");
     }
 
 }
