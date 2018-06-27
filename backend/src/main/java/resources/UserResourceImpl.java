@@ -31,7 +31,9 @@ public class UserResourceImpl extends UserResource {
         User user;
         try {
             user = UserPersistenceService.getInstance().getBySessionKey(token);
-            // TODO: Achievment setzen
+            
+            user.setDisplayedTitle(achievement);
+            
             UserPersistenceService.getInstance().update(user);
         }
         catch (SecurityException | NoResultException exception) {
