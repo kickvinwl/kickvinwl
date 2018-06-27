@@ -13,6 +13,7 @@ import resources.datamodel.TipList;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 
 public class TipResourceImpl extends TipResource {
 
@@ -26,7 +27,8 @@ public class TipResourceImpl extends TipResource {
         try {
             User user = UserPersistenceService.getInstance().getBySessionKey(matches.getToken());
             for (Tip tip : matches.getMatches()) {
-                createMatchTip(user, tip);
+                Match match = MatchPersistenceService.getInstance().getMatchById(tip.getmatchId());
+                    createMatchTip(user, tip, match);
             }
         } catch (NoResultException exception) {
             response = Response.status(Response.Status.UNAUTHORIZED).build();
@@ -37,16 +39,25 @@ public class TipResourceImpl extends TipResource {
         return response;
     }
 
-    private MatchTip createMatchTip(User user,Tip tip)
+    private boolean isTipValid(Tip tip)
     {
-        MatchTip ret = new MatchTip();
-        Match match = MatchPersistenceService.getInstance().getMatchById(tip.getmatchId());
+        return tip.getawayTip() > 0 && tip.gethomeTip() > 0;
+    }
 
+    private boolean isMatchValid(Match match)
+    {
+        return  match.getMatchDateTime().after(new Date());
+    }
+
+    private void createMatchTip(User user,Tip tip, Match match)
+    {
+        if(!isMatchValid(match) || !isTipValid(tip)){ return;}
+        MatchTip ret = new MatchTip();
         try{
             ret = MatchTipPersistenceService.getInstance().getByUserIdAndMatchId(user.getId(), match.getId());
             ret.setGoalsTeam1(tip.gethomeTip());
             ret.setGoalsTeam2(tip.getawayTip());
-            MatchTipPersistenceService.getInstance().update(ret);
+           MatchTipPersistenceService.getInstance().update(ret);
         }catch (NoResultException e) {
 
             ret.setTippedMatch(match);
@@ -55,8 +66,6 @@ public class TipResourceImpl extends TipResource {
             ret.setGoalsTeam2(tip.getawayTip());
             MatchTipPersistenceService.getInstance().save(ret);
         }
-
-        return ret;
     }
 
 
