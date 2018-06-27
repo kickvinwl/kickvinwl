@@ -21,8 +21,6 @@ public class TipResourceImpl extends TipResource {
     public Response setTip(TipList matches) {
         response = Response.accepted().build();
 
-        //TODO validate
-
         Logger slf4jLogger = LoggerFactory.getLogger("some-logger");
         try {
             User user = UserPersistenceService.getInstance().getBySessionKey(matches.getToken());
@@ -39,19 +37,17 @@ public class TipResourceImpl extends TipResource {
         return response;
     }
 
-    private boolean isTipValid(Tip tip)
-    {
+    private boolean isTipValid(Tip tip){
         return tip.getawayTip() != null && tip.gethomeTip() != null && tip.getawayTip() >= 0 && tip.gethomeTip() >= 0;
     }
 
-    private boolean isMatchValid(Match match)
-    {
+    private boolean isMatchValid(Match match){
         return match.getMatchDateTime().after(new Date());
     }
 
-    private void createMatchTip(User user,Tip tip, Match match)
-    {
-        if(!isMatchValid(match) || !isTipValid(tip)){ return;}
+    private void createMatchTip(User user,Tip tip, Match match){
+        if(isMatchValid(match) && isTipValid(tip))
+            return;
         MatchTip ret = new MatchTip();
         try{
             ret = MatchTipPersistenceService.getInstance().getByUserIdAndMatchId(user.getId(), match.getId());
@@ -74,14 +70,14 @@ public class TipResourceImpl extends TipResource {
         response = Response.accepted().build();
         Matchday matchdayDefault = new Matchday();//LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1").getCurrentMatchday();
         matchdayDefault.setMatchday(1);
-//        matchdayDefault.setId(18);
 
         MatchdayPersistenceService matchdayPersistenceService = MatchdayPersistenceService.getInstance();
         if(gameday == -1) gameday = matchdayDefault.getMatchday();
         try {
             Matchday matchday;
             try {
-                matchday = matchdayPersistenceService.getMatchdayBeiInt(gameday); //TODO wenn matchday nicht vorhanden -> wird zu default matchday
+                matchday = matchdayPersistenceService.getMatchdayBeiInt(gameday); 
+                //TODO wenn matchday nicht vorhanden -> wird zu default matchday
             } catch (NoResultException e) {
                 throw new NoResultException("Matchday mit dem Tag " + gameday + " wurde nicht gefunden!");
             }
