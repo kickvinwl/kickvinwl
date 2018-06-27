@@ -28,7 +28,7 @@ public abstract class UserResource {
     @POST
     @Path("/setAchievment/{token}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public abstract Response setAchievment(@PathParam("token") String token, Achievement achievement);
+    public abstract Response setAchievment(@PathParam("token") String token, @QueryParam("id") String id);
 
     @GET
     @Path("/{a:get|Get}/{token}")
@@ -42,8 +42,8 @@ public abstract class UserResource {
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/getUserAchievementsByName")
-    public abstract Response getUserAchievementsByName(@QueryParam("token") String token, @QueryParam("userName") String userName);
+    @Path("/getUserAchievements")
+    public abstract Response getUserAchievements(@QueryParam("token") String token);
 
     @GET
     @Path("/{a:logout|Logout}")

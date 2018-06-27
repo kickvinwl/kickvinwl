@@ -24,7 +24,7 @@ $(document).ready(function(){
 		});
 		var token2 = Cookies.get('token');
 		if (typeof token2 != 'undefined') {
-			$.getJSON("backend/user/get/" + token2, function(result){
+			$.getJSON( urlPath + "backend/user/get/" + token2, function(result){
 				$('#name').val(result.userName);
 				var pic = result.userPicture;
 				if(pic != null){
@@ -33,6 +33,9 @@ $(document).ready(function(){
 				$('#aktPkt').val(result.Punkte);
 				$('#aktPlatz').val(result.Platz);
 				$('#besterTag').val(result.Bester);
+			});
+			$.getJSON(urlPath + "backend/user/getUserAchievements?token=" + token2, function(result){
+				console.log(result);
 			});
 		}
 		else{
@@ -49,7 +52,7 @@ $(document).ready(function(){
 					  headers: { 
 					        'Content-Type': 'application/json' 
 					  },
-					  url: "backend/user/setAchievment/" + token2,
+					  url: urlPath + "backend/user/setAchievment/" + token2,
 					  data: JSON.stringify(daten),
 					  success: function(response){
 					  	location.reload();	
@@ -64,7 +67,7 @@ $(document).ready(function(){
 					  headers: { 
 					        'Content-Type': 'application/json' 
 					  },
-					  url: "backend/user/setImage/" + token2,
+					  url: urlPath + "backend/user/setImage/" + token2,
 					  data: JSON.stringify("https://as.ftcdn.net/r/v1/pics/ea2e0032c156b2d3b52fa9a05fe30dedcb0c47e3/landing/images_photos.jpg"),
 					  success: function(response){
 					  	location.reload();	

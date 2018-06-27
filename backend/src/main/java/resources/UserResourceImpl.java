@@ -26,13 +26,15 @@ public class UserResourceImpl extends UserResource {
     }
 
     @Override
-    public Response setAchievment(String token, Achievement achievement) {
+    public Response setAchievment(String token, String id) {
         response = Response.accepted().build();
         User user;
         try {
             user = UserPersistenceService.getInstance().getBySessionKey(token);
             
-            user.setDisplayedTitle(achievement);
+			//Achievement a = getAchievementWithID(id);
+			
+            user.setDisplayedTitle(a);
             
             UserPersistenceService.getInstance().update(user);
         }
@@ -76,13 +78,11 @@ public class UserResourceImpl extends UserResource {
         return response;
     }
     @Override
-    public Response getUserAchievementsByName(String token, String userName) {
+    public Response getUserAchievements(String token) {
     	response = Response.accepted().build();
     	
     	try {
-    		UserPersistenceService.getInstance().getBySessionKey(token);
-    		
-    		User user = UserPersistenceService.getInstance().getByName(userName);
+    		User user = UserPersistenceService.getInstance().getBySessionKey(token);
     		
     		response = Response.accepted(user.getAchievements()).build();
     	}
