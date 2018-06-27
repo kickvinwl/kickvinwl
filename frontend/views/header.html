@@ -23,7 +23,7 @@
 		<li class="nav-item position-relative">
 			<a class="nav-link dropdown-toggle" id="newsMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">News</a>
 			<div class="dropdown-menu" aria-labelledby="newsMenuLink" style="max-height:400px; overflow-y: auto;" id="newsFeed">
-				<button type="button" class="btn btn-primary btn-block m-1" data-toggle="modal" data-target="#NewsModal" style="width: 18rem;">
+				<button type="button" class="btn btn-primary btn-block m-1" data-toggle="modal" data-target="#NewsModal" id="btnModalShow" style="width: 18rem; display: none;">
 				  Neue News anlegen
 				</button>
 			</div>
@@ -45,7 +45,7 @@
 </nav>
 
 <div class="modal fade" id="NewsModal" tabindex="-1" role="dialog" aria-labelledby="NewsModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="NewsModalLabel">News anlegen</h5>
