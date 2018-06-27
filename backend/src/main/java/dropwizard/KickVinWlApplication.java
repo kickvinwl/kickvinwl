@@ -39,7 +39,6 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         MatchTipPersistenceService.getInstance();
         LeaderboardPersistenceService.getInstance();
 
-        DBInitializer.dropDatabase();
         DBInitializer.init();
 
         AchievementsChecker ac = new AchievementsChecker();
