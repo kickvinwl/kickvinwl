@@ -2,6 +2,7 @@ package resources;
 
 import entities.Achievement;
 import entities.User;
+import persistence.AchievementPersistenceService;
 import persistence.UserPersistenceService;
 
 import javax.persistence.NoResultException;
@@ -26,13 +27,13 @@ public class UserResourceImpl extends UserResource {
     }
 
     @Override
-    public Response setAchievment(String token, String id) {
+    public Response setAchievment(String token, String achieveId) {
         response = Response.accepted().build();
         User user;
         try {
             user = UserPersistenceService.getInstance().getBySessionKey(token);
             
-			//Achievement a = getAchievementWithID(id);
+			Achievement a = AchievementPersistenceService.getInstance().getAchievementForID(achieveId);
 			
             user.setDisplayedTitle(a);
             
