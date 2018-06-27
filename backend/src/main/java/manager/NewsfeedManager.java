@@ -38,7 +38,7 @@ public class NewsfeedManager {
      *
      * @param input input-data from the POST-request of the NewsfeedResource that
      *              has been passed through.
-     * @param user  user, that is creating the news
+     * @param user  user that is creating the news
      */
     public void createNewsMessage(Map<String, String> input, User user) throws ParseException, SecurityException {
         if (!user.isUserIsAdmin()) {
@@ -52,7 +52,6 @@ public class NewsfeedManager {
         NewsfeedMessage newMessage = new NewsfeedMessage();
         newMessage.setMessageTitle(messageTitle);
         newMessage.setMessageText(messageText);
-        // no persistence if the format of the dates is not as defined
         newMessage.setStartDate(DateTimeParser.parseNewsfeedDate(startDateString));
         newMessage.setEndDate(DateTimeParser.parseNewsfeedDate(endDateString));
         newMessage.setUser(user);

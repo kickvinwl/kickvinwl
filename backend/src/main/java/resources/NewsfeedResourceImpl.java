@@ -14,7 +14,7 @@ public class NewsfeedResourceImpl extends NewsfeedResource {
 
     @Override
     public Response getNews(String token) {
-        response = Response.accepted().build();
+        response = Response.status(Response.Status.OK).build();
         System.out.println("TOKEN = " + token);
         try {
             UserPersistenceService.getInstance().getBySessionKey(token);
