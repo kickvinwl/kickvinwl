@@ -41,12 +41,12 @@ public class TipResourceImpl extends TipResource {
 
     private boolean isTipValid(Tip tip)
     {
-        return tip.getawayTip() > 0 && tip.gethomeTip() > 0;
+        return tip.getawayTip() >= 0 && tip.gethomeTip() >= 0;
     }
 
     private boolean isMatchValid(Match match)
     {
-        return  match.getMatchDateTime().after(new Date());
+        return match.getMatchDateTime().after(new Date());
     }
 
     private void createMatchTip(User user,Tip tip, Match match)
