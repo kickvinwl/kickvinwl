@@ -2,7 +2,6 @@ package manager;
 
 import entities.League;
 import entities.Matchday;
-import persistence.MatchPersistenceService;
 import persistence.MatchdayPersistenceService;
 import util.MatchDayDeserializier;
 
@@ -16,7 +15,7 @@ public class MatchDayManager {
     private League league;
 
     public MatchDayManager(League league) {
-        apiParameter = String.valueOf(league.getCurrentMatchday());
+        apiParameter = String.valueOf(league.getCurrentMatchday()); // TODO
         this.league = league;
     }
 

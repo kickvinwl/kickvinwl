@@ -12,7 +12,6 @@ import java.util.List;
 public class League extends EntityGeneratedKey {
 
 	private String leagueId;
-
 	private String season;
 
 	@ManyToOne(fetch=FetchType.LAZY)

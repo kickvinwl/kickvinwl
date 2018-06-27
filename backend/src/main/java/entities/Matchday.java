@@ -1,5 +1,4 @@
 package entities;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -8,8 +7,7 @@ import javax.persistence.ManyToOne;
 public class Matchday extends EntityGeneratedKey{
 
 	private int matchday;
-
-	private int externalMatchID;
+	private int externalMatchDayID;
 
 	@ManyToOne
 	@JoinColumn(name = "fk_league")
@@ -30,12 +28,12 @@ public class Matchday extends EntityGeneratedKey{
 		this.matchday = matchday;
 	}
 
-	public int getExternalMatchID() {
-		return externalMatchID;
+	public int getExternalMatchDayID() {
+		return externalMatchDayID;
 	}
 
-	public void setExternalMatchID(int externalMatchID) {
-		this.externalMatchID = externalMatchID;
+	public void setExternalMatchDayID(int externalMatchID) {
+		this.externalMatchDayID = externalMatchID;
 	}
 
 	public League getLeague() {
@@ -48,6 +46,6 @@ public class Matchday extends EntityGeneratedKey{
 
 	@Override
 	public String toString() {
-		return matchday + "|" + externalMatchID + "|" + league.getId();
+		return matchday + "|" + externalMatchDayID + "|" + league.getId();
 	}
 }

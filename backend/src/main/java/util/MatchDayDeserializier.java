@@ -1,6 +1,5 @@
 package util;
 
-
 import com.google.gson.JsonDeserializer;
 import com.google.gson.*;
 import entities.League;
@@ -17,7 +16,7 @@ public class MatchDayDeserializier {
             JsonObject jsonObject = json.getAsJsonObject();
             Matchday md = new Matchday();
             md.setMatchday(jsonObject.get("GroupOrderID").getAsInt());
-            md.setExternalMatchID(jsonObject.get("GroupID").getAsInt());
+            md.setExternalMatchDayID(jsonObject.get("GroupID").getAsInt());
             return md;
         }
     };
