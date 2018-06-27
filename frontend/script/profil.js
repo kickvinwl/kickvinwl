@@ -34,8 +34,19 @@ $(document).ready(function(){
 				$('#aktPlatz').val(result.Platz);
 				$('#besterTag').val(result.Bester);
 			});
-			$.getJSON(urlPath + "backend/user/getUserAchievements?token=" + token2, function(result){
-				console.log(result);
+			$.ajax({
+			  type: "GET",
+			  url: urlPath + "backend/user/getUserAchievements?token=" + token2,
+			  success: function(response){
+			  	console.log("OK");
+			  	console.log(response);
+			  	//location.reload();	
+			  },
+			  error: function(response){
+			  	console.log("Error");
+			  	console.log(response);
+			  },
+			  dataType: "json",
 			});
 		}
 		else{
