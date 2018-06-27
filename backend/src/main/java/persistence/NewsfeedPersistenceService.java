@@ -23,7 +23,8 @@ public class NewsfeedPersistenceService extends PersistenceService<NewsfeedMessa
     public List<NewsfeedMessage> getValidNewsfeedMessages() throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
             Query query = entityManager.createQuery(
-                    "SELECT nm FROM NewsfeedMessage nm where nm.startDate < :now and nm.endDate > :now");
+                    "SELECT nm FROM NewsfeedMessage nm where nm.startDate < :now and nm.endDate > :now " +
+                            " ORDER BY nm.startDate DESC");
             Date now = new Date();
             query.setParameter("now", now);
             List<NewsfeedMessage> newsfeedMessages = query.getResultList();
