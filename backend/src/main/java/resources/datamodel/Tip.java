@@ -10,8 +10,8 @@ public class Tip {
 
 
     int matchId;
-    int homeTip;
-    int awayTip;
+    Integer homeTip;
+    Integer awayTip;
 
 
     @JsonProperty
@@ -25,22 +25,22 @@ public class Tip {
     }
 
     @JsonProperty
-    public int gethomeTip() {
+    public Integer gethomeTip() {
         return homeTip;
     }
 
     @JsonProperty
-    public void sethomeTip(int homeTip) {
+    public void sethomeTip(Integer homeTip) {
         this.homeTip = homeTip;
     }
 
     @JsonProperty
-    public int getawayTip() {
+    public Integer getawayTip() {
         return awayTip;
     }
 
     @JsonProperty
-    public void setawayTip(int awayTip) {
+    public void setawayTip(Integer awayTip) {
         this.awayTip = awayTip;
     }
 

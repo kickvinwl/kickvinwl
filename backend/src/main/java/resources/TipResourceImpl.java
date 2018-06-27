@@ -41,7 +41,7 @@ public class TipResourceImpl extends TipResource {
 
     private boolean isTipValid(Tip tip)
     {
-        return tip.getawayTip() >= 0 && tip.gethomeTip() >= 0;
+        return tip.getawayTip() != null && tip.gethomeTip() != null && tip.getawayTip() >= 0 && tip.gethomeTip() >= 0;
     }
 
     private boolean isMatchValid(Match match)
