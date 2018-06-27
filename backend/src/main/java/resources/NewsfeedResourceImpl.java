@@ -20,9 +20,7 @@ public class NewsfeedResourceImpl extends NewsfeedResource {
             UserPersistenceService.getInstance().getBySessionKey(token);
             NewsfeedManager newsManager = new NewsfeedManager();
             response = Response.accepted(newsManager.getValidNews()).build();
-        } catch (NoResultException e1) {
-            response = Response.status(Response.Status.NO_CONTENT).build();
-        } catch (SecurityException e2) {
+        } catch (NoResultException |SecurityException e2) {
             response = Response.status(Response.Status.UNAUTHORIZED).build();
         }
         return response;
