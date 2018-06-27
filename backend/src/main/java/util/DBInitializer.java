@@ -3,6 +3,7 @@ package util;
 import entities.*;
 import manager.MatchDayManager;
 import manager.BundesligaTableManager;
+import manager.MatchManager;
 import persistence.*;
 
 import javax.persistence.EntityManagerFactory;
@@ -12,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,11 +28,13 @@ public class DBInitializer {
         runstatement(sqlString);
         setupTables();
         TeamPersistenceService.persistTeams();
-        genLeague();
+        League l = genLeague();
         genUsers();
+        loadMatchdays();
         genMatches();
         genAchivement();
         generateBundesligaTable();
+        loadMatches(l);
     }
 
     public static void dropDatabase() {
@@ -40,7 +44,6 @@ public class DBInitializer {
 
     public static void genUsers() {
         User user = new User("qwertz", "t");
-
         UserPersistenceService.getInstance().save(user);
     }
 
@@ -285,7 +288,7 @@ public class DBInitializer {
         aps.save(ach);
     }
 
-    public static void genLeague()
+    public static League genLeague()
     {
         Matchday md = new Matchday();
         md.setMatchday(27);
@@ -294,8 +297,22 @@ public class DBInitializer {
         League l = new League();
         l.setLeagueId("bl1");
         l.setSeason("2017");
-        l.setCurrentMatchday(md);
+        //l.setCurrentMatchday(md);
         LeaguePersistenceService.getInstance().save(l);
+        return l;
+    }
+
+    public static void loadMatches(League league) {
+        MatchManager mm = new MatchManager(league);
+        try {
+            System.out.println("=====================");
+            System.out.println("Persisting matches ...");
+            mm.persistAllMatchesFromAPI();
+            System.out.println("Persisting matches completed !!!");
+        } catch (Exception e) {
+            System.out.println("Failed to load Matches");
+            e.printStackTrace();
+        }
     }
 
     public static void generateBundesligaTable() {
@@ -326,7 +343,7 @@ public class DBInitializer {
         }
     }
 
-    public static void setupMatchDays() {
+    public static void loadMatchdays() {
         League league = LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1");
         MatchDayManager mdm = new MatchDayManager(league);
         try {
