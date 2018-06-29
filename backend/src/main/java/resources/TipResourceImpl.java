@@ -13,6 +13,7 @@ import resources.datamodel.TipList;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 
 public class TipResourceImpl extends TipResource {
 
@@ -20,13 +21,12 @@ public class TipResourceImpl extends TipResource {
     public Response setTip(TipList matches) {
         response = Response.accepted().build();
 
-        //TODO validate
-
         Logger slf4jLogger = LoggerFactory.getLogger("some-logger");
         try {
             User user = UserPersistenceService.getInstance().getBySessionKey(matches.getToken());
             for (Tip tip : matches.getMatches()) {
-                createMatchTip(user, tip);
+                Match match = MatchPersistenceService.getInstance().getMatchById(tip.getmatchId());
+                    createMatchTip(user, tip, match);
             }
         } catch (NoResultException exception) {
             response = Response.status(Response.Status.UNAUTHORIZED).build();
@@ -37,16 +37,23 @@ public class TipResourceImpl extends TipResource {
         return response;
     }
 
-    private MatchTip createMatchTip(User user,Tip tip)
-    {
-        MatchTip ret = new MatchTip();
-        Match match = MatchPersistenceService.getInstance().getMatchById(tip.getmatchId());
+    private boolean isTipValid(Tip tip){
+        return tip.getawayTip() != null && tip.gethomeTip() != null && tip.getawayTip() >= 0 && tip.gethomeTip() >= 0;
+    }
 
+    private boolean isMatchValid(Match match){
+        return match.getMatchDateTime().after(new Date());
+    }
+
+    private void createMatchTip(User user,Tip tip, Match match){
+        if(isMatchValid(match) && isTipValid(tip))
+            return;
+        MatchTip ret = new MatchTip();
         try{
             ret = MatchTipPersistenceService.getInstance().getByUserIdAndMatchId(user.getId(), match.getId());
             ret.setGoalsTeam1(tip.gethomeTip());
             ret.setGoalsTeam2(tip.getawayTip());
-            MatchTipPersistenceService.getInstance().update(ret);
+           MatchTipPersistenceService.getInstance().update(ret);
         }catch (NoResultException e) {
 
             ret.setTippedMatch(match);
@@ -55,24 +62,24 @@ public class TipResourceImpl extends TipResource {
             ret.setGoalsTeam2(tip.getawayTip());
             MatchTipPersistenceService.getInstance().save(ret);
         }
-
-        return ret;
     }
 
 
     @Override
     public Response getTipByToken(String token, int gameday) {
         response = Response.accepted().build();
-        Matchday matchdayDefault = new Matchday();//LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1").getCurrentMatchday();
-        matchdayDefault.setMatchday(1);
+        Matchday matchdayDefault = LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1").getCurrentMatchday();
+//        matchdayDefault.setMatchday(1);
 //        matchdayDefault.setId(18);
+
 
         MatchdayPersistenceService matchdayPersistenceService = MatchdayPersistenceService.getInstance();
         if(gameday == -1) gameday = matchdayDefault.getMatchday();
         try {
             Matchday matchday;
             try {
-                matchday = matchdayPersistenceService.getMatchdayBeiInt(gameday); //TODO wenn matchday nicht vorhanden -> wird zu default matchday
+                matchday = matchdayPersistenceService.getMatchdayBeiInt(gameday); 
+                //TODO wenn matchday nicht vorhanden -> wird zu default matchday
             } catch (NoResultException e) {
                 throw new NoResultException("Matchday mit dem Tag " + gameday + " wurde nicht gefunden!");
             }
