@@ -104,7 +104,10 @@ public class User extends EntityGeneratedKey {
 	}
 
 	public void setDisplayedTitle(Achievement displayedTitle) {
-		this.displayedTitle = displayedTitle;
+		if (achievements.contains(displayedTitle)); {
+			this.displayedTitle = displayedTitle;
+		}
+
 	}
 
 
@@ -140,5 +143,5 @@ public class User extends EntityGeneratedKey {
 				+ userIsAdmin + ", displayedTitle=" + displayedTitle + ", sessionKey=" + sessionKey + ", lastAction="
 				+ lastAction + ", adminGroups=" + adminGroups + ", tips=" + tips + ", groups=" + groups	+ "]";
 	}
-	
+
 }
