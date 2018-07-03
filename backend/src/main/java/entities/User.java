@@ -104,7 +104,7 @@ public class User extends EntityGeneratedKey {
 	}
 
 	public void setDisplayedTitle(Achievement displayedTitle) {
-		if (achievements.contains(displayedTitle)); {
+		if (achievements.contains(displayedTitle)) {
 			this.displayedTitle = displayedTitle;
 		}
 
