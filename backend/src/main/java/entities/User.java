@@ -20,13 +20,6 @@ public class User extends EntityGeneratedKey {
 	@JoinColumn(name = "fk_displayedTitle")
 	private Achievement displayedTitle;
 
-	public Achievement getDisplayedTitle() {
-		return displayedTitle;
-	}
-
-	public void setDisplayedTitle(Achievement displayedTitle) {
-		this.displayedTitle = displayedTitle;
-	}
 
 	@Column(updatable = true, nullable = true)
 	private String sessionKey;
@@ -103,15 +96,14 @@ public class User extends EntityGeneratedKey {
 	public void setUserIsAdmin(boolean userIsAdmin) {
 		this.userIsAdmin = userIsAdmin;
 	}
+	public Achievement getDisplayedTitle() {
+		return displayedTitle;
+	}
 
-	//TODO: später einkommentieren
-	//public String getDisplayedTitle() {
-	//	return displayedTitle.getTitle();
-	//}
+	public void setDisplayedTitle(Achievement displayedTitle) {
+		this.displayedTitle = displayedTitle;
+	}
 
-	//public void setDisplayedTitle(Achievement achievement) {
-	//	this.displayedTitle = achievement;
-	//}
 
 	public void addTip(MatchTip tip)
 	{
@@ -120,6 +112,9 @@ public class User extends EntityGeneratedKey {
 	public void addAchievment(Achievement ach)
 	{
 		achievements.add(ach);
+		if (getDisplayedTitle() == null) {
+			setDisplayedTitle(ach);
+		}
 	}
 
 	public String getSessionKey() {
