@@ -3,6 +3,7 @@ package entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Achievement extends EntityGeneratedKey{
@@ -62,5 +63,19 @@ public class Achievement extends EntityGeneratedKey{
 	@Override
 	public String toString() {
 		return "Achievement [achievementDescription=" + achievementDescription + ", title=" + title + ", achievementQuery=" + achievementQuery + "]";
-	}	
+	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Achievement that = (Achievement) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId());
+    }
 }
