@@ -15,7 +15,7 @@ public class AchievementsChecker {
 
 	public AchievementsChecker() {
 		try{
-			achievements = new ArrayList<Achievement>(AchievementPersistenceService.getInstance().getAll());
+			achievements = new ArrayList<>(AchievementPersistenceService.getInstance().getAll());
 		}catch(NoResultException e) {
 			// Keine Achievements in DB
 			achievements = new ArrayList<>();
@@ -46,7 +46,7 @@ public class AchievementsChecker {
 				if(!hasAch) {
 					System.out.println(achievement.getTitle() + " for user " + u.getUserName() + " unlocked");
 					u.addAchievment(achievement);
-					achievement.addUsers(u);
+					//achievement.addUsers(u);
 					UserPersistenceService.getInstance().update(u);
 					AchievementPersistenceService.getInstance().update(achievement);
 				}
