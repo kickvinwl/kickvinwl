@@ -16,7 +16,7 @@ public class User extends EntityGeneratedKey {
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "fk_displayedTitle")
 	private Achievement displayedTitle;
 
