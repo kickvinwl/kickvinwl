@@ -45,7 +45,7 @@ function loadTipps(spieltag) {
 			var lastDate;
 			$('#gamedayTable tbody').empty();
 			$.each(data.matches, function(i, val) {
-				var date = new Date(val.date * 1000);
+				var date = new Date(val.date);
 				if (typeof lastDate == 'undefined' || lastDate.getTime() !== date.getTime()) {
 					$('#gamedayTable tbody').append('<tr><th>' + date.toLocaleDateString('de-DE', dateOptions) + ' Uhr</th></tr>');
 				}
