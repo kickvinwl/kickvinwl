@@ -42,7 +42,13 @@ public class DBInitializer {
         loadMatches(l);
         generateNews();
 
-        l.setCurrentMatchday(MatchPersistenceService.getInstance().getLastMatch().getMatchday());
+        try {
+            Matchday md = new MatchDayManager(l).getCurrentMatchday();
+            MatchdayPersistenceService.getInstance().save(md);
+            l.setCurrentMatchday(md);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         LeaguePersistenceService.getInstance().update(l);
     }
 

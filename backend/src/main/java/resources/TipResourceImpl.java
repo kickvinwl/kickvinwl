@@ -41,26 +41,26 @@ public class TipResourceImpl extends TipResource {
         return tip.getawayTip() != null && tip.gethomeTip() != null && tip.getawayTip() >= 0 && tip.gethomeTip() >= 0;
     }
 
-    private boolean isMatchValid(Match match){
+    private boolean isMatchNotFinished(Match match){
         return match.getMatchDateTime().after(new Date());
     }
 
     private void createMatchTip(User user,Tip tip, Match match){
-        if(isMatchValid(match) && isTipValid(tip))
-            return;
-        MatchTip ret = new MatchTip();
-        try{
-            ret = MatchTipPersistenceService.getInstance().getByUserIdAndMatchId(user.getId(), match.getId());
-            ret.setGoalsTeam1(tip.gethomeTip());
-            ret.setGoalsTeam2(tip.getawayTip());
-           MatchTipPersistenceService.getInstance().update(ret);
-        }catch (NoResultException e) {
+        if(isMatchNotFinished(match) && isTipValid(tip)) {
+            MatchTip ret = new MatchTip();
+            try {
+                ret = MatchTipPersistenceService.getInstance().getByUserIdAndMatchId(user.getId(), match.getId());
+                ret.setGoalsTeam1(tip.gethomeTip());
+                ret.setGoalsTeam2(tip.getawayTip());
+                MatchTipPersistenceService.getInstance().update(ret);
+            } catch (NoResultException e) {
 
-            ret.setTippedMatch(match);
-            ret.setOwner(user);
-            ret.setGoalsTeam1(tip.gethomeTip());
-            ret.setGoalsTeam2(tip.getawayTip());
-            MatchTipPersistenceService.getInstance().save(ret);
+                ret.setTippedMatch(match);
+                ret.setOwner(user);
+                ret.setGoalsTeam1(tip.gethomeTip());
+                ret.setGoalsTeam2(tip.getawayTip());
+                MatchTipPersistenceService.getInstance().save(ret);
+            }
         }
     }
 
