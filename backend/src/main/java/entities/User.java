@@ -18,7 +18,6 @@ public class User extends EntityGeneratedKey {
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
 
-	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "fk_displayedTitle")
 	private Achievement displayedTitle;
@@ -45,6 +44,7 @@ public class User extends EntityGeneratedKey {
 			inverseJoinColumns = { @JoinColumn(name = "fk_squad")})
 	private List<Group> groups = new ArrayList<>();
 
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
 			name = "user_achievement",
