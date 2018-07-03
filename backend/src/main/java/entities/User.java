@@ -1,5 +1,7 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.*;
 
 import javax.persistence.*;
@@ -16,6 +18,7 @@ public class User extends EntityGeneratedKey {
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "fk_displayedTitle")
 	private Achievement displayedTitle;
