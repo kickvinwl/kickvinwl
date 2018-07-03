@@ -109,7 +109,7 @@ public class User extends EntityGeneratedKey {
 	{
 		tips.add(tip);
 	}
-	public void addAchievment(Achievement ach)
+	public void addAchievement(Achievement ach)
 	{
 		achievements.add(ach);
 		if (getDisplayedTitle() == null) {
