@@ -1,5 +1,7 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -25,6 +27,7 @@ public class Achievement extends EntityGeneratedKey{
 	 * Needs to be a select that returns user
 	 * all users get the achievement
 	 */
+	@JsonIgnore
 	@Column(updatable = true, nullable = true, length = 700)
 	private String achievementQuery;
 	
