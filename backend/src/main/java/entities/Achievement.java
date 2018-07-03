@@ -1,6 +1,4 @@
 package entities;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.*;
 
@@ -17,18 +15,11 @@ public class Achievement extends EntityGeneratedKey{
 	@JoinColumn(name="fk_icon")
 	private AchievementIcon icon;
 */
-	@ManyToMany(mappedBy = "achievements", fetch = FetchType.LAZY)
-	private List<User> users = new ArrayList<>();
 
-	public List<User> getUsers() {
-		return users;
-	}
-	public void addUsers(User user) {
-		this.users.add(user);
-	}
-	@OneToMany(mappedBy = "displayedTitle", fetch = FetchType.LAZY)
-	private List<User> presenter = new ArrayList<>();
 
+    //TODO: Das kann weg?
+	//@OneToMany(mappedBy = "displayedTitle", fetch = FetchType.LAZY)
+	//private List<User> presenter = new ArrayList<>();
 	
 	/*
 	 * Needs to be a select that returns user
@@ -63,8 +54,10 @@ public class Achievement extends EntityGeneratedKey{
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	//TODO: unnötig
 	@Override
 	public String toString() {
-		return "Achievement [achievementDescription=" + achievementDescription + ", title=" + title + ", achievementQuerry=" + achievementQuery + "]";
+		return "Achievement [achievementDescription=" + achievementDescription + ", title=" + title + ", achievementQuery=" + achievementQuery + "]";
 	}	
 }
