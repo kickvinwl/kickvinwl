@@ -84,7 +84,7 @@ public class AchievementPersistenceService extends PersistenceService<Achievemen
 	 */
 	public Achievement getAchievementForID(String achieveId) {
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-			String qlString = "SELECT a FROM Achievement a WHERE id = :aId";
+			String qlString = "SELECT a FROM Achievement a WHERE a.id = :aId";
 			Query query = entityManager.createQuery(qlString);
 			query.setParameter("aId", achieveId);
 			List<Achievement> achievement = query.getResultList();
