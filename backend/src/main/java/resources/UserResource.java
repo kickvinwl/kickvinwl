@@ -39,6 +39,11 @@ public abstract class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getUserByName")
     public abstract Response getUserByName(@QueryParam("token") String token, @QueryParam("userName") String userName);
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getUserAchievementsByName")
+    public abstract Response getUserAchievementsByName(@QueryParam("token") String token, @QueryParam("userName") String userName);
 
     @GET
     @Path("/{a:logout|Logout}")

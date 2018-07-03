@@ -35,20 +35,18 @@ public class Match extends EntityGeneratedKey{
     @JoinColumn(name = "fk_team2")
     private Team team2;
 
-
     @Column(updatable = true, nullable = true)
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<MatchTip> tips = new ArrayList<>();
 
     private int goalsTeam1;
-
     private int goalsTeam2;
 
-    private int statusId;
+    private boolean isFinished;
     /**
      * This number describes the id which is associated with this specific dataset in OpenLigaDB
      */
-    private int matchID;
+    private int externalMatchID;
 
     public Match() {
         matchDateTime = new Date(System.currentTimeMillis() + 24 * 60 * 60 * 1000);
@@ -58,6 +56,10 @@ public class Match extends EntityGeneratedKey{
 
     public Date getMatchDateTime() {
         return matchDateTime;
+    }
+
+    public void setMatchDateTime(Date matchDateTime) {
+        this.matchDateTime = matchDateTime;
     }
 
     public List<MatchTip> getTips() {
@@ -72,12 +74,12 @@ public class Match extends EntityGeneratedKey{
         return goalsTeam2;
     }
 
-    public int getStatusId() {
-        return statusId;
+    public int getExternalMatchID() {
+        return externalMatchID;
     }
 
-    public int getMatchID() {
-        return matchID;
+    public void setExternalMatchID(int externalMatchID) {
+        this.externalMatchID = externalMatchID;
     }
 
     public Team getTeam() {
@@ -111,4 +113,18 @@ public class Match extends EntityGeneratedKey{
     public void setGoalsTeam2(int goalsTeam2) {
         this.goalsTeam2 = goalsTeam2;
     }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
+    }
+
+    @Override
+    public String toString() {
+        return matchday.getExternalMatchDayID() + "\n" +  matchDateTime + "\n" + team.getTeamName() + "\n" + team2.getTeamName() + "\n" + externalMatchID + "\n" + goalsTeam1 + "|" + goalsTeam2;
+    }
+
 }

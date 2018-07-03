@@ -11,7 +11,7 @@ public class URLtoJSON {
         BufferedReader reader = null;
         try {
             URL url = new URL(urlString);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            reader = new BufferedReader(new InputStreamReader(url.openStream(),"UTF-8"));
             StringBuffer buffer = new StringBuffer();
             int read;
             char[] chars = new char[1024];

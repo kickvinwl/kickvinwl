@@ -20,6 +20,14 @@ public class User extends EntityGeneratedKey {
 	@JoinColumn(name = "fk_displayedTitle")
 	private Achievement displayedTitle;
 
+	public Achievement getDisplayedTitle() {
+		return displayedTitle;
+	}
+
+	public void setDisplayedTitle(Achievement displayedTitle) {
+		this.displayedTitle = displayedTitle;
+	}
+
 	@Column(updatable = true, nullable = true)
 	private String sessionKey;
 

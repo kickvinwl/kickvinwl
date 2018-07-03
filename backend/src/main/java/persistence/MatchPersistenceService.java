@@ -48,6 +48,18 @@ public class MatchPersistenceService extends PersistenceService<Match> {
         });
     }
 
+    public List<Match> getAllMatches() throws NoResultException {
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            Query query = entityManager.createQuery("SELECT g FROM Match g", Match.class);
+            List<Match> matches = query.getResultList();
+            if (matches.isEmpty()) {
+                throw new NoResultException("keine Matches gefunden");
+            } else {
+                return matches;
+            }
+        });
+    }
+
     public boolean exists(final int matchID) throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
             Query query = entityManager.createQuery("SELECT g FROM Match g WHERE id = :matchID", Match.class);
