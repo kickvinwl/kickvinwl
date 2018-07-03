@@ -75,7 +75,7 @@ public class UserPersistenceService extends PersistenceService<User> {
 			if(user==null){
 				throw new NoResultException();}
 			else
-				if(user.getLastAction().getTime() <= System.currentTimeMillis() - SESSION_LENGTH) throw new SecurityException("Session ausgelaufen!");
+			if(user.getLastAction().getTime() <= System.currentTimeMillis() - SESSION_LENGTH) throw new SecurityException("Session ausgelaufen!");
 			user.setTips(loadMatchTips(user.getId()));
 			return user;
 		});
@@ -149,7 +149,7 @@ public class UserPersistenceService extends PersistenceService<User> {
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			Query query = entityManager.createQuery("SELECT u FROM User u WHERE userName LIKE '%" + search + "%'");
 			List<User> users = query.getResultList();
-			if ( users.isEmpty()) 
+			if ( users.isEmpty())
 				throw new NoResultException();
 			return users;
 		});
@@ -180,7 +180,7 @@ public class UserPersistenceService extends PersistenceService<User> {
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			TypedQuery<User> query = entityManager.createQuery(aQuery, User.class);
 			List<User> users = query.getResultList();
-			if ( users.isEmpty()) 
+			if ( users.isEmpty())
 				throw new NoResultException();
 			return users;
 		});

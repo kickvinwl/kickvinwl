@@ -9,7 +9,6 @@ import manager.MatchdayPointsCalculater;
 import persistence.MatchTipPersistenceService;
 import resources.*;
 import util.DBInitializer;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +39,6 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         MatchTipPersistenceService.getInstance();
         LeaderboardPersistenceService.getInstance();
 
-        DBInitializer.dropDatabase();
         DBInitializer.init();
 
         AchievementsChecker ac = new AchievementsChecker();
