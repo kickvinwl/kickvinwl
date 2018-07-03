@@ -1,6 +1,7 @@
 package entities;
 import manager.MatchDayManager;
 import persistence.LeaguePersistenceService;
+import persistence.MatchPersistenceService;
 import persistence.MatchdayPersistenceService;
 
 import javax.persistence.*;
@@ -38,7 +39,7 @@ public class League extends EntityGeneratedKey {
 	}
 
 	public Matchday getCurrentMatchday() {
-		return this.currentMatchday;
+		return currentMatchday;
 	}
 
 	public void setCurrentMatchday(Matchday currentMatchday) {
