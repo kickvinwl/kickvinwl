@@ -27,7 +27,7 @@ public class UserResourceImpl extends UserResource {
     }
 
     @Override
-    public Response setAchievment(String token, String achieveId) {
+    public Response setAchievement(String token, String achieveId) {
         response = Response.accepted().build();
         User user;
         try {
@@ -36,7 +36,6 @@ public class UserResourceImpl extends UserResource {
 			Achievement a = AchievementPersistenceService.getInstance().getAchievementForID(achieveId);
 			
             user.setDisplayedTitle(a);
-            
             UserPersistenceService.getInstance().update(user);
         }
         catch (SecurityException | NoResultException exception) {

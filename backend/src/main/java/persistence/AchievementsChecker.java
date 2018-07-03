@@ -45,7 +45,7 @@ public class AchievementsChecker {
 				}
 				if(!hasAch) {
 					System.out.println(achievement.getTitle() + " for user " + u.getUserName() + " unlocked");
-					u.addAchievment(achievement);
+					u.addAchievement(achievement);
 					//achievement.addUsers(u);
 					UserPersistenceService.getInstance().update(u);
 					AchievementPersistenceService.getInstance().update(achievement);

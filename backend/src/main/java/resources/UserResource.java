@@ -26,9 +26,9 @@ public abstract class UserResource {
     public abstract Response setImage(@PathParam("token") String token, byte[] image);
 
     @POST
-    @Path("/setAchievment/{token}")
+    @Path("/setAchievement/{token}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public abstract Response setAchievment(@PathParam("token") String token, @QueryParam("id") String id);
+    public abstract Response setAchievement(@PathParam("token") String token, @QueryParam("id") String id);
 
     @GET
     @Path("/{a:get|Get}/{token}")
