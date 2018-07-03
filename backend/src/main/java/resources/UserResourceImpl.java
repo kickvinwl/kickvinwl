@@ -49,10 +49,7 @@ public class UserResourceImpl extends UserResource {
         response = Response.accepted().build();
 
         try {
-            UserPersistenceService.getInstance().getBySessionKey(token);
-
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
-
             response = Response.accepted(user).build();
         }
         catch (SecurityException | NoResultException exception) {
