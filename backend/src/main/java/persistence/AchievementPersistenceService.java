@@ -65,7 +65,10 @@ public class AchievementPersistenceService extends PersistenceService<Achievemen
 		});
 	}
 
-
+	/**
+	 *
+	 * @return
+	 */
 	public boolean hasEntries(){
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			Query query = entityManager.createQuery("SELECT a FROM Achievement a");			
@@ -73,9 +76,15 @@ public class AchievementPersistenceService extends PersistenceService<Achievemen
 			return !ach.isEmpty();
 		});
 	}
+
+	/**
+	 *
+	 * @param achieveId
+	 * @return
+	 */
 	public Achievement getAchievementForID(String achieveId) {
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-			String qlString = "SELECT a FROM achievement a WHERE id = :aId";
+			String qlString = "SELECT a FROM Achievement a WHERE id = :aId";
 			Query query = entityManager.createQuery(qlString);
 			query.setParameter("aId", achieveId);
 			List<Achievement> achievement = query.getResultList();
