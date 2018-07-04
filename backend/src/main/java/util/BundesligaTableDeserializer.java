@@ -4,6 +4,9 @@ package util;
 import com.google.gson.JsonDeserializer;
 import entities.BundesligaTable;
 import com.google.gson.*;
+import persistence.TeamPersistenceService;
+
+import javax.persistence.NoResultException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
@@ -30,15 +33,19 @@ public class BundesligaTableDeserializer {
             bl.setGoals(jsonObject.get("Goals").getAsInt());
             bl.setOpponentGoals(jsonObject.get("OpponentGoals").getAsInt());
             bl.setGoalDifference();
-
-            //TODO: team instanz beschaffen, eventuell an anderer Stelle
-            //bl.setTeam(TeamPersistenceService.getInstance().getByTeamId(jsonObject.get("TeamInfoId").getAsInt()));
-            //TODO: liga setzen
-            //bl.setLeague()
-
+            boolean tryName = false;
+            try {
+                bl.setTeam(TeamPersistenceService.getInstance().getByTeamId(jsonObject.get("TeamInfoId").getAsInt()));
+            } catch (NoResultException e) {
+                //System.out.println(jsonObject.get("TeamInfoId"));
+                //e.printStackTrace();
+                tryName = true;
+            }
+            if (tryName) {
+                bl.setTeam(TeamPersistenceService.getInstance().getByTeamName(jsonObject.get("TeamName").getAsString()));
+            }
             return bl;
         }
-
     };
 
     /**

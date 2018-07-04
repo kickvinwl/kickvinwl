@@ -1,6 +1,7 @@
 package persistence;
 
 import entities.Match;
+import entities.Matchday;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,13 +25,9 @@ public class MatchPersistenceService extends PersistenceService<Match> {
 
     public Match getMatchById(int matchID) {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            TypedQuery<Match> query = entityManager.createQuery("SELECT m FROM Match m WHERE matchID = :matchID", Match.class);
+            TypedQuery<Match> query = entityManager.createQuery("SELECT m FROM Match m WHERE id=:matchID", Match.class);
             query.setParameter("matchID", matchID);
-
-            Logger slf4jLogger = LoggerFactory.getLogger("something");
-            slf4jLogger.info("An info log 1:'" + matchID+"'");
             Match result = query.getSingleResult();
-            slf4jLogger.info("An info log 2" + result);
             if (result == null) {
                 throw new NoResultException();
             } else {
@@ -41,20 +38,46 @@ public class MatchPersistenceService extends PersistenceService<Match> {
 
     public List<Match> getAllMatchesForMatchDay(final int matchDayID) throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query = entityManager.createQuery("SELECT g FROM game g WHERE matchdayId = :mdID", Match.class);
+            Query query = entityManager.createQuery("SELECT g FROM Match g WHERE fk_matchday =: mdID", Match.class);
             query.setParameter("mdID", matchDayID);
             List<Match> matches = query.getResultList();
             if (matches.isEmpty()) {
-                throw new NoResultException();
+                throw new NoResultException("kein Match mit fk_matchday(ID):" + matchDayID);
             } else {
                 return matches;
             }
         });
     }
 
+    public List<Match> getAllMatches() throws NoResultException {
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            Query query = entityManager.createQuery("SELECT g FROM Match g", Match.class);
+            List<Match> matches = query.getResultList();
+            if (matches.isEmpty()) {
+                throw new NoResultException("keine Matches gefunden");
+            } else {
+                return matches;
+            }
+        });
+    }
+
+    public Match getLastMatch() {
+        return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+            TypedQuery<Match> query = entityManager.createQuery("SELECT m FROM Match m WHERE matchDateTime > current_date() ORDER BY matchDateTime ASC", Match.class);
+            List<Match> matches = query.getResultList();
+            if (matches.isEmpty()) {
+                List<Match> mts = getAllMatches();
+                return mts.get(mts.size() - 1);
+            }
+            else {
+                return matches.get(0);
+            }
+        });
+    }
+
     public boolean exists(final int matchID) throws NoResultException {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            Query query = entityManager.createQuery("SELECT g FROM game g WHERE id = :matchID", Match.class);
+            Query query = entityManager.createQuery("SELECT g FROM Match g WHERE id = :matchID", Match.class);
             query.setParameter("matchID", matchID);
             List<Match> matches = query.getResultList();
             return !matches.isEmpty();

@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	loadBestenlisten();
-	loadGroups();
+	//loadGroups();
 });
 
 function loadGroups() {
@@ -29,15 +29,15 @@ function loadGroups() {
 function loadBestenlisten() {
 	// Saison
 	// TODO url anpassen
-	loadBestenliste(urlPath + 'bestenliste-example.json', 'saisonBestenliste');
+	loadBestenliste(urlPath + 'backend/leaderboard/season', 'saisonBestenliste');
 	
 	// aktueller Spieltag
 	// TODO url anpassen
-	loadBestenliste(urlPath + 'bestenliste-example.json', 'spieltagBestenliste');
+	loadBestenliste(urlPath + 'backend/leaderboard/gameday', 'spieltagBestenliste');
 	
 	// ewig
 	// TODO url anpassen
-	loadBestenliste(urlPath + 'bestenliste-example.json', 'ewigeBestenliste');
+	loadBestenliste(urlPath + 'backend/leaderboard/alltime', 'ewigeBestenliste');
 }
 
 function loadGroupBestenlisten(groupId) {
@@ -60,12 +60,17 @@ function loadBestenliste(url, tableId) {
 		type: 'GET',
 		success: function(data, textStatus, jqXHR) {
 			$('#' + tableId + ' tbody').empty();
-			$.each(data.placements, function(i, val) {
+			$.each(data, function(i, val) {
 				$('#' + tableId + ' tbody').append(`<tr>
-						<td>${val.placement}</td>
-						<td>${val.user}</td>
+						<td>${val.platzierung}</td>
+						<td>${val.username}</td>
 						<td>${val.points}</td>
 					</tr>`);
+			});
+			$('#' + tableId).DataTable({
+				"paginate": false,
+				"filter": true,
+				"info": false
 			});
 		},
 		error: function(data) {

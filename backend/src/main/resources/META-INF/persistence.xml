@@ -16,9 +16,15 @@
         <class>entities.MatchTip</class>
 
         <class>entities.Team</class>
+        <class>entities.League</class>
+        <class>entities.Matchday</class>
+        <class>entities.BundesligaTable</class>
 
         <class>entities.Matchday</class>
         <class>entities.League</class>
+        <class>entities.UserPointsMatchday</class>
+
+        <class>entities.NewsfeedMessage</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
@@ -28,6 +34,7 @@
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.enable_lazy_load_no_trans" value="true" />
         </properties>
     </persistence-unit>
 </persistence>

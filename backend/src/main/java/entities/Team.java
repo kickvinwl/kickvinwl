@@ -1,5 +1,7 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,19 +9,24 @@ import java.util.List;
 @Entity
 public class Team extends EntityGeneratedKey {
 
-
 	private int teamId;
 
 	private String teamName;
 	private String teamIconURL;
 
+	@JsonIgnore
 	@Column
 	@OneToMany(mappedBy = "team")
 	private List<Match> home = new ArrayList<>();
 
+	@JsonIgnore
 	@Column
 	@OneToMany(mappedBy = "team2")
 	private List<Match> away = new ArrayList<>();
+
+	public Team() {
+		teamIconURL = "default";
+	}
 
 	public int getTeamId() {
 		return teamId;

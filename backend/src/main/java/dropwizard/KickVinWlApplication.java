@@ -3,8 +3,15 @@ package dropwizard;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import persistence.AchievementsChecker;
+import persistence.LeaderboardPersistenceService;
+import manager.MatchdayPointsCalculator;
+import persistence.MatchTipPersistenceService;
 import resources.*;
 import util.DBInitializer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
@@ -24,12 +31,18 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         // HTTPS Proxy Settings
         System.setProperty("https.proxyHost", "172.28.2.5");
         System.setProperty("https.proxyPort", "9090");
+
     }
 
     @Override
     public void run(KickVinWlConfiguration configuration, Environment environment) throws Exception {
-//        DBInitializer.dropDatabase();
+        MatchTipPersistenceService.getInstance();
+        LeaderboardPersistenceService.getInstance();
+
         DBInitializer.init();
+
+        AchievementsChecker ac = new AchievementsChecker();
+        ac.check();
 
         final TipResource tipResource = new TipResourceImpl();
         environment.jersey().register(tipResource);
@@ -45,5 +58,28 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
         final SearchResource searchResource = new SearchResourceImpl();
         environment.jersey().register(searchResource);
+
+        final BundesligaResource bundesligaResource = new BundesligaResourceImpl();
+        environment.jersey().register(bundesligaResource);
+
+
+        final NewsfeedResource newsfeedResource = new NewsfeedResourceImpl();
+        environment.jersey().register(newsfeedResource);
+
+        final LeaderboardResource leaderboardResource = new LeaderboardResourceImpl();
+        environment.jersey().register(leaderboardResource);
+        schedulingJobs();
+    }
+
+
+    private void schedulingJobs() {
+        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                MatchdayPointsCalculator.getInstance().calculateUserPointsWithTips();
+                MatchdayPointsCalculator.getInstance().updateUserPointsMatchday();
+            }
+        }, 1, 5, TimeUnit.MINUTES);
     }
 }

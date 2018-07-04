@@ -1,6 +1,8 @@
 package resources;
 
+import entities.Achievement;
 import entities.User;
+import persistence.AchievementPersistenceService;
 import persistence.UserPersistenceService;
 
 import javax.persistence.NoResultException;
@@ -9,32 +11,45 @@ import javax.ws.rs.core.Response;
 
 public class UserResourceImpl extends UserResource {
 
-
-
     @Override
-    public Response setUser(User user) {
-        Response response = Response.accepted().build();
+    public Response setImage(String token, byte[] image) {
+        response = Response.accepted().build();
+        User user;
         try {
-            UserPersistenceService.getInstance().getBySessionKey(user.getSessionKey());
-
+            user = UserPersistenceService.getInstance().getBySessionKey(token);
+            user.setUserPicture(image);
             UserPersistenceService.getInstance().update(user);
         }
         catch (SecurityException | NoResultException exception) {
             response = Response.status(Response.Status.UNAUTHORIZED).build();
         }
-        userPersistenceService.update(user);
+        return Response.accepted().build();
+    }
+
+    @Override
+    public Response setAchievement(String token, String achieveId) {
+        response = Response.accepted().build();
+        User user;
+        try {
+            user = UserPersistenceService.getInstance().getBySessionKey(token);
+            
+			Achievement a = AchievementPersistenceService.getInstance().getAchievementForID(achieveId);
+			
+            user.setDisplayedTitle(a);
+            UserPersistenceService.getInstance().update(user);
+        }
+        catch (SecurityException | NoResultException exception) {
+            response = Response.status(Response.Status.UNAUTHORIZED).build();
+        }
         return Response.accepted().build();
     }
 
     @Override
     public Response getUserByToken(String token) {
-        Response response = Response.accepted().build();
+        response = Response.accepted().build();
 
         try {
-            UserPersistenceService.getInstance().getBySessionKey(token);
-
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
-
             response = Response.accepted(user).build();
         }
         catch (SecurityException | NoResultException exception) {
@@ -45,7 +60,7 @@ public class UserResourceImpl extends UserResource {
 
     @Override
     public Response getUserByName(String token, String userName) {
-        Response response = Response.accepted().build();
+        response = Response.accepted().build();
 
         try {
             UserPersistenceService.getInstance().getBySessionKey(token);
@@ -58,6 +73,20 @@ public class UserResourceImpl extends UserResource {
             response = Response.status(Response.Status.UNAUTHORIZED).build();
         }
         return response;
+    }
+    @Override
+    public Response getUserAchievements(String token) {
+    	response = Response.accepted().build();
+    	
+    	try {
+    		User user = UserPersistenceService.getInstance().getBySessionKey(token);
+    		
+    		response = Response.accepted(user.getAchievements()).build();
+    	}
+    	catch (SecurityException | NoResultException exception) {
+    		response = Response.status(Response.Status.UNAUTHORIZED).build();
+    	}
+    	return response;
     }
 
 

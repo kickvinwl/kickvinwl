@@ -1,6 +1,7 @@
 package resources;
 
 
+import entities.Achievement;
 import entities.User;
 import persistence.UserPersistenceService;
 
@@ -13,15 +14,21 @@ public abstract class UserResource {
 
     final static String group = "GG_APP_Ermaechtigung_GOP_Kataloge_RW";
     UserPersistenceService userPersistenceService;
+    Response response;
 
     public UserResource() {
         userPersistenceService = UserPersistenceService.getInstance();
     }
 
     @POST
-    @Path("/{a:set|Set}")
+    @Path("/setImage/{token}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public abstract Response setUser(User user);
+    public abstract Response setImage(@PathParam("token") String token, byte[] image);
+
+    @POST
+    @Path("/setAchievement/{token}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public abstract Response setAchievement(@PathParam("token") String token, @QueryParam("id") String id);
 
     @GET
     @Path("/{a:get|Get}/{token}")
@@ -32,6 +39,11 @@ public abstract class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/getUserByName")
     public abstract Response getUserByName(@QueryParam("token") String token, @QueryParam("userName") String userName);
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/getUserAchievements")
+    public abstract Response getUserAchievements(@QueryParam("token") String token);
 
     @GET
     @Path("/{a:logout|Logout}")

@@ -25,12 +25,12 @@ public class BundesligaTablePersistenceService extends PersistenceService<Bundes
     /**
      *
      * @param leagueId
-     * @return List of all table entries for a corresponding league in order
+     * @return Sorted list of all table entries for a corresponding league in order
      * @throws NoResultException
      */
     public List<BundesligaTable> getAllEntriesByLeagueId(final int leagueId) throws NoResultException{
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-            String qlString = "SELECT b FROM bundesligatable b WHERE leagueId = :leagueId";
+            String qlString = "SELECT b FROM BundesligaTable b WHERE league_id = :leagueId ORDER BY b.leaguePosition ASC";
             Query query = entityManager.createQuery(qlString);
             query.setParameter("leagueId", leagueId);
             List<BundesligaTable> bundesligaTableEntries = query.getResultList();
