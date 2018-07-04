@@ -10,6 +10,9 @@ import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Alle Datenbank-Funktionen für die zugehörige Datenklasse
+ */
 public class LeaderboardPersistenceService extends PersistenceService<UserPointsMatchday> {
 
     private static LeaderboardPersistenceService instance;

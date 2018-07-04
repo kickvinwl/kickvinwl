@@ -8,7 +8,11 @@ import persistence.*;
 
 import java.util.List;
 
+/**
+ * Kalkuliere die Punkte eines Users für einen Spieltag
+ */
 public class MatchdayPointsCalculater {
+
     private LeaderboardPersistenceService userPointsPersistenceService;
     private UserPersistenceService userPersistenceService;
     private MatchTipPersistenceService matchTipPersistenceService;
@@ -58,9 +62,4 @@ public class MatchdayPointsCalculater {
             userPointsPersistenceService.saveOrUpdatePoints(userPointsMatchday);
         }
     }
-
-
-
-
-
 }

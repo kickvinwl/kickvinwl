@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-
+/**
+ * Erueuge aus der übergebenen URL ein JSON-Object
+ */
 public class URLtoJSON {
 
     public static String readUrl(String urlString) throws Exception {

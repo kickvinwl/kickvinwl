@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Erzeugt mithilfe von internen Klassen an das Frontend angepasste Datensätze zur darstellung der Verarbeiteten Informationen
+ */
 public class MatchTipTransform {
 
     @JsonProperty

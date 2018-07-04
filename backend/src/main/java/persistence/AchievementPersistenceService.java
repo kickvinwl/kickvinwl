@@ -8,7 +8,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 /**
- *
+ * Alle Datenbank-Funktionen für die zugehörige Datenklasse
  */
 public class AchievementPersistenceService extends PersistenceService<Achievement>{
 
@@ -20,6 +20,7 @@ public class AchievementPersistenceService extends PersistenceService<Achievemen
 	private AchievementPersistenceService() {};
 
 	/**
+	 *
 	 * @param achievementName
 	 * @return
 	 * @throws NoResultException

@@ -8,24 +8,46 @@ import util.MatchDayDeserializier;
 import javax.persistence.NoResultException;
 import java.util.List;
 
+/**
+ * Verwaltungsklasse für die Elemente der Spieltage
+ *
+ * Zugehörige Aufgaben sind das Verwalten der einzelnen Spieltagselemente.
+ * Dazu gehört das Laden der Daten aus der API und das Austauschen der lokalen Daten durch neue.
+ */
 public class MatchDayManager {
 
+    // Konfigurationsparameter
     private final String API_URL = "https://www.openligadb.de/api/getavailablegroups/";
     private final String API_URL_CURRENT_MATCHDAY = "https://www.openligadb.de/api/getcurrentgroup/bl1";
     private String apiParameter;
     private League league;
 
+    /**
+     * Konstruktor
+     *
+     * @param league wird verwendet um die parameter für die Season zu erhalten
+     */
     public MatchDayManager(League league) {
         apiParameter = String.valueOf(league.getCurrentMatchday()); // TODO
         this.league = league;
     }
 
+    /**
+     * Erhalte den aktuellen Spieltag aus der API
+     * @return den aktuellen Spieltag
+     * @throws Exception
+     */
     public Matchday getCurrentMatchday() throws Exception{
         MatchDayDeserializier mdd = new MatchDayDeserializier();
         Matchday currentMatchday = mdd.deserializeCurrent(API_URL_CURRENT_MATCHDAY, league);
         return MatchdayPersistenceService.getInstance().getMatchdayByExternalId(currentMatchday.getExternalMatchDayID());
     }
 
+    /**
+     * lade alle Matchdays aus der API
+     * @return alle Spieltage der Season
+     * @throws Exception
+     */
     public List<Matchday> getMatchDaysFromAPI() throws Exception {
         MatchDayDeserializier mdd = new MatchDayDeserializier();
         apiParameter = String.valueOf(league.getLeagueId()+"/"+league.getSeason());
@@ -46,6 +68,7 @@ public class MatchDayManager {
 
 
     /**
+     * aktualisiere die lokalen Daten mit den Daten aus der externen API
      *
      * @return true if method terminated successfully; if not return false
      * @throws Exception

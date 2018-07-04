@@ -17,8 +17,12 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Eine Hilfsklasse zur Erstellung der Datenbank, sowie zur Erzeugung von verschiedenen Basisdaten
+ */
 public class DBInitializer {
 
+    // Datenbank-Verbindungsinformationen
     private static String url = "jdbc:mysql://localhost";
     private static String username = "root";
     private static String password = "";
@@ -66,6 +70,7 @@ public class DBInitializer {
         UserPersistenceService.getInstance().save(user);
     }
 
+    // erzeuge die einzelnen Achievements mit der zugehörigen TestQuery
 	public static void generateAchievement()
 	{
         AchievementPersistenceService aps = AchievementPersistenceService.getInstance();
@@ -236,7 +241,7 @@ public class DBInitializer {
 
     private static void setupTables() {
         //durch den Aufruf der Factory wird hibernate angesprochen - je nach
-        //hibernate.hbm2ddl.auto -Value werden die DB-Tabellen erzeugt oder upgedated
+        //hibernate.hbm2ddl.auto -Value werden die DB-Tabellen erzeugt oder geupdated
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("kickvinwl");
         emf.createEntityManager();
     }

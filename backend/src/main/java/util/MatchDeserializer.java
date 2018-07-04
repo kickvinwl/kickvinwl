@@ -14,8 +14,17 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Klasse zur Deserialisierung der Spiele einer Season im JSON-Format aus der externen API
+ * Verwendet wurde Gson als Treiber für die deserializierung
+ */
 public class MatchDeserializer {
 
+    /**
+     * Diese Funktion definiert die grundlegenden Abläufe des Deserialisers beim extrahieren der Daten aus dem erhaltenem JSONObject.
+     * Dazu zählt die Definition der einzelnen Elementnamen, sowie der Datentyp, als welcher der übergebene Wert verarbeitet werden soll.
+     * Wenn das Spiel bereits beendet ist, werden die Werte für die geschossenen Tore zusätzlich gesetzt.
+     */
     JsonDeserializer<Match> deserializer = new JsonDeserializer<Match>() {
         @Override
         public Match deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -42,11 +51,21 @@ public class MatchDeserializer {
         }
     };
 
+    /**
+     * Erzeuge eine Liste von Objekten aus den Informationen der externen API
+     *
+     * @param matchdayURL URL über welche auf die API zugegriffen wird
+     * @return Liste der deserialisierten Objekte
+     * @throws Exception
+     */
     public List<Match> deserializeMatches(String matchdayURL) throws Exception {
+        // Konfiguriere JSON-Builder mit Zielobjekt und serialisierungsinformationen
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Match.class, deserializer);
         Gson customGson = gsonBuilder.create();
+        // Beziehe JSON von externer API
         String json = URLtoJSON.readUrl(matchdayURL);
+        // Erzeuge aus dem externen JSON Objekte und verpacke diese in ein Array
         Match[] matchesA = customGson.fromJson(json, Match[].class);
         List<Match> matches = Arrays.asList(matchesA);
         return matches;

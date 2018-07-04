@@ -8,7 +8,9 @@ import javax.persistence.NoResultException;
 import entities.Achievement;
 import entities.User;
 
-//Triggered SOMEHOW after ech Matchday     //TODO
+/**
+ * Verwaltungsklasse für die Verteilung von Erfolgen
+ */
 public class AchievementsChecker {
 
 	private List<Achievement> achievements;
