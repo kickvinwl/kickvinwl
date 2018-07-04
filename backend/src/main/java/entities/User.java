@@ -26,13 +26,16 @@ public class User extends EntityGeneratedKey {
 	@Column(updatable = true, nullable = true)
 	private String sessionKey;
 
+	@JsonIgnore
 	@Column(updatable = true, nullable = false)
 	private Date lastAction;
 
+	@JsonIgnore
 	@Column(updatable = true, nullable = false)
 	@OneToMany(mappedBy = "id")
 	private List<Group> adminGroups = new ArrayList<>();
 
+	@JsonIgnore
 	@Column(updatable = true, nullable = true)
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<MatchTip> tips = new ArrayList<>();
