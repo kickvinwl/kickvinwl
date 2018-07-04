@@ -30,7 +30,7 @@ public class LeaderboardPersistenceService extends PersistenceService<UserPoints
 				throw new NoResultException();
 			else {
 				for (int i = 0; i < resultList.size(); i++) {
-					resultList.get(i).setPlatzierung(i);
+					resultList.get(i).setPlatzierung(i+1);
 				}
 				return resultList;
 			}
@@ -48,7 +48,7 @@ public class LeaderboardPersistenceService extends PersistenceService<UserPoints
 				throw new NoResultException();
 			else {
 				for (int i = 0; i < resultList.size(); i++) {
-					resultList.get(i).setPlatzierung(i);
+					resultList.get(i).setPlatzierung(i+1);
 				}
 				return resultList;
 			}
@@ -58,7 +58,7 @@ public class LeaderboardPersistenceService extends PersistenceService<UserPoints
 	public List<UserPoints> getGamedayLeaderboard(final int gamedayID) throws NoResultException {
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			TypedQuery<UserPointsMatchday> query = entityManager.createQuery(
-					"SELECT leaderboard FROM UserPointsMatchday leaderboard WHERE leaderboard.matchday.id = :gamedayID order by points",
+					"SELECT leaderboard FROM UserPointsMatchday leaderboard WHERE leaderboard.matchday.id = :gamedayID order by points desc",
 					UserPointsMatchday.class);
 			query.setParameter("gamedayID", gamedayID);
 			List<UserPointsMatchday> resultList = query.getResultList();
@@ -101,7 +101,7 @@ public class LeaderboardPersistenceService extends PersistenceService<UserPoints
 				throw new NoResultException();
 			else {
 				for (int i = 0; i < resultList.size(); i++) {
-					resultList.get(i).setPlatzierung(i);
+					resultList.get(i).setPlatzierung(i+1);
 				}
 				return resultList;
 			}
@@ -120,7 +120,7 @@ public class LeaderboardPersistenceService extends PersistenceService<UserPoints
 				throw new NoResultException();
 			else {
 				for (int i = 0; i < resultList.size(); i++) {
-					resultList.get(i).setPlatzierung(i);
+					resultList.get(i).setPlatzierung(i+1);
 				}
 				return resultList;
 			}
@@ -130,7 +130,7 @@ public class LeaderboardPersistenceService extends PersistenceService<UserPoints
 	public List<UserPoints> getGamedayLeaderboard(int gamedayID, Group group) {
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			TypedQuery<UserPointsMatchday> query = entityManager.createQuery(
-					"SELECT leaderboard FROM UserPointsMatchday leaderboard WHERE leaderboard.matchday.id = :gamedayID AND leaderboard.user.id IN(Select g.userId FROM Group g WHERE g.groupId = :groupId) order by points",
+					"SELECT leaderboard FROM UserPointsMatchday leaderboard WHERE leaderboard.matchday.id = :gamedayID AND leaderboard.user.id IN(Select g.userId FROM Group g WHERE g.groupId = :groupId) order by points desc",
 					UserPointsMatchday.class);
 			query.setParameter("gamedayID", gamedayID);
 			query.setParameter("groupId", group.getId());
