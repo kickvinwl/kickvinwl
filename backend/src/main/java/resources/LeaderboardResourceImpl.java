@@ -1,5 +1,6 @@
 package resources;
 
+import manager.MatchdayPointsCalculator;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -8,35 +9,39 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import manager.MatchdayPointsCalculater;
 import persistence.GroupPersistenceService;
 import persistence.LeaderboardPersistenceService;
 import persistence.LeaguePersistenceService;
 import resources.datamodel.UserPoints;
 
+import javax.persistence.NoResultException;
+import javax.ws.rs.core.Response;
+import java.util.List;
+
 public class LeaderboardResourceImpl extends LeaderboardResource {
 
-	private Response response;
+    private Response response;
 
-	@Override
-	public Response calculateLeaderboard() {
-		MatchdayPointsCalculater.getInstance().updateUserPointsMatchday();
-		return Response.accepted().build();
-	}
+    @Override
+    public Response getAlltimeLeaderboard() {
+        response = Response.accepted().build();
+        Logger slf4jLogger = LoggerFactory.getLogger("alltime board logger");
+        slf4jLogger.debug("alltime board started");
+        try {
+            List<UserPoints> leaderboard = LeaderboardPersistenceService.getInstance().getAlltimeLeaderboard();
+            response = Response.accepted(leaderboard).build();
+        } catch (NoResultException e) {
+            response = Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return response;
+    }
 
-	@Override
-	public Response getAlltimeLeaderboard() {
-		response = Response.accepted().build();
-		Logger slf4jLogger = LoggerFactory.getLogger("alltime board logger");
-		slf4jLogger.debug("alltime board started");
-		try {
-			List<UserPoints> leaderboard = LeaderboardPersistenceService.getInstance().getAlltimeLeaderboard();
-			response = Response.accepted(leaderboard).build();
-		} catch (NoResultException e) {
-			response = Response.status(Response.Status.NOT_FOUND).build();
-		}
-		return response;
-	}
+    @Override
+    public Response calculateLeaderboard() {
+        MatchdayPointsCalculator.getInstance().calculateUserPointsWithTips();
+        MatchdayPointsCalculator.getInstance().updateUserPointsMatchday();
+        return Response.accepted().build();
+    }
 
 	@Override
 	public Response getSeasonLeaderboard() {
