@@ -5,7 +5,6 @@ $(document).ready(function(){
 	if(searchName == null)
 	{
 		$('#groupRow').css('display', 'flex');
-		$('#gruppenTable').DataTable();
 		$('#editTitel').css('display', 'inline-block');
 		$('#editTitel').click(function(){
 			$('#TitelModal').modal('show');	
