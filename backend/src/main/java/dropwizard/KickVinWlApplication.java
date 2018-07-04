@@ -1,14 +1,15 @@
 package dropwizard;
 
+import entities.Match;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import persistence.AchievementsChecker;
-import persistence.LeaderboardPersistenceService;
+import persistence.*;
 import manager.MatchdayPointsCalculater;
-import persistence.MatchTipPersistenceService;
 import resources.*;
 import util.DBInitializer;
+
+import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -39,7 +40,7 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         MatchTipPersistenceService.getInstance();
         LeaderboardPersistenceService.getInstance();
 
-        DBInitializer.init();
+//        DBInitializer.init();
 
         AchievementsChecker ac = new AchievementsChecker();
         ac.check();
@@ -80,5 +81,27 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
                 MatchdayPointsCalculater.getInstance().updateUserPointsMatchday();
             }
         }, 5, 5, TimeUnit.MINUTES);
+
+
+        Runnable afterMatchStarter = new Runnable() {
+            Match nextEndingMatch;
+
+            @Override
+            public void run() {
+                nextEndingMatch = MatchPersistenceService.getInstance().getNextMatch();
+                System.out.println("öööööööööööööööööööööööööööööööö Next Match:" + nextEndingMatch);
+                if(nextEndingMatch.getMatchDateTime().after(new Date())) {
+                    scheduledExecutorService.schedule(this, nextEndingMatch.getMatchDateTime().getTime() - System.currentTimeMillis() + 120 * 60 * 1000, TimeUnit.MILLISECONDS);
+                }
+                else
+                {
+                    System.out.println("keine Spiele in der Zukunft vorhanden");
+                    scheduledExecutorService.schedule(this, 1, TimeUnit.MINUTES);
+                }
+            }
+        };
+
+        afterMatchStarter.run();
+
     }
 }
