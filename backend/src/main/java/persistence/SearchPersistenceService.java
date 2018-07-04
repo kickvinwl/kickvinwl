@@ -9,6 +9,9 @@ import resources.datamodel.SearchResult;
 
 import javax.persistence.NoResultException;
 
+/**
+ * Alle Datenbank-Funktionen für die zugehörige Datenklasse
+ */
 public class SearchPersistenceService {
 	
 	private static SearchPersistenceService instance;

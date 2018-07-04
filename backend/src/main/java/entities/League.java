@@ -1,24 +1,34 @@
 package entities;
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import manager.MatchDayManager;
+import persistence.LeaguePersistenceService;
+import persistence.MatchPersistenceService;
+import persistence.MatchdayPersistenceService;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+//TODO: leagueid und season sind primärschlüssel, aber als solche noch nicht technisch deklariert (EmbeddedKey)
 @Entity
 public class League extends EntityGeneratedKey {
 
-	@Id
-	private int leagueId;
-
-	@Id
+	private String leagueId;
 	private String season;
 
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="current_Matchday")
 	private Matchday currentMatchday;
 
-	public int getLeagueId() {
+	@OneToMany(mappedBy = "id")
+	private List<Matchday> matchdays = new ArrayList();
+
+	public String getLeagueId() {
 		return leagueId;
 	}
 
-	public void setLeagueId(int leagueId) {
+	public void setLeagueId(String leagueId) {
 		this.leagueId = leagueId;
 	}
 

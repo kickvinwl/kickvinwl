@@ -1,27 +1,38 @@
 package entities;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class NewsfeedMessage extends EntityGeneratedKey{
-	//FK zu User
-	@Column(updatable = false, nullable = false)
-	private String userId;
-	
-	@Column(updatable = true, nullable = false)
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id")
+	private User user;
+
+    @Column(nullable = false)
+	private String messageTitle;
+
+	@Column(nullable = false)
 	private String messageText;
-	@Column(updatable = true, nullable = false)
+
+	@Column(columnDefinition="DATETIME",
+            nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+
 	private Date startDate;
-	@Column(updatable = true, nullable = false)
+	@Column(columnDefinition="DATETIME",
+            nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date endDate;
 	
-	public String getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public String getMessageText() {
 		return messageText;
@@ -41,5 +52,12 @@ public class NewsfeedMessage extends EntityGeneratedKey{
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
+
+	public String getMessageTitle() {
+		return messageTitle;
+	}
+
+	public void setMessageTitle(String messageTitle) {
+		this.messageTitle = messageTitle;
+	}
 }

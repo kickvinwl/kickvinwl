@@ -7,12 +7,17 @@ import persistence.UserPersistenceService;
 
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.Response;
+import java.util.Map;
 
 public class GroupResourceImpl extends GroupResource {
 
 
     @Override
-    public Response createGroup(String token, String groupName, String groupPassword) {
+    public Response createGroup(Map<String, String> paramsamsam) {
+        String token = paramsamsam.get("token");
+        String groupName = paramsamsam.get("name");
+        String groupPassword = paramsamsam.get("pw");
+
         //TODO: klaeren: sollen Gruppennamen eindeutig sein?
         // if group name already exists, negative response
         if (GroupPersistenceService.getInstance().exists(groupName)) {
@@ -40,7 +45,7 @@ public class GroupResourceImpl extends GroupResource {
             // send negative response
             Response.ResponseBuilder rb = Response.accepted();
             //TODO: korrekten response status setzen
-            rb.status(Response.Status.UNAUTHORIZED);
+            rb.status(Response.Status.NO_CONTENT);
             return rb.build();
         }
     }

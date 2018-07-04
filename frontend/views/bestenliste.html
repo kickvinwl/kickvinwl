@@ -12,6 +12,7 @@
 </style>
 <script src="script/bestenliste.js"></script>
 <div class="container">
+	<!---
 	<div class="row mt-3">
 		<div class="col-md-6"></div>
 		<div class="col-md-6">
@@ -24,8 +25,9 @@
 			</div>
 		</div>
 	</div>
+	--->
 	<div class="row mt-3">
-		<div class="col-md-6">
+		<div class="col-md-12">
 			<nav>
 			  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 			    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#tabSaisonBestenliste" role="tab" aria-controls="nav-home" aria-selected="true">Saison</a>
@@ -36,21 +38,43 @@
 			<div class="tab-content" id="nav-tabContent">
 				<div id="tabSaisonBestenliste" class="tab-pane fade show active" role="tabpanel">
 					<table id="saisonBestenliste" class="table">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Username</th>
+								<th scope="col">Punkte</th>
+							</tr>
+						</thead>
 						<tbody></tbody>
 					</table>
 				</div>
 				<div id="tabSpieltagBestenliste" class="tab-pane fade" role="tabpanel">
 					<table id="spieltagBestenliste" class="table">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Username</th>
+								<th scope="col">Punkte</th>
+							</tr>
+						</thead>
 						<tbody></tbody>
 					</table>
 				</div>
 				<div id="tabEwigeBestenliste" class="tab-pane fade" role="tabpanel">
 					<table id="ewigeBestenliste" class="table">
+						<thead>
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Username</th>
+								<th scope="col">Punkte</th>
+							</tr>
+						</thead>
 						<tbody></tbody>
 					</table>
 				</div>
 			</div>
 		</div>
+		<!---
 		<div class="col-md-6">
 			<nav>
 			  <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -77,6 +101,7 @@
 				</div>
 			</div>
 		</div>
+		--->
 	</div>
 </div>
 

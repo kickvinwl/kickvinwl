@@ -14,3 +14,9 @@ Jeder Benutzer soll zudem eine eigene Profilseite bekommen, auf der dieser seine
  welcher den Rang und Erfolg des Spielers wiederspiegelt (z.B. Bankwärmer oder Nationalspieler) <br />
  und sein Profilbild, das sich durch Accessoires verzieren lässt, die man durch das Erzielen <br />
  spezielle Erfolge erhält, einsehen kann.<br />
+
+ 
+ ## Bewertung
+ * Nur nach Excel-Sheet
+ * LOC und Commits können nicht mit einbezogen werden, da oft Pair-Programming gemacht wurde und das somit 
+ falsche Werte liefert

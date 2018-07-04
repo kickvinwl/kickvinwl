@@ -1,15 +1,3 @@
-function logout() {
-	var token = Cookies.get('token');
-	if (typeof token != 'undefined') {
-		Cookies.remove('token');
-		$.ajax({
-			url: 'backend/user/logout/' + token,
-			type: 'GET'
-		});
-	}
-	window.location.href = urlPath + '?page=login';
-};
-
 $(document).ready(function() {
 	var page = getUrlParameter('page');
 	if (page != null) {

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	loadLeaderboard();
 	loadTipps();
 });
 
@@ -45,7 +46,7 @@ function loadTipps(spieltag) {
 			var lastDate;
 			$('#gamedayTable tbody').empty();
 			$.each(data.matches, function(i, val) {
-				var date = new Date(val.date * 1000);
+				var date = new Date(val.date);
 				if (typeof lastDate == 'undefined' || lastDate.getTime() !== date.getTime()) {
 					$('#gamedayTable tbody').append('<tr><th>' + date.toLocaleDateString('de-DE', dateOptions) + ' Uhr</th></tr>');
 				}
@@ -64,7 +65,7 @@ function loadTipps(spieltag) {
 							<div class="row d-flex justify-content-between">
 								<div class="col-5 align-middle mt-3">
 									<div class="float-right" style="font-size: 20px">
-										${val.homeTeam.name} <img src="${val.homeTeam.logo}" />
+										${val.homeTeam.name} <img src="${val.homeTeam.logo}" style="width: 20px;" />
 									</div>
 								</div>
 								<div class="col-2"  title="${points}">
@@ -83,7 +84,7 @@ function loadTipps(spieltag) {
 								</div>
 								<div class="col-5 mt-3">
 									<div style="font-size: 20px">
-										<img src="${val.awayTeam.logo}" /> ${val.awayTeam.name}
+										<img src="${val.awayTeam.logo}" style="width: 20px;" /> ${val.awayTeam.name}
 									</div>
 								</div>
 							</div>
@@ -123,6 +124,31 @@ function submitTips() {
 		contentType: "application/json",
 		success: function(data) {
 			loadTipps(displaySpieltag);
+		},
+		error: function(data) {
+			handleError(data);
+		}
+	});
+}
+
+function loadLeaderboard() {
+	$.ajax({
+		url: urlPath + 'backend/leaderboard/season',
+		type: 'GET',
+		success: function(data, textStatus, jqXHR) {
+			$('#leaderboard tbody').empty();
+			$.each(data, function(i, val) {
+				$('#leaderboard tbody').append(`<tr>
+						<th>${val.platzierung}</th>
+						<td>${val.username}</td>
+						<td>${val.points}</td>
+					</tr>`);
+			});
+			$('#leaderboard').DataTable({
+				"paginate": false,
+				"filter": true,
+				"info": false
+			});
 		},
 		error: function(data) {
 			handleError(data);
