@@ -32,6 +32,12 @@ $(document).ready(function(){
 		if (typeof token2 != 'undefined') {
 			$.getJSON( urlPath + "backend/user/get/" + token2, function(result){
 				$('#name').val(result.userName);
+				if(result.displayedTitle != null)
+				{
+					$('#cur_Titel').text(result.displayedTitle.title);
+				}
+				else
+					$('#cur_Titel').text("Hier Titel auswählen");
 				var pic = result.userPicture;
 				if(pic != null){
 					$('#profilBild').attr('src', pic);
@@ -102,6 +108,12 @@ $(document).ready(function(){
 			url: "backend/user/getUserByName?token=" + token2 + "&userName=" + searchName,
 			success: function(result){
 				$('#name').val(result.userName);
+				if(result.displayedTitle != null)
+				{
+					$('#cur_Titel').text(result.displayedTitle.title);
+				}
+				else
+					$('#cur_Titel').text("Kein Titel vorhanden");
 				var pic = result.userPicture;
 				if(pic != null){
 					$('#profilBild').attr('src', pic);

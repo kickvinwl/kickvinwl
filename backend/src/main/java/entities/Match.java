@@ -1,5 +1,7 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +37,7 @@ public class Match extends EntityGeneratedKey{
     @JoinColumn(name = "fk_team2")
     private Team team2;
 
+    @JsonIgnore
     @Column(updatable = true, nullable = true)
     @OneToMany(mappedBy = "id", fetch = FetchType.EAGER)
     private List<MatchTip> tips = new ArrayList<>();

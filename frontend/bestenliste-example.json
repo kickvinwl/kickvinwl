@@ -1,45 +1,42 @@
-{  
-   "scope": "CURRENT_GAMEDAY",
-   "placements": [
-      {  
-         "placement": 1,
-         "user": "Ext_SOPRA_Reinke",
-         "points": 648584
-      },
-	  {  
-         "placement": 25,
-         "user": "Ext_SOPRA_Horstkamp",
-         "points": 1058
-      },
-      {  
-         "placement": 26,
-         "user": "Ext_SOPRA_Dick",
-         "points": 489
-      },
-	  {  
-         "placement": 27,
-         "user": "Ext_SOPRA_Sauer",
-         "points": 465
-      },
-	  {  
-         "placement": 28,
-         "user": "Ext_SOPRA_Back",
-         "points": 420
-      },
-	  {  
-         "placement": 29,
-         "user": "woelk_m",
-         "points": 268
-      },
-	  {  
-         "placement": 30,
-         "user": "kok_c",
-         "points": 25
-      },
-	  {  
-         "placement": 31,
-         "user": "Ext_SOPRA_Runz",
-         "points": -84
-      }
-   ]
-}
+[  
+	{  
+		"platzierung": 1,
+		"username": "Ext_SOPRA_Reinke",
+		"points": 648584
+	},
+	{  
+		"platzierung": 25,
+		"username": "Ext_SOPRA_Horstkamp",
+		"points": 1058
+	},
+	{  
+		"platzierung": 26,
+		"username": "Ext_SOPRA_Dick",
+		"points": 489
+	},
+		{  
+		"platzierung": 27,
+		"username": "Ext_SOPRA_Sauer",
+		"points": 465
+	},
+	{  
+		"platzierung": 28,
+		"username": "Ext_SOPRA_Back",
+		"points": 420
+	},
+	{  
+		"platzierung": 29,
+		"username": "woelk_m",
+		"points": 268
+	},
+	{  
+		"platzierung": 30,
+		"username": "kok_c",
+		"points": 25
+	},
+	{  
+		"platzierung": 31,
+		"username": "Ext_SOPRA_Runz",
+		"points": -84
+	}
+]
