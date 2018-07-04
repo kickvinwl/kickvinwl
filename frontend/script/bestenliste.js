@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	loadBestenlisten();
-	loadGroups();
+	//loadGroups();
 });
 
 function loadGroups() {
