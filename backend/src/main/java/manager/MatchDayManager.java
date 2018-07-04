@@ -14,7 +14,7 @@ public class MatchDayManager {
     private String apiParameter;
     private League league;
 
-    public MatchDayManager(League league) {
+    public  MatchDayManager(League league) {
         apiParameter = String.valueOf(league.getCurrentMatchday()); // TODO
         this.league = league;
     }

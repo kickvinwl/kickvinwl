@@ -61,7 +61,7 @@ public class MatchPersistenceService extends PersistenceService<Match> {
         });
     }
 
-    public Match getLastMatch() {
+    public Match getNextMatch() {
         return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
             TypedQuery<Match> query = entityManager.createQuery("SELECT m FROM Match m WHERE matchDateTime > current_date() ORDER BY matchDateTime ASC", Match.class);
             List<Match> matches = query.getResultList();
