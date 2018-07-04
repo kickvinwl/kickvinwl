@@ -52,6 +52,6 @@ public abstract class UserResource {
 
     @GET
     @Path("/getCurrentScore")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public abstract Response getCurrentScoreForUser(@QueryParam("token") String token);
 }
