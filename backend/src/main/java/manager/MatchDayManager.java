@@ -11,6 +11,7 @@ import java.util.List;
 public class MatchDayManager {
 
     private final String API_URL = "https://www.openligadb.de/api/getavailablegroups/";
+    private final String API_URL_CURRENT_MATCHDAY = "https://www.openligadb.de/api/getcurrentgroup/bl1";
     private String apiParameter;
     private League league;
 
@@ -20,9 +21,9 @@ public class MatchDayManager {
     }
 
     public Matchday getCurrentMatchday() throws Exception{
-        String currentURL = "https://www.openligadb.de/api/getcurrentgroup/bl1";
         MatchDayDeserializier mdd = new MatchDayDeserializier();
-        return mdd.deserializeCurrent(currentURL, league);
+        Matchday currentMatchday = mdd.deserializeCurrent(API_URL_CURRENT_MATCHDAY, league);
+        return MatchdayPersistenceService.getInstance().getMatchdayByExternalId(currentMatchday.getExternalMatchDayID());
     }
 
     public List<Matchday> getMatchDaysFromAPI() throws Exception {

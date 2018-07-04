@@ -2,6 +2,7 @@ package resources;
 
 import entities.Achievement;
 import entities.User;
+import persistence.AchievementPersistenceService;
 import persistence.UserPersistenceService;
 
 import javax.persistence.NoResultException;
@@ -26,14 +27,15 @@ public class UserResourceImpl extends UserResource {
     }
 
     @Override
-    public Response setAchievment(String token, Achievement achievement) {
+    public Response setAchievement(String token, String achieveId) {
         response = Response.accepted().build();
         User user;
         try {
             user = UserPersistenceService.getInstance().getBySessionKey(token);
             
-            user.setDisplayedTitle(achievement);
-            
+			Achievement a = AchievementPersistenceService.getInstance().getAchievementForID(achieveId);
+			
+            user.setDisplayedTitle(a);
             UserPersistenceService.getInstance().update(user);
         }
         catch (SecurityException | NoResultException exception) {
@@ -47,10 +49,7 @@ public class UserResourceImpl extends UserResource {
         response = Response.accepted().build();
 
         try {
-            UserPersistenceService.getInstance().getBySessionKey(token);
-
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
-
             response = Response.accepted(user).build();
         }
         catch (SecurityException | NoResultException exception) {
@@ -76,13 +75,11 @@ public class UserResourceImpl extends UserResource {
         return response;
     }
     @Override
-    public Response getUserAchievementsByName(String token, String userName) {
+    public Response getUserAchievements(String token) {
     	response = Response.accepted().build();
     	
     	try {
-    		UserPersistenceService.getInstance().getBySessionKey(token);
-    		
-    		User user = UserPersistenceService.getInstance().getByName(userName);
+    		User user = UserPersistenceService.getInstance().getBySessionKey(token);
     		
     		response = Response.accepted(user.getAchievements()).build();
     	}

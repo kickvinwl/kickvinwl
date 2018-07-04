@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+	//check if search or own profile
 	var searchName = getUrlParameter('name');
 	if(searchName == null)
 	{
@@ -9,22 +10,28 @@ $(document).ready(function(){
 		$('#editTitel').click(function(){
 			$('#TitelModal').modal('show');	
 		});
+
+		//change Title and send AJAX set
 		$('#changeTitel').click(function(){
+			var id = "";
 			$.each($('.achv_radio'),function(i,v){
 				if($(v).prop("checked") == true)
 				{
-					$('#cur_Titel').text($(v).prop("name"));
+					var titletext = $(v).parent().children(".achv_title");
+					$('#cur_Titel').text(titletext);
+					id = $(v).prop("name");
 				}
 			});
 			$('#TitelModal').modal('hide');
-			lieferNeueDaten($('#cur_Titel').text(), "titel");
+			setUserData(id, "title");
 		});
 		$('#file-input').change(function(){
-			lieferNeueDaten($('#file-input').val(), "bild");
+			setUserData($('#file-input').val(), "picture");
 		});
+
 		var token2 = Cookies.get('token');
 		if (typeof token2 != 'undefined') {
-			$.getJSON("backend/user/get/" + token2, function(result){
+			$.getJSON( urlPath + "backend/user/get/" + token2, function(result){
 				$('#name').val(result.userName);
 				var pic = result.userPicture;
 				if(pic != null){
@@ -34,27 +41,37 @@ $(document).ready(function(){
 				$('#aktPlatz').val(result.Platz);
 				$('#besterTag').val(result.Bester);
 			});
+			$.ajax({
+			  type: "GET",
+			  url: urlPath + "backend/user/getUserAchievements?token=" + token2,
+			  success: function(response){
+			  	$.each(response, function(i,v){
+			  		var radiobtn = `<td><input type="radio" name="${v.id}" class="achv_radio"></td>`;
+			  		var title = `<td class="achv_title">${v.title}</td>`;
+			  		var description = `<td>${v.achievementDescription}</td>`;
+			  		$('#tableRowAchivements').append('<tr>' + radiobtn + title + description + '</tr>');
+			  	});
+			  },
+			  error: function(response){
+			  	console.log("Error");
+			  }
+			});
 		}
 		else{
 			window.location.href = urlPath + '?page=login';
 		}
 		
-		function lieferNeueDaten(daten, was){
+		//Userdata refresh
+		function setUserData(data, what){
 			var token2 = Cookies.get('token');
 			if (typeof token2 != 'undefined') {
-				if(was == "titel")
+				if(what == "title")
 				{
 					$.ajax({
 					  type: "POST",
-					  headers: { 
-					        'Content-Type': 'application/json' 
-					  },
-					  url: "backend/user/setAchievment/" + token2,
-					  data: JSON.stringify(daten),
+					  url: urlPath + "backend/user/setAchievement/" + token2 + "?id=" + data,
 					  success: function(response){
-					  	location.reload();	
-					  },
-					  dataType: "json"
+					  }
 					});
 				}
 				else
@@ -64,12 +81,11 @@ $(document).ready(function(){
 					  headers: { 
 					        'Content-Type': 'application/json' 
 					  },
-					  url: "backend/user/setImage/" + token2,
+					  url: urlPath + "backend/user/setImage/" + token2,
 					  data: JSON.stringify("https://as.ftcdn.net/r/v1/pics/ea2e0032c156b2d3b52fa9a05fe30dedcb0c47e3/landing/images_photos.jpg"),
 					  success: function(response){
 					  	location.reload();	
-					  },
-					  dataType: "json"
+					  }					  
 					});	
 				}
 			}
@@ -80,8 +96,7 @@ $(document).ready(function(){
 	}
 	else
 	{
-		//ajax call für den jeweiligen User
-		//variable für aktPkt, aktPlatz, besterTag, username, bild
+		//ajax call for user over search
 		var token2 = Cookies.get('token')
 		$.ajax({
 			type: "GET",

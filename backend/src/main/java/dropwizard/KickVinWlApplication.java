@@ -6,9 +6,11 @@ import entities.Matchday;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+
 import manager.MatchDayManager;
 import persistence.*;
 import manager.MatchdayPointsCalculater;
+
 import resources.*;
 import util.DBInitializer;
 import util.Schedular;
@@ -85,6 +87,7 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         Runnable setCurrentMatchDay = new Runnable() {
             @Override
             public void run() {
+
                 League bl1 = LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1");
                 try {
                     Matchday currentMatchday = new MatchDayManager(bl1).getCurrentMatchday();
@@ -106,6 +109,5 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
         schedular.addMatchEndSchedul(setCurrentMatchDay);
         schedular.addMatchEndSchedul(pointsCalculator);
-
     }
 }

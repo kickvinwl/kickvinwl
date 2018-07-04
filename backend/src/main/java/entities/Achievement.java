@@ -1,8 +1,9 @@
 package entities;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Achievement extends EntityGeneratedKey{
@@ -17,23 +18,17 @@ public class Achievement extends EntityGeneratedKey{
 	@JoinColumn(name="fk_icon")
 	private AchievementIcon icon;
 */
-	@ManyToMany(mappedBy = "achievements", fetch = FetchType.LAZY)
-	private List<User> users = new ArrayList<>();
 
-	public List<User> getUsers() {
-		return users;
-	}
-	public void addUsers(User user) {
-		this.users.add(user);
-	}
-	@OneToMany(mappedBy = "displayedTitle", fetch = FetchType.LAZY)
-	private List<User> presenter = new ArrayList<>();
 
+    //TODO: Das kann weg?
+	//@OneToMany(mappedBy = "displayedTitle", fetch = FetchType.LAZY)
+	//private List<User> presenter = new ArrayList<>();
 	
 	/*
 	 * Needs to be a select that returns user
 	 * all users get the achievement
 	 */
+	@JsonIgnore
 	@Column(updatable = true, nullable = true, length = 700)
 	private String achievementQuery;
 	
@@ -63,8 +58,24 @@ public class Achievement extends EntityGeneratedKey{
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	//TODO: unnötig
 	@Override
 	public String toString() {
-		return "Achievement [achievementDescription=" + achievementDescription + ", title=" + title + ", achievementQuerry=" + achievementQuery + "]";
-	}	
+		return "Achievement [achievementDescription=" + achievementDescription + ", title=" + title + ", achievementQuery=" + achievementQuery + "]";
+	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Achievement that = (Achievement) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(getId());
+    }
 }
