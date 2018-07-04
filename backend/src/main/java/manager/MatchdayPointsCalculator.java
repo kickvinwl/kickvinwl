@@ -20,11 +20,11 @@ public class MatchdayPointsCalculator {
     }
 
     public void updateUserPointsMatchday() {
-         userList.forEach(this::initializeUserPointsMatchday);
+        userList.forEach(this::initializeUserPointsMatchday);
     }
 
     public void calculateUserPointsWithTips() {
-         userList.forEach(this::calculateUserPointsAndWriteInMatchTipPoints);
+        userList.forEach(this::calculateUserPointsAndWriteInMatchTipPoints);
     }
 
     private Match getActualMatchResult(final int matchID) {
@@ -41,7 +41,7 @@ public class MatchdayPointsCalculator {
         userList = getAllUser();
     }
 
-    private List<User> getAllUser () {
+    private List<User> getAllUser() {
         return userPersistenceService.getAll();
     }
 
@@ -53,7 +53,7 @@ public class MatchdayPointsCalculator {
         List<MatchTip> userTips = matchTipPersistenceService.getByUserId(userID);
         int userPoints = 0;
 
-        for(MatchTip tip : userTips) {
+        for (MatchTip tip : userTips) {
             userPoints += tip.getUserPoints();
         }
         return userPoints;
@@ -63,37 +63,45 @@ public class MatchdayPointsCalculator {
     private void calculateUserPointsAndWriteInMatchTipPoints(final User user) {
         List<MatchTip> userTips = matchTipPersistenceService.getByUserId(user.getId());
         Match actualMatchResult;
-        for(MatchTip tip : userTips) {
+        for (MatchTip tip : userTips) {
             actualMatchResult = getActualMatchResult(tip.getTippedMatch().getId());
-            System.out.println("#####GOLATEAM1" + tip.getGoalsTeam1() + "##################GOALTEAM2" + tip.getGoalsTeam2() + "########TIP");
-            System.out.println("#####GOLATEAM1" + actualMatchResult.getGoalsTeam1() + "##################GOALTEAM2" + actualMatchResult.getGoalsTeam2() + "########ACTUAL");
             tip.setUserPoints(calculatePointsFromTippedMatch(actualMatchResult, tip));
+            matchTipPersistenceService.update(tip);
+
         }
     }
 
-    private int calculatePointsFromTippedMatch(Match actualMatchResult, MatchTip tips ) {
-        if(actualMatchResult.getId() == tips.getTippedMatch().getId()) {
-            if(actualMatchResult.getGoalsTeam1() == tips.getGoalsTeam1() && actualMatchResult.getGoalsTeam2() == tips.getGoalsTeam2()) {
+    private int calculatePointsFromTippedMatch(Match actualMatchResult, MatchTip tips) {
+        if (actualMatchResult.getId() == tips.getTippedMatch().getId()) {
+            if (actualMatchResult.getGoalsTeam1() == tips.getGoalsTeam1() && actualMatchResult.getGoalsTeam2() == tips.getGoalsTeam2()) {
                 return 4; //genau richtig getippt
             }
 
-            if(actualMatchResult.getGoalsTeam1() > actualMatchResult.getGoalsTeam2() && tips.getGoalsTeam1() > tips.getGoalsTeam2()) {
-                return 2; //Team 1 hat gewonnen
+            if (actualMatchResult.getGoalsTeam1() - actualMatchResult.getGoalsTeam2() == tips.getGoalsTeam1() - tips.getGoalsTeam2()) {
+                if (actualMatchResult.getGoalsTeam1() == actualMatchResult.getGoalsTeam2()) {
+                    return 2; //Unentschieden richtig getippt
+                } else {
+                    return 3; //differenz richtig getippt
+                }
             }
 
-            if(actualMatchResult.getGoalsTeam2() > actualMatchResult.getGoalsTeam1() && tips.getGoalsTeam2() > tips.getGoalsTeam1()) {
+            if (actualMatchResult.getGoalsTeam2() > actualMatchResult.getGoalsTeam1() && tips.getGoalsTeam2() > tips.getGoalsTeam1()) {
                 return 2; //Team 2 hat gewonnen
             }
+
+            if (actualMatchResult.getGoalsTeam2() < actualMatchResult.getGoalsTeam1() && tips.getGoalsTeam2() < tips.getGoalsTeam1()) {
+                return 2; //Team 2 hat gewonnen
+            }
+
             return 0;
-        }
-        else
-        {
+
+        } else {
             return 0;
         }
     }
 
     private void initializeUserPointsMatchday(User user) {
-        UserPointsMatchday userPointsMatchday= new UserPointsMatchday();
+        UserPointsMatchday userPointsMatchday = new UserPointsMatchday();
         userPointsMatchday.setMatchday(MATCHDAY);
         userPointsMatchday.setPoints(getUserPointsFromMatchtips(user.getId()));
         userPointsMatchday.setuser(user);
