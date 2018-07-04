@@ -74,6 +74,6 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
                 MatchdayPointsCalculator.getInstance().calculateUserPointsWithTips();
                 MatchdayPointsCalculator.getInstance().updateUserPointsMatchday();
             }
-        }, 5, 5, TimeUnit.MINUTES);
+        }, 1, 5, TimeUnit.MINUTES);
     }
 }

@@ -31,6 +31,7 @@ public class LeaderboardResourceImpl extends LeaderboardResource {
 
     @Override
     public Response calculateLeaderboard() {
+        MatchdayPointsCalculator.getInstance().calculateUserPointsWithTips();
         MatchdayPointsCalculator.getInstance().updateUserPointsMatchday();
         return Response.accepted().build();
     }

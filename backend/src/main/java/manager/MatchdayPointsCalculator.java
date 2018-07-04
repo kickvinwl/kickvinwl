@@ -64,13 +64,15 @@ public class MatchdayPointsCalculator {
         List<MatchTip> userTips = matchTipPersistenceService.getByUserId(user.getId());
         Match actualMatchResult;
         for(MatchTip tip : userTips) {
-            actualMatchResult = getActualMatchResult(tip.getTippedMatch().getMatchID());
+            actualMatchResult = getActualMatchResult(tip.getTippedMatch().getId());
+            System.out.println("#####GOLATEAM1" + tip.getGoalsTeam1() + "##################GOALTEAM2" + tip.getGoalsTeam2() + "########TIP");
+            System.out.println("#####GOLATEAM1" + actualMatchResult.getGoalsTeam1() + "##################GOALTEAM2" + actualMatchResult.getGoalsTeam2() + "########ACTUAL");
             tip.setUserPoints(calculatePointsFromTippedMatch(actualMatchResult, tip));
         }
     }
 
     private int calculatePointsFromTippedMatch(Match actualMatchResult, MatchTip tips ) {
-        if(actualMatchResult.getMatchID() == tips.getTippedMatch().getMatchID()) {
+        if(actualMatchResult.getId() == tips.getTippedMatch().getId()) {
             if(actualMatchResult.getGoalsTeam1() == tips.getGoalsTeam1() && actualMatchResult.getGoalsTeam2() == tips.getGoalsTeam2()) {
                 return 4; //genau richtig getippt
             }
@@ -82,11 +84,11 @@ public class MatchdayPointsCalculator {
             if(actualMatchResult.getGoalsTeam2() > actualMatchResult.getGoalsTeam1() && tips.getGoalsTeam2() > tips.getGoalsTeam1()) {
                 return 2; //Team 2 hat gewonnen
             }
-            return -1;
+            return 0;
         }
         else
         {
-            return -1;
+            return 0;
         }
     }
 
