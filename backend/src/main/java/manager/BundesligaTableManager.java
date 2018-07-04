@@ -9,15 +9,23 @@ import util.BundesligaTableDeserializer;
 import javax.persistence.NoResultException;
 import java.util.List;
 
+/**
+ * Verwaltungsklasse für die Elemente der Bundesligatabelle
+ *
+ * Zugehörige Aufgaben sind das Verwalten der einzelnen Bundesligaelemente.
+ * Dazu gehört das Laden der Daten aus der API und das Austauschen der lokalen Daten durch neue.
+ */
 public class BundesligaTableManager {
 
+    // Konfigurationsparameter
     private final String API_URL = "https://www.openligadb.de/api/getbltable/";
     private String apiParameters;
     private League league;
 
     /**
-     * 
-     * @param league
+     * Konstruktor
+     *
+     * @param league wird verwendet um die parameter für die Season zu erhalten
      */
     public BundesligaTableManager(League league) {
         apiParameters = String.valueOf(league.getLeagueId()) + "/" + league.getSeason().toString();
@@ -25,8 +33,9 @@ public class BundesligaTableManager {
     }
 
     /**
+     * lade die Bundesligatabelle aus der API
      *
-     * @return
+     * @return Liste aller Elemente in der Bundesligatabelle
      * @throws Exception
      */
     private List<BundesligaTable> getBundesligatableFromAPI() throws Exception {
@@ -37,8 +46,9 @@ public class BundesligaTableManager {
     }
 
     /**
+     * laden der Bundesligatabellendaten aus der lokalen Datenbank
      *
-     * @return
+     * @return Liste aller Elemente in der Bundesligatabelle
      */
     private List<BundesligaTable> getBundesligatableFromDatabase() throws NoResultException{
         List<BundesligaTable> bl = BundesligaTablePersistenceService.getInstance().getAllEntriesByLeagueId(league.getId());
@@ -46,7 +56,7 @@ public class BundesligaTableManager {
     }
 
     /**
-     *
+     *  aktualisiere die lokalen Daten mit den Daten aus der externen API
      */
     public void updateData() throws Exception {
         try {
@@ -58,6 +68,11 @@ public class BundesligaTableManager {
     }
 
     //TODO: refactor try/catch stuff
+
+    /**
+     * Transformiere die Daten zur weiterreichung an das Frontend
+     * @return
+     */
     public BundesligaTableTransform getTransform() {
         try {
             List<BundesligaTable> blt = getBundesligatableFromDatabase();

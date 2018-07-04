@@ -7,6 +7,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 
+/**
+ * Alle Datenbank-Funktionen für die zugehörige Datenklasse
+ */
 public class TeamPersistenceService extends PersistenceService<Team> {
 
     private static TeamPersistenceService instance;

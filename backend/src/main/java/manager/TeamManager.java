@@ -10,6 +10,7 @@ import java.util.List;
 
 public class TeamManager {
 
+    // Konfigurationsparameter
     private final String API_URL = "https://www.openligadb.de/api/getavailableteams/bl1/";
     private String apiParameter;
     private League league;
@@ -18,6 +19,9 @@ public class TeamManager {
         this.league = league;
     }
 
+    /**
+     * Persistiere die Teams aus der API
+     */
     public void persistTeams() {
         try{
             List<Team> teamList = getAllTeamsFromAPI();
@@ -34,6 +38,12 @@ public class TeamManager {
         }
     }
 
+    /**
+     * Erhalte alle Teams aus der API
+     *
+     * @return Liste aller Teams
+     * @throws Exception
+     */
     private List<Team> getAllTeamsFromAPI() throws Exception{
         apiParameter = league.getSeason();
         TeamDeserializer td = new TeamDeserializer();

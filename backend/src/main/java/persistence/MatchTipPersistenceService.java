@@ -11,6 +11,9 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+/**
+ * Alle Datenbank-Funktionen für die zugehörige Datenklasse
+ */
 public class MatchTipPersistenceService extends PersistenceService<MatchTip> {
 
     private static MatchTipPersistenceService instance;

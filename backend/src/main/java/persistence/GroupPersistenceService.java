@@ -8,6 +8,9 @@ import javax.persistence.Query;
 import entities.Group;
 import entities.User;
 
+/**
+ * Alle Datenbank-Funktionen für die zugehörige Datenklasse
+ */
 public class GroupPersistenceService extends PersistenceService<Group> {
 
     private static GroupPersistenceService instance;

@@ -7,7 +7,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 /**
- *
+ * Alle Datenbank-Funktionen für die zugehörige Datenklasse
  */
 public class LeaguePersistenceService extends PersistenceService<League> {
 
