@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	loadLeaderboard();
 	loadTipps();
 });
 
@@ -123,6 +124,31 @@ function submitTips() {
 		contentType: "application/json",
 		success: function(data) {
 			loadTipps(displaySpieltag);
+		},
+		error: function(data) {
+			handleError(data);
+		}
+	});
+}
+
+function loadLeaderboard() {
+	$.ajax({
+		url: urlPath + 'backend/leaderboard/season',
+		type: 'GET',
+		success: function(data, textStatus, jqXHR) {
+			$('#leaderboard tbody').empty();
+			$.each(data, function(i, val) {
+				$('#leaderboard tbody').append(`<tr>
+						<th>${val.platzierung}</th>
+						<td>${val.username}</td>
+						<td>${val.points}</td>
+					</tr>`);
+			});
+			$('#leaderboard').DataTable({
+				"paginate": false,
+				"filter": true,
+				"info": false
+			});
 		},
 		error: function(data) {
 			handleError(data);
