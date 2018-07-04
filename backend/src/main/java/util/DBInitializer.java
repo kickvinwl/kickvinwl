@@ -15,6 +15,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DBInitializer {
@@ -41,6 +42,22 @@ public class DBInitializer {
         loadBundesligaTable();
         loadMatches(l);
         generateNews();
+
+
+        LeaguePersistenceService.getInstance().update(l);
+
+        Match mt = new Match();
+        mt.setMatchDateTime(new Date(System.currentTimeMillis() + 30 * 1000));
+        MatchPersistenceService.getInstance().save(mt);
+        mt = new Match();
+        mt.setMatchDateTime(new Date(System.currentTimeMillis() + 60 * 1000));
+        MatchPersistenceService.getInstance().save(mt);
+        mt = new Match();
+        mt.setMatchDateTime(new Date(System.currentTimeMillis() + 90 * 1000));
+        MatchPersistenceService.getInstance().save(mt);
+        mt = new Match();
+        mt.setMatchDateTime(new Date(System.currentTimeMillis() + 120 * 1000));
+        MatchPersistenceService.getInstance().save(mt);
 
         try {
             Matchday md = new MatchDayManager(l).getCurrentMatchday();
