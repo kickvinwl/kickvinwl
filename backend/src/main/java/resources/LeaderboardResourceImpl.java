@@ -1,6 +1,6 @@
 package resources;
 
-import manager.MatchdayPointsCalculater;
+import manager.MatchdayPointsCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import persistence.LeaderboardPersistenceService;
@@ -31,7 +31,8 @@ public class LeaderboardResourceImpl extends LeaderboardResource {
 
     @Override
     public Response calculateLeaderboard() {
-        MatchdayPointsCalculater.getInstance().updateUserPointsMatchday();
+        MatchdayPointsCalculator.getInstance().calculateUserPointsWithTips();
+        MatchdayPointsCalculator.getInstance().updateUserPointsMatchday();
         return Response.accepted().build();
     }
 
