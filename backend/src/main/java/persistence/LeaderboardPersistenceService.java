@@ -10,6 +10,10 @@ import entities.Group;
 import entities.UserPointsMatchday;
 import resources.datamodel.UserPoints;
 
+import entities.Group;
+import entities.UserPointsMatchday;
+import resources.datamodel.UserPoints;
+
 /**
  * Alle Datenbank-Funktionen für die zugehörige Datenklasse
  */
