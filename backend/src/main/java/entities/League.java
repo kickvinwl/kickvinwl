@@ -1,4 +1,5 @@
 package entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import manager.MatchDayManager;
 import persistence.LeaguePersistenceService;
 import persistence.MatchPersistenceService;
@@ -15,6 +16,7 @@ public class League extends EntityGeneratedKey {
 	private String leagueId;
 	private String season;
 
+	@JsonIgnore
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="current_Matchday")
 	private Matchday currentMatchday;

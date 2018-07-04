@@ -53,6 +53,8 @@ public class DBInitializer {
             e.printStackTrace();
         }
         LeaguePersistenceService.getInstance().update(l);
+
+        generateMatchtips();
     }
 
     private static void createDatabase() {
@@ -68,6 +70,29 @@ public class DBInitializer {
     private static void generateUsers() {
         User user = new User("qwertz", "t");
         UserPersistenceService.getInstance().save(user);
+
+        User user2 = new User("qwertz2", "t2");
+        UserPersistenceService.getInstance().save(user2);
+    }
+
+    private static void generateMatchtips() {
+        Match tippedMatch = MatchPersistenceService.getInstance().getMatchById(382);
+        Match tippedMatch2 = MatchPersistenceService.getInstance().getMatchById(389);
+        User user1 = UserPersistenceService.getInstance().getByName("qwertz");
+        User user2 = UserPersistenceService.getInstance().getByName("qwertz2");
+
+        MatchTip mt = new MatchTip(user1, tippedMatch, 3,1);
+        MatchTipPersistenceService.getInstance().save(mt);
+
+        MatchTip mt2 = new MatchTip(user2, tippedMatch, 0,1);
+        MatchTipPersistenceService.getInstance().save(mt2);
+
+        MatchTip mt3 = new MatchTip(user1, tippedMatch2, 3,0);
+        MatchTipPersistenceService.getInstance().save(mt3);
+
+        MatchTip mt4 = new MatchTip(user2, tippedMatch2, 2,0);
+        MatchTipPersistenceService.getInstance().save(mt4);
+
     }
 
     // erzeuge die einzelnen Achievements mit der zugehörigen TestQuery

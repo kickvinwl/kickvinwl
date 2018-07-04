@@ -6,22 +6,21 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Map;
 
 @Path("/{a:group|Group}")
 public abstract class GroupResource {
 
     /**
-     * @param token         sessionKey of the user that is creating the group
-     * @param groupName     desired GroupName
-     * @param groupPassword password to enter a group
+     * token         sessionKey of the user that is creating the group
+     * groupName     desired GroupName
+     * groupPassword password to enter a group
      * @return Response of the request
      */
     @POST
-    @Path("/{a:create|Create")
+    @Path("/{a:create|Create}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public abstract Response createGroup(String token,
-                                         String groupName,
-                                         String groupPassword);
+    public abstract Response createGroup(Map<String, String> paramsamsam);
 
     /**
      *

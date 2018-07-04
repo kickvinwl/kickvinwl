@@ -5,7 +5,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import persistence.AchievementsChecker;
 import persistence.LeaderboardPersistenceService;
-import manager.MatchdayPointsCalculater;
+import manager.MatchdayPointsCalculator;
 import persistence.MatchTipPersistenceService;
 import resources.*;
 import util.DBInitializer;
@@ -104,6 +104,12 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
      */
     private void schedulingJobs() {
         final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(() -> MatchdayPointsCalculater.getInstance().updateUserPointsMatchday(), 5, 5, TimeUnit.MINUTES);
+        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                MatchdayPointsCalculator.getInstance().calculateUserPointsWithTips();
+                MatchdayPointsCalculator.getInstance().updateUserPointsMatchday();
+            }
+        }, 1, 5, TimeUnit.MINUTES);
     }
 }
