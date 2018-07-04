@@ -11,7 +11,6 @@ $(document).ready(function(){
 			type: 'GET',
 			success: function(result){
 				$('.dropdownMenuLink').attr("src", result.Picture);
-				console.log(result.userIsAdmin);
 				if(result.userIsAdmin)
 				{
 					$('#btnModalShow').css('display', 'block');
