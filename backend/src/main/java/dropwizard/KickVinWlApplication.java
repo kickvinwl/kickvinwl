@@ -1,18 +1,23 @@
 package dropwizard;
 
+import entities.League;
 import entities.Match;
+import entities.Matchday;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import manager.MatchDayManager;
 import persistence.*;
 import manager.MatchdayPointsCalculater;
 import resources.*;
 import util.DBInitializer;
+import util.Schedular;
 
 import java.util.Date;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
@@ -37,10 +42,11 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
     @Override
     public void run(KickVinWlConfiguration configuration, Environment environment) throws Exception {
+
         MatchTipPersistenceService.getInstance();
         LeaderboardPersistenceService.getInstance();
 
-//        DBInitializer.init();
+        DBInitializer.init();
 
         AchievementsChecker ac = new AchievementsChecker();
         ac.check();
@@ -74,34 +80,32 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
 
     private void schedulingJobs() {
-        final ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+        Schedular schedular = new Schedular();
+
+        Runnable setCurrentMatchDay = new Runnable() {
             @Override
             public void run() {
-                MatchdayPointsCalculater.getInstance().updateUserPointsMatchday();
-            }
-        }, 5, 5, TimeUnit.MINUTES);
-
-
-        Runnable afterMatchStarter = new Runnable() {
-            Match nextEndingMatch;
-
-            @Override
-            public void run() {
-                nextEndingMatch = MatchPersistenceService.getInstance().getNextMatch();
-                System.out.println("öööööööööööööööööööööööööööööööö Next Match:" + nextEndingMatch);
-                if(nextEndingMatch.getMatchDateTime().after(new Date())) {
-                    scheduledExecutorService.schedule(this, nextEndingMatch.getMatchDateTime().getTime() - System.currentTimeMillis() + 120 * 60 * 1000, TimeUnit.MILLISECONDS);
-                }
-                else
-                {
-                    System.out.println("keine Spiele in der Zukunft vorhanden");
-                    scheduledExecutorService.schedule(this, 1, TimeUnit.MINUTES);
+                League bl1 = LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1");
+                try {
+                    Matchday currentMatchday = new MatchDayManager(bl1).getCurrentMatchday();
+                    MatchdayPersistenceService.getInstance().save(currentMatchday);
+                    bl1.setCurrentMatchday(currentMatchday);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         };
 
-        afterMatchStarter.run();
+        Runnable pointsCalculator = new Runnable() {
+            @Override
+            public void run() {
+                //TODO calc für user
+                MatchdayPointsCalculater.getInstance().updateUserPointsMatchday();
+            }
+        };
+
+        schedular.addMatchEndSchedul(setCurrentMatchDay);
+        schedular.addMatchEndSchedul(pointsCalculator);
 
     }
 }

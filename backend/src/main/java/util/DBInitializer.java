@@ -15,6 +15,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class DBInitializer {
@@ -42,14 +43,27 @@ public class DBInitializer {
         loadMatches(l);
         generateNews();
 
-        try {
-            Matchday md = new MatchDayManager(l).getCurrentMatchday();
-            MatchdayPersistenceService.getInstance().save(md);
-            l.setCurrentMatchday(md);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Matchday md = new MatchDayManager(l).getCurrentMatchday();
+//            MatchdayPersistenceService.getInstance().save(md);
+//            l.setCurrentMatchday(md);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         LeaguePersistenceService.getInstance().update(l);
+
+        Match mt = new Match();
+        mt.setMatchDateTime(new Date(System.currentTimeMillis() + 30 * 1000));
+        MatchPersistenceService.getInstance().save(mt);
+        mt = new Match();
+        mt.setMatchDateTime(new Date(System.currentTimeMillis() + 60 * 1000));
+        MatchPersistenceService.getInstance().save(mt);
+        mt = new Match();
+        mt.setMatchDateTime(new Date(System.currentTimeMillis() + 90 * 1000));
+        MatchPersistenceService.getInstance().save(mt);
+        mt = new Match();
+        mt.setMatchDateTime(new Date(System.currentTimeMillis() + 120 * 1000));
+        MatchPersistenceService.getInstance().save(mt);
     }
 
     private static void createDatabase() {

@@ -11,9 +11,12 @@ import java.util.concurrent.TimeUnit;
 
 public class Schedular {
 
+    private final long SPIELZEIT = 120 * 60 * 1000;
+
     private ArrayList<Runnable> matchEndSchudls;
     private ScheduledExecutorService scheduledExecutorService;
     private Match nextEndingMatch;
+    private Runnable nextEndingMatchRunnable;
 
     /**
      * Verwaltet die verschiedenen Schedular aufgaben
@@ -27,22 +30,34 @@ public class Schedular {
     {
         matchEndSchudls = new ArrayList<>();
         nextEndingMatch = MatchPersistenceService.getInstance().getNextMatch();
-        scheduledExecutorService.schedule(new Runnable() {
+        nextEndingMatchRunnable = new Runnable() {
             @Override
             public void run() {
                 nextEndingMatch = MatchPersistenceService.getInstance().getNextMatch();
-                matchEndSchudls.forEach(Runnable::run);
-
-                if(nextEndingMatch.getMatchDateTime().after(new Date())) {
-                    scheduledExecutorService.schedule(this, nextEndingMatch.getMatchDateTime().getTime() - System.currentTimeMillis() + 120 * 60 * 1000, TimeUnit.MILLISECONDS);
-                }
-                else
+                try {
+                    matchEndSchudls.forEach(Runnable::run);
+                }catch (Exception e)
                 {
-                    System.out.println("keine Spiele in der Zukunft vorhanden!");
-                    scheduledExecutorService.schedule(this, 1, TimeUnit.MINUTES);
+                    e.printStackTrace();
+                    fireNextAfterMatchSchedul();
                 }
+
+                fireNextAfterMatchSchedul();
             }
-        },nextEndingMatch.getMatchDateTime().getTime() - System.currentTimeMillis() + 120 * 60 * 1000, TimeUnit.MILLISECONDS);
+        };
+        fireNextAfterMatchSchedul();
+    }
+
+    private void fireNextAfterMatchSchedul()
+    {
+        if(nextEndingMatch.getMatchDateTime().after(new Date())) {
+            scheduledExecutorService.schedule(nextEndingMatchRunnable, Math.max(nextEndingMatch.getMatchDateTime().getTime() - System.currentTimeMillis(), 1000) + SPIELZEIT, TimeUnit.MILLISECONDS);
+        }
+        else
+        {
+            System.out.println("keine Spiele in der Zukunft vorhanden!");
+            scheduledExecutorService.schedule(nextEndingMatchRunnable, 1, TimeUnit.MINUTES);
+        }
     }
 
     /**
