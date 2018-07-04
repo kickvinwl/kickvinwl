@@ -10,7 +10,7 @@ import java.util.List;
 /**
  *
  */
-public class AchievementPersistenceService extends PersistenceService{
+public class AchievementPersistenceService extends PersistenceService<Achievement>{
 
 	private static AchievementPersistenceService instance;
 
@@ -43,7 +43,7 @@ public class AchievementPersistenceService extends PersistenceService{
 	 */
 	public List<Achievement> getAllByUserName(final String userName)throws NoResultException{
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
-			String qlString = "SELECT achievement FROM achievement as a " +
+			String qlString = "SELECT achievement FROM Achievement as a " +
 					"INNER JOIN a.user as u " +
 					"WHERE u.userName = :uName";
 			Query query = entityManager.createQuery(qlString);
@@ -54,13 +54,43 @@ public class AchievementPersistenceService extends PersistenceService{
 			return achievement;
 		});
 	}
+	public List<Achievement> getAll() throws NoResultException{
+		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+			String qlString = "SELECT a FROM Achievement a";
+			Query query = entityManager.createQuery(qlString);
+			List<Achievement> achievements = query.getResultList();
+			if (achievements.isEmpty())
+				throw new NoResultException();
+			return achievements;
+		});
+	}
 
-
+	/**
+	 *
+	 * @return
+	 */
 	public boolean hasEntries(){
 		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
 			Query query = entityManager.createQuery("SELECT a FROM Achievement a");			
 			List<Achievement> ach = query.getResultList();
 			return !ach.isEmpty();
+		});
+	}
+
+	/**
+	 *
+	 * @param achieveId
+	 * @return
+	 */
+	public Achievement getAchievementForID(String achieveId) {
+		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+			String qlString = "SELECT a FROM Achievement a WHERE a.id = :aId";
+			Query query = entityManager.createQuery(qlString);
+			query.setParameter("aId", Integer.valueOf(achieveId));
+			List<Achievement> achievement = query.getResultList();
+			if (achievement.isEmpty())
+				throw new NoResultException();
+			return achievement.get(0);
 		});
 	}
 

@@ -1,5 +1,7 @@
 package entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.*;
 
 import javax.persistence.*;
@@ -16,9 +18,10 @@ public class User extends EntityGeneratedKey {
 	@Column(updatable = true, nullable = false)
 	private boolean userIsAdmin;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "fk_displayedTitle")
 	private Achievement displayedTitle;
+
 
 	@Column(updatable = true, nullable = true)
 	private String sessionKey;
@@ -41,12 +44,17 @@ public class User extends EntityGeneratedKey {
 			inverseJoinColumns = { @JoinColumn(name = "fk_squad")})
 	private List<Group> groups = new ArrayList<>();
 
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
 			name = "user_achievement",
 			joinColumns = { @JoinColumn(name = "fk_user") },
 			inverseJoinColumns = { @JoinColumn(name = "fk_achievement")})
 	private List<Achievement> achievements = new ArrayList<>();
+
+	public List<Achievement> getAchievements() {
+		return achievements;
+	}
 
 	public User(String name, String sessionKey)
 	{
@@ -91,19 +99,28 @@ public class User extends EntityGeneratedKey {
 	public void setUserIsAdmin(boolean userIsAdmin) {
 		this.userIsAdmin = userIsAdmin;
 	}
+	public Achievement getDisplayedTitle() {
+		return displayedTitle;
+	}
 
-	//TODO: später einkommentieren
-	//public String getDisplayedTitle() {
-	//	return displayedTitle.getTitle();
-	//}
+	public void setDisplayedTitle(Achievement displayedTitle) {
+		if (achievements.contains(displayedTitle)) {
+			this.displayedTitle = displayedTitle;
+		}
 
-	//public void setDisplayedTitle(Achievement achievement) {
-	//	this.displayedTitle = achievement;
-	//}
+	}
+
 
 	public void addTip(MatchTip tip)
 	{
 		tips.add(tip);
+	}
+	public void addAchievement(Achievement ach)
+	{
+		achievements.add(ach);
+		if (getDisplayedTitle() == null) {
+			setDisplayedTitle(ach);
+		}
 	}
 
 	public String getSessionKey() {
@@ -119,4 +136,12 @@ public class User extends EntityGeneratedKey {
 	}
 
 	public void setTips(List<MatchTip> tips) { this.tips = tips; }
+
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", userPicture=" + Arrays.toString(userPicture) + ", userIsAdmin="
+				+ userIsAdmin + ", displayedTitle=" + displayedTitle + ", sessionKey=" + sessionKey + ", lastAction="
+				+ lastAction + ", adminGroups=" + adminGroups + ", tips=" + tips + ", groups=" + groups	+ "]";
+	}
+
 }

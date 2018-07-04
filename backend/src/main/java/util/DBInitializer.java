@@ -1,7 +1,10 @@
 package util;
 
 import entities.*;
+import manager.MatchDayManager;
 import manager.BundesligaTableManager;
+import manager.MatchManager;
+import manager.TeamManager;
 import persistence.*;
 
 import javax.persistence.EntityManagerFactory;
@@ -11,6 +14,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 public class DBInitializer {
@@ -20,283 +24,188 @@ public class DBInitializer {
     private static String password = "";
 
     public static void init() {
-        String sqlString = "CREATE DATABASE IF NOT EXISTS kickvinwl";
-        runstatement(sqlString);
+
+        League l;
+
+        // database setup
+        dropDatabase();
+        createDatabase();
         setupTables();
-        TeamPersistenceService.persistTeams();
-        genLeague();
-        genUsers();
-        genMatches();
-        genAchivement();
-        generateBundesligaTable();
+
+        // generate and load data
+        l = generateLeague();
+        loadTeams();
+        generateUsers();
+        loadMatchdays();
+        generateAchievement();
+        loadBundesligaTable();
+        loadMatches(l);
+        generateNews();
+
+        try {
+            Matchday md = new MatchDayManager(l).getCurrentMatchday();
+            l.setCurrentMatchday(md);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        LeaguePersistenceService.getInstance().update(l);
     }
 
-    public static void dropDatabase() {
+    private static void createDatabase() {
+        String sqlString = "CREATE DATABASE IF NOT EXISTS kickvinwl";
+        runstatement(sqlString);
+    }
+
+    private static void dropDatabase() {
         String sqlString = "DROP DATABASE kickvinwl";
         runstatement(sqlString);
     }
 
-    public static void genUsers() {
+    private static void generateUsers() {
         User user = new User("qwertz", "t");
-
         UserPersistenceService.getInstance().save(user);
     }
 
-
-    public static void genMatches(){
-        List<Team> teams = TeamPersistenceService.getInstance().getAllTeams();
-
-        User us = new User("qwertz_tipper", "t_tipper");
-        UserPersistenceService.getInstance().save(us);
-        Team team1 = teams.get(0);
-        Team team2 = teams.get(1);
-
-
-        Matchday md = LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1").getCurrentMatchday();
-
-        Match match = new Match();
-        match.setMatchday(md);
-        match.setTeam(team1);
-        match.setTeam2(team2);
-        match.setGoalsTeam1(1);
-        match.setGoalsTeam2(1);
-        MatchPersistenceService.getInstance().save(match);
-
-        //MatchTip
-        MatchTip matchTip = new MatchTip();
-        matchTip.setOwner(us);
-        matchTip.setTippedMatch(match);
-        matchTip.setGoalsTeam1(1);
-        matchTip.setGoalsTeam2(1);
-        MatchTipPersistenceService.getInstance().save(matchTip);
-
-        match = new Match();
-        match.setMatchday(md);
-        match.setTeam(team1);
-        match.setTeam2(team2);
-        match.setGoalsTeam1(2);
-        match.setGoalsTeam2(2);
-        MatchPersistenceService.getInstance().save(match);
-
-        //MatchTip
-        matchTip = new MatchTip();
-        matchTip.setOwner(us);
-        matchTip.setTippedMatch(match);
-        matchTip.setGoalsTeam1(1);
-        matchTip.setGoalsTeam2(1);
-        MatchTipPersistenceService.getInstance().save(matchTip);
-
-        match = new Match();
-        match.setMatchday(md);
-        match.setTeam(team1);
-        match.setTeam2(team2);
-        match.setGoalsTeam1(2);
-        match.setGoalsTeam2(1);
-        MatchPersistenceService.getInstance().save(match);
-
-        //MatchTip
-        matchTip = new MatchTip();
-        matchTip.setOwner(us);
-        matchTip.setTippedMatch(match);
-        matchTip.setGoalsTeam1(2);
-        matchTip.setGoalsTeam2(1);
-        MatchTipPersistenceService.getInstance().save(matchTip);
-
-        match = new Match();
-        match.setMatchday(md);
-        match.setTeam(team1);
-        match.setTeam2(team2);
-        match.setGoalsTeam1(2);
-        match.setGoalsTeam2(1);
-        MatchPersistenceService.getInstance().save(match);
-
-        matchTip = new MatchTip();
-        matchTip.setOwner(us);
-        matchTip.setTippedMatch(match);
-        matchTip.setGoalsTeam1(1);
-        matchTip.setGoalsTeam2(0);
-        MatchTipPersistenceService.getInstance().save(matchTip);
-
-        md = new Matchday();
-        md.setMatchday(26);
-        MatchdayPersistenceService.getInstance().save(md);
-
-        match = new Match();
-        match.setMatchday(md);
-        match.setTeam(team1);
-        match.setTeam2(team2);
-        match.setGoalsTeam1(1);
-        match.setGoalsTeam2(0);
-        MatchPersistenceService.getInstance().save(match);
-
-        matchTip = new MatchTip();
-        matchTip.setOwner(us);
-        matchTip.setTippedMatch(match);
-        matchTip.setGoalsTeam1(0);
-        matchTip.setGoalsTeam2(1);
-        MatchTipPersistenceService.getInstance().save(matchTip);
-
-        match = new Match();
-        match.setMatchday(md);
-        match.setTeam(team1);
-        match.setTeam2(team2);
-        match.setGoalsTeam1(1);
-        match.setGoalsTeam2(0);
-        MatchPersistenceService.getInstance().save(match);
-
-        matchTip = new MatchTip();
-        matchTip.setOwner(us);
-        matchTip.setTippedMatch(match);
-        matchTip.setGoalsTeam1(0);
-        matchTip.setGoalsTeam2(0);
-        MatchTipPersistenceService.getInstance().save(matchTip);
-
-        match = new Match();
-        match.setMatchday(md);
-        match.setTeam(team1);
-        match.setTeam2(team2);
-        match.setGoalsTeam1(5);
-        match.setGoalsTeam2(0);
-        MatchPersistenceService.getInstance().save(match);
-
-        matchTip = new MatchTip();
-        matchTip.setOwner(us);
-        matchTip.setTippedMatch(match);
-        matchTip.setGoalsTeam1(80);
-        matchTip.setGoalsTeam2(0);
-        MatchTipPersistenceService.getInstance().save(matchTip);
-
-        md = new Matchday();
-        md.setMatchday(27);
-        MatchdayPersistenceService.getInstance().save(md);
-
-        match = new Match();
-        match.setMatchday(md);
-        match.setTeam(team1);
-        match.setTeam2(team2);
-        MatchPersistenceService.getInstance().save(match);
-
-        matchTip = new MatchTip();
-        matchTip.setOwner(us);
-        matchTip.setTippedMatch(match);
-        match.setGoalsTeam1(8);
-        match.setGoalsTeam2(9);
-        matchTip.setGoalsTeam1(7);
-        matchTip.setGoalsTeam2(6);
-        MatchTipPersistenceService.getInstance().save(matchTip);
-
-        match = new Match();
-        match.setMatchday(md);
-        match.setTeam(team1);
-        match.setTeam2(team2);
-        MatchPersistenceService.getInstance().save(match);
-
-        match = new Match();
-        match.setMatchday(md);
-        match.setTeam(team1);
-        match.setTeam2(team2);
-        MatchPersistenceService.getInstance().save(match);
-    }
-
-    public static void genAchivement()
-    {
+	public static void generateAchievement()
+	{
         AchievementPersistenceService aps = AchievementPersistenceService.getInstance();
+        if(aps.hasEntries())
+            return;
 
         Achievement ach = new Achievement();
         ach.setTitle("Rookie");
         ach.setAchievementDescription("Sie haben es geschafft sich anzumelden");
+        ach.setAchievementQuery("SELECT u FROM User u");
         aps.save(ach);
 
         ach = new Achievement();
         ach.setTitle("Fortuna");
         ach.setAchievementDescription("Erziele einen Punkt");
+        ach.setAchievementQuery("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 1");
         aps.save(ach);
 
         ach = new Achievement();
         ach.setTitle("I like where this is going");
         ach.setAchievementDescription("Erziele 123 Punkte");
+        ach.setAchievementQuery("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 123");
         aps.save(ach);
 
         ach = new Achievement();
         ach.setTitle("Spartaaaa");
         ach.setAchievementDescription("Erziele 300 Punkte");
+        ach.setAchievementQuery("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 300");
         aps.save(ach);
 
         ach = new Achievement();
         ach.setTitle("You cant stop me");
         ach.setAchievementDescription("Erziele 600 Punkte");
+        ach.setAchievementQuery("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 600");
         aps.save(ach);
 
         ach = new Achievement();
         ach.setTitle("Profitipper");
         ach.setAchievementDescription("Erziele 1234 Punkte");
+        ach.setAchievementQuery("SELECT mt.owner FROM MatchTip mt GROUP BY mt.owner HAVING SUM(mt.userPoints) > 1234");
         aps.save(ach);
 
         ach = new Achievement();
-        ach.setTitle("Been There� Rocked That");
+        ach.setTitle("Been There, Rocked That");
         ach.setAchievementDescription("Alle Tendenzen an einem Spieltag richtig getippt");
+        ach.setAchievementQuery("SELECT DISTINCT u FROM Matchday md INNER JOIN Match g ON g.matchday=md.id INNER JOIN MatchTip mt ON g.id=mt.tippedMatch INNER JOIN User u ON u.id=mt.owner GROUP BY md.id, mt.owner HAVING min(mt.userPoints)>0");
         aps.save(ach);
 
         ach = new Achievement();
         ach.setTitle("I knew it");
         ach.setAchievementDescription("Ein perfekt getippter Spieltag");
+        ach.setAchievementQuery("SELECT DISTINCT u FROM Matchday md INNER JOIN Match g ON g.matchday=md.id INNER JOIN MatchTip mt ON g.id=mt.tippedMatch INNER JOIN User u ON u.id=mt.owner GROUP BY md.id, mt.owner HAVING min(mt.userPoints)=4");
         aps.save(ach);
 
         ach = new Achievement();
         ach.setTitle("A fresh start");
         ach.setAchievementDescription("Ein Spiel richtig getippt");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("Look what I can do!");
-        ach.setAchievementDescription("Drei Spiele richtig getippt. (an einem Spieltag)");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("A Star is Born!");
-        ach.setAchievementDescription("F�nf Spiele richtig getippt. (an einem Spieltag)");
-        aps.save(ach);
-
-        ach = new Achievement();
-        ach.setTitle("Reach for the stars");
-        ach.setAchievementDescription("Einen Spieltag als bester getippt");
+        ach.setAchievementQuery("SELECT DISTINCT u FROM Match g INNER JOIN MatchTip mt ON g.id=mt.tippedMatch INNER JOIN User u ON u.id=mt.owner GROUP BY mt.owner HAVING max(mt.userPoints)=4");
         aps.save(ach);
 
         ach = new Achievement();
         ach.setTitle("Miracles come when you least expect them");
         ach.setAchievementDescription("Spieltag ohne einen einzigen Punkt");
+        ach.setAchievementQuery("SELECT DISTINCT u FROM Match g INNER JOIN MatchTip mt ON g.id=mt.tippedMatch INNER JOIN User u ON u.id=mt.owner GROUP BY mt.owner HAVING max(mt.userPoints)=0");
         aps.save(ach);
 
-        ach = new Achievement();
-        ach.setTitle("Legend");
-        ach.setAchievementDescription("Gewinnen Sie 5 Tippspiele");
-        aps.save(ach);
 
-        ach = new Achievement();
-        ach.setTitle("Master");
-        ach.setAchievementDescription("Gewinnen Sie 3 Tippspiele");
-        aps.save(ach);
+		/*
+		 *
+		 *     Query works, hibernate Syntax error
+		ach = new Achievement();
+		ach.setTitle("Look what I can do!");
+		ach.setAchievementDescription("Drei Spiele richtig getippt. (an einem Spieltag)");
+		ach.setAchievementQuery("SELECT DISTINCT us FROM (SELECT u.id, mt.userPoints FROM Matchday md INNER JOIN Match g ON g.matchday=md.id INNER JOIN MatchTip mt ON g.id=mt.tippedMatch INNER JOIN User u ON u.id=mt.owner WHERE mt.userPoints=4 GROUP BY md.id, mt.owner) AS tbl INNER JOIN User us ON us.id=tbl.id GROUP BY tbl.id HAVING count(tbl.userPoints)>=3");
+		aps.save(ach);
 
-        ach = new Achievement();
-        ach.setTitle("Tippsielsieger");
-        ach.setAchievementDescription("Gewinnen Sie ein Tippspiele");
-        aps.save(ach);
+		ach = new Achievement();
+		ach.setTitle("A Star is Born!");
+		ach.setAchievementDescription("Fünf Spiele richtig getippt. (an einem Spieltag)");
+		ach.setAchievementQuery("SELECT DISTINCT us FROM (SELECT u.id, mt.userPoints FROM Matchday md INNER JOIN Match g ON g.matchday=md.id INNER JOIN MatchTip mt ON g.id=mt.tippedMatch INNER JOIN User u ON u.id=mt.owner WHERE mt.userPoints=4 GROUP BY md.id, mt.owner) AS tbl INNER JOIN User us ON us.id=tbl.id GROUP BY tbl.id HAVING count(tbl.userPoints)>=5");
+		aps.save(ach);
+		 *
+		 *
+		 */
+
+
+		/*  TODO
+		 *
+		ach = new Achievement();
+		ach.setTitle("Reach for the stars");
+		ach.setAchievementDescription("Einen Spieltag als bester getippt");
+		ach.setAchievementQuery("SELECT u.id FROM User u WHERE 1=2");
+		aps.save(ach);
+
+		ach = new Achievement();
+		ach.setTitle("Legend");
+		ach.setAchievementDescription("Gewinnen Sie 5 Tippspiele");
+		ach.setAchievementQuery("SELECT u.id FROM User u WHERE 1=2");
+		aps.save(ach);
+
+		ach = new Achievement();
+		ach.setTitle("Master");
+		ach.setAchievementDescription("Gewinnen Sie 3 Tippspiele");
+		ach.setAchievementQuery("SELECT u.id FROM User u WHERE 1=2");
+		aps.save(ach);
+
+		ach = new Achievement();
+		ach.setTitle("Tippsielsieger");
+		ach.setAchievementDescription("Gewinnen Sie ein Tippspiele");
+		ach.setAchievementQuery("SELECT u.id FROM User u WHERE 1=2");
+		aps.save(ach);
+
+		 *
+		 */
     }
 
-    public static void genLeague()
+    private static League generateLeague()
     {
-        Matchday md = new Matchday();
-        md.setMatchday(27);
-        MatchdayPersistenceService.getInstance().save(md);
-
         League l = new League();
         l.setLeagueId("bl1");
         l.setSeason("2017");
-        l.setCurrentMatchday(md);
+        // TODO set current Matchday
         LeaguePersistenceService.getInstance().save(l);
+        return l;
     }
 
-    public static void generateBundesligaTable() {
+    private static void loadMatches(League league) {
+        MatchManager mm = new MatchManager(league);
+        try {
+            System.out.println("=====================");
+            System.out.println("Persisting matches ...");
+            mm.persistAllMatchesFromAPI();
+            System.out.println("Persisting matches completed !!!");
+        } catch (Exception e) {
+            System.out.println("Failed to load Matches");
+            e.printStackTrace();
+        }
+    }
+
+    private static void loadBundesligaTable() {
         BundesligaTableManager blmanager = new BundesligaTableManager(
                 LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1"));
         try {
@@ -308,26 +217,23 @@ public class DBInitializer {
         }
     }
 
-    public static void loadTeams() {
-        TeamDeserializer td = new TeamDeserializer();
+    private static void loadTeams() {
+        TeamManager tm = new TeamManager(LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1"));
+        tm.persistTeams();
+    }
+
+    private static void loadMatchdays() {
+        League league = LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1");
+        MatchDayManager mdm = new MatchDayManager(league);
         try {
-            List<Team> teams = td.deserializeTeam("https://www.openligadb.de/api/getavailableteams/bl1/2018");
-            for (Team team : teams) {
-                System.out.println(team.toString());
-            }
+            List<Matchday> mds = mdm.getMatchDaysFromAPI();
+            mds.forEach(matchday -> MatchdayPersistenceService.getInstance().save(matchday));
+            System.out.println("Success");
         } catch (Exception e) {
-            System.out.println("===================================");
-            System.out.println("ERROR ERROR ERROR ERROR ERROR ERROR");
-            System.out.println("===================================");
-            e.printStackTrace();
-            System.out.println("===================================");
+            System.out.println("Error");
         }
     }
-/*
-    public static void generateAchievementTestData() {
-        AchievementTestData.generateTestData();
-    }
-*/
+
     private static void setupTables() {
         //durch den Aufruf der Factory wird hibernate angesprochen - je nach
         //hibernate.hbm2ddl.auto -Value werden die DB-Tabellen erzeugt oder upgedated
@@ -346,5 +252,42 @@ public class DBInitializer {
         }
     }
 
+    private static void generateNews() {
+        //set up test users
+        User user = new User("test_newsfeed","kappa");
+        User userAdmin = new User("test_newsfeed_admin", "kappadmin");
+        userAdmin.setUserIsAdmin(true);
+        UserPersistenceService.getInstance().save(user);
+        UserPersistenceService.getInstance().save(userAdmin);
+        System.out.println("=================================");
+        System.out.println("SAVING NEWS...");
+        NewsfeedPersistenceService nps = NewsfeedPersistenceService.getInstance();
+
+        //generate first message - date is valid
+        NewsfeedMessage message = new NewsfeedMessage();
+        Calendar calender = Calendar.getInstance();
+        calender.add(Calendar.DAY_OF_MONTH, 1);
+        message.setEndDate(calender.getTime());
+        calender.add(Calendar.DAY_OF_MONTH, -2);
+        message.setStartDate(calender.getTime());
+        message.setMessageText("HERE COULD BE YOUR MESSAGE!");
+        message.setUser(user);
+        message.setMessageTitle("Moby Dick");
+        nps.save(message);
+
+        //generate second message - date is invalid
+        message = new NewsfeedMessage();
+        calender.add(Calendar.DAY_OF_WEEK,7);
+        message.setStartDate(calender.getTime());
+        calender.add(Calendar.DAY_OF_MONTH,5);
+        message.setEndDate(calender.getTime());
+        message.setMessageText("This message has an expired Date and should not be displayed!");
+        message.setUser(user);
+        message.setMessageTitle("Invalid Message");
+        nps.save(message);
+
+        System.out.println("NEWS SAVED!");
+        System.out.println("=================================");
+    }
 
 }

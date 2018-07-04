@@ -3,12 +3,12 @@ package dropwizard;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import persistence.AchievementsChecker;
 import persistence.LeaderboardPersistenceService;
 import manager.MatchdayPointsCalculator;
 import persistence.MatchTipPersistenceService;
 import resources.*;
 import util.DBInitializer;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -39,8 +39,10 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
         MatchTipPersistenceService.getInstance();
         LeaderboardPersistenceService.getInstance();
 
-        DBInitializer.dropDatabase();
         DBInitializer.init();
+
+        AchievementsChecker ac = new AchievementsChecker();
+        ac.check();
 
         final TipResource tipResource = new TipResourceImpl();
         environment.jersey().register(tipResource);
@@ -59,6 +61,10 @@ public class KickVinWlApplication extends Application<KickVinWlConfiguration> {
 
         final BundesligaResource bundesligaResource = new BundesligaResourceImpl();
         environment.jersey().register(bundesligaResource);
+
+
+        final NewsfeedResource newsfeedResource = new NewsfeedResourceImpl();
+        environment.jersey().register(newsfeedResource);
 
         final LeaderboardResource leaderboardResource = new LeaderboardResourceImpl();
         environment.jersey().register(leaderboardResource);
