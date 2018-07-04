@@ -4,6 +4,7 @@ import entities.Achievement;
 import entities.Group;
 import entities.MatchTip;
 import entities.User;
+import resources.datamodel.UserPoints;
 
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
@@ -183,6 +184,18 @@ public class UserPersistenceService extends PersistenceService<User> {
 			if ( users.isEmpty())
 				throw new NoResultException();
 			return users;
+		});
+	}
+
+	public int getSeasonPointsForUser(final int leagueID, final String userToken) throws NoResultException {
+		return JPAOperations.doInJPA(this::entityManagerFactory, entityManager -> {
+			TypedQuery<Integer> query = entityManager.createQuery(
+					"SELECT SUM(leaderboard.points) FROM UserPointsMatchday leaderboard WHERE leaderboard.matchday.league.id = :leagueID AND leaderboard.user.id = :userID group by leaderboard.user order by points desc",
+					Integer.class);
+			query.setParameter("leagueID", leagueID);
+			query.setParameter("userID", this.getBySessionKey(userToken).getId());
+
+			return query.getSingleResult();
 		});
 	}
 

@@ -49,4 +49,9 @@ public abstract class UserResource {
     @Path("/{a:logout|Logout}")
     @Consumes(MediaType.APPLICATION_JSON)
     public abstract Response removeSessionKey(String token);
+
+    @GET
+    @Path("/getCurrentScore")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public abstract Response getCurrentScoreForUser(@QueryParam("token") String token);
 }

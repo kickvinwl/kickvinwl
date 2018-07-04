@@ -1,8 +1,10 @@
 package resources;
 
 import entities.Achievement;
+import entities.League;
 import entities.User;
 import persistence.AchievementPersistenceService;
+import persistence.LeaguePersistenceService;
 import persistence.UserPersistenceService;
 
 import javax.persistence.NoResultException;
@@ -98,6 +100,20 @@ public class UserResourceImpl extends UserResource {
             User user = UserPersistenceService.getInstance().getBySessionKey(token);
             user.setSessionKey("");
             UserPersistenceService.getInstance().update(user);
+        }
+        catch (Exception exception) {
+            response.status(Response.Status.UNAUTHORIZED);
+        }
+        return response.build();
+    }
+
+    @Override
+    public Response getCurrentScoreForUser(String token) {
+        Response.ResponseBuilder response = Response.accepted();
+        try {
+            User user = UserPersistenceService.getInstance().getBySessionKey(token);
+            League league = LeaguePersistenceService.getInstance().getCurrentLeagueByLeagueId("bl1");
+            response = Response.accepted(userPersistenceService.getSeasonPointsForUser(league.getId(), token));
         }
         catch (Exception exception) {
             response.status(Response.Status.UNAUTHORIZED);
