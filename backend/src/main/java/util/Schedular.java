@@ -33,6 +33,7 @@ public class Schedular {
         nextEndingMatchRunnable = new Runnable() {
             @Override
             public void run() {
+                System.out.println("AfterMatchSchedular startet...");
                 nextEndingMatch = MatchPersistenceService.getInstance().getNextMatch();
                 try {
                     matchEndSchudls.forEach(Runnable::run);
@@ -43,6 +44,7 @@ public class Schedular {
                 }
 
                 fireNextAfterMatchSchedul();
+                System.out.println("AfterMatchSchedular erfolgreich beendet...");
             }
         };
         fireNextAfterMatchSchedul();
