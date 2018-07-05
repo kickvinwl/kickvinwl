@@ -23,7 +23,14 @@ public class MatchDayManager {
     public Matchday getCurrentMatchday() throws Exception{
         MatchDayDeserializier mdd = new MatchDayDeserializier();
         Matchday currentMatchday = mdd.deserializeCurrent(API_URL_CURRENT_MATCHDAY, league);
-        return MatchdayPersistenceService.getInstance().getMatchdayByExternalId(currentMatchday.getExternalMatchDayID());
+        try {
+            currentMatchday = MatchdayPersistenceService.getInstance().getMatchdayByExternalId(currentMatchday.getExternalMatchDayID());
+        }
+        catch(NoResultException e)
+        {
+            MatchdayPersistenceService.getInstance().save(currentMatchday);
+        }
+        return currentMatchday;
     }
 
     public List<Matchday> getMatchDaysFromAPI() throws Exception {
