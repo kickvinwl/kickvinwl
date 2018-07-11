@@ -22,15 +22,5 @@
         <class>de.mankianer.kickwinvl.entities.Matchday</class>
         <class>de.mankianer.kickwinvl.entities.League</class>
         <class>de.mankianer.kickwinvl.entities.NewsfeedMessage</class>
-
-        <properties>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/kickvinwl"/>
-            <property name="javax.persistence.jdbc.user" value="root"/>
-            <property name="javax.persistence.jdbc.password" value=""/>
-            <property name="hibernate.show_sql" value="false" />
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
-        </properties>
     </persistence-unit>
 </persistence>
