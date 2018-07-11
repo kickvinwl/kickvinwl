@@ -14,7 +14,7 @@ public class League{
 	@GeneratedValue
 	private Long leagID;
 
-	private String ext_leagueId;
+	private String extleagueId;
 	private String season;
 
 	@ManyToOne

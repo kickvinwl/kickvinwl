@@ -20,20 +20,9 @@ public class MatchTip {
     @ManyToOne
     private Match tippedMatch;
 
-    private Integer goalsTeam1;
-    private Integer goalsTeam2;
+    private Integer goalsTeamHome;
+    private Integer goalsTeamAway;
     private Integer userPoints;
-
-    public MatchTip(User owner, Match tippedMatch, int goalsTeam1, int goalsTeam2)
-    {
-        this.owner = owner;
-        this.tippedMatch = tippedMatch;
-        this.goalsTeam1 = goalsTeam1;
-        this.goalsTeam2 = goalsTeam2;
-    }
-
-    public MatchTip() {
-    }
 }
 
 

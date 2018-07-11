@@ -27,8 +27,8 @@ public class Match{
     @ManyToOne
     private Team teamAway;
 
-    private int goalsTeam1;
-    private int goalsTeam2;
+    private Integer goalsTeam1;
+    private Integer goalsTeam2;
 
     private boolean isFinished;
     /**
