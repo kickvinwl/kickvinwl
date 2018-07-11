@@ -4,7 +4,9 @@ import de.mankianer.kickwinvl.entities.User;
 import de.mankianer.kickwinvl.repository.UserRepository;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,22 +16,23 @@ public class Login {
   @Autowired
   UserRepository userRepository;
 
-  @RequestMapping("login")//(method = RequestMethod.POST)
-  public Iterable<User> login(@RequestParam String name, @RequestParam(required = false) String pw)
+  @RequestMapping(path = "/login/", method = RequestMethod.POST)
+  public String login(@RequestParam String name, @RequestParam String pw)
   {
     User us = userRepository.findByUserName(name);
+    //TODO validate User
     if(us == null) {
       us = new User(name);
     }
     us.setSessionKey(UUID.randomUUID().toString());
     userRepository.save(us);
-    return userRepository.findAll();
+    return us.getSessionKey();
   }
 
-  @RequestMapping("logout")
-  public void logout(@RequestParam String sessionKey)
+  @RequestMapping("/login/logout/{token}")
+  public void logout(@PathVariable String token)
   {
-    User user = userRepository.findBySessionKey(sessionKey);
+    User user = userRepository.findBySessionKey(token);
     user.setSessionKey("");
     userRepository.save(user);
   }
