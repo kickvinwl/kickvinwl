@@ -19,8 +19,6 @@
         <class>de.mankianer.kickwinvl.entities.Matchday</class>
         <class>de.mankianer.kickwinvl.entities.BundesligaTable</class>
 
-        <class>de.mankianer.kickwinvl.entities.Matchday</class>
-        <class>de.mankianer.kickwinvl.entities.League</class>
         <class>de.mankianer.kickwinvl.entities.NewsfeedMessage</class>
     </persistence-unit>
 </persistence>
